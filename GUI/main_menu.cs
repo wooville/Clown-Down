@@ -18,7 +18,7 @@ public partial class main_menu : Control
 
 	private void _on_start_button_pressed()
 	{
-		// Replace with function body.
+		GetTree().ChangeSceneToFile("res://World/test_level.tscn");
 	}
 
 	private void _on_options_button_pressed()
@@ -28,6 +28,6 @@ public partial class main_menu : Control
 
 	private void _on_quit_button_pressed()
 	{
-		// Replace with function body.
+		GetTree().Quit();
 	}
 }
