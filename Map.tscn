@@ -11,7 +11,7 @@ texture = ExtResource("1_6wmmc")
 [sub_resource type="TileSet" id="TileSet_84shn"]
 sources/0 = SubResource("TileSetAtlasSource_y3p2i")
 
-[node name="Node2D" type="Node2D"]
+[node name="TileMapNode" type="Node2D"]
 
 [node name="GeneratedTileMap" type="TileMap" parent="."]
 texture_filter = 1
