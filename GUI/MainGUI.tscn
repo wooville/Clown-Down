@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c0nbcybj0rllr"]
+
+[node name="MainGUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AbilityPanel1" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 305.0
+offset_right = 58.0
+offset_bottom = 345.0
+
+[node name="AbilityPanel2" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 305.0
+offset_right = 116.0
+offset_bottom = 345.0
+
+[node name="AbilityPanel3" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 135.0
+offset_top = 305.0
+offset_right = 175.0
+offset_bottom = 345.0

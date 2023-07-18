@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bpo3q328bief8"]
+[gd_scene load_steps=6 format=3 uid="uid://bpo3q328bief8"]
 
-[ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/player.tscn" id="1_slguu"]
+[ext_resource type="PackedScene" uid="uid://bmlue7sho6slh" path="res://Player/Abilities/Distraction.tscn" id="1_q1cpv"]
+[ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="1_slguu"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_4dv50"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w0git"]
@@ -74,21 +75,11 @@ sources/0 = SubResource("TileSetAtlasSource_w0git")
 
 [node name="TestLevel" type="Node2D"]
 
+[node name="Distraction" parent="." instance=ExtResource("1_q1cpv")]
+position = Vector2(412, 28)
+
 [node name="Player" parent="." instance=ExtResource("1_slguu")]
 position = Vector2(334, 25)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 474.0
-offset_top = -112.0
-offset_right = 519.0
-offset_bottom = 111.0
-grow_vertical = 2
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
