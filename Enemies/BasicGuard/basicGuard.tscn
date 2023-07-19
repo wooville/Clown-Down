@@ -1,0 +1,61 @@
+[gd_scene load_steps=12 format=3 uid="uid://b8j4jm5jlecfl"]
+
+[ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_cc1hu"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/BasicGuardController.cs" id="2_k3pwv"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/State.cs" id="3_b5d00"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/IdleState.cs" id="4_oj22k"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/PursueState.cs" id="5_acoh8"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/AttackState.cs" id="6_nlq3f"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/SearchState.cs" id="7_b5loo"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/DeadState.cs" id="8_1ejqj"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/SleepState.cs" id="9_bhc1h"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/VisionCone.cs" id="10_etb0v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0k48t"]
+size = Vector2(7, 10)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("2_k3pwv")
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 2)
+shape = SubResource("RectangleShape2D_0k48t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_cc1hu")
+region_enabled = true
+region_rect = Rect2(0, 64, 16, 16)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
+enabled = false
+
+[node name="State" type="Node" parent="."]
+script = ExtResource("3_b5d00")
+
+[node name="IdleState" type="Node" parent="State"]
+script = ExtResource("4_oj22k")
+
+[node name="PursueState" type="Node" parent="State"]
+script = ExtResource("5_acoh8")
+
+[node name="AttackState" type="Node" parent="State"]
+script = ExtResource("6_nlq3f")
+
+[node name="SearchState" type="Node" parent="State"]
+script = ExtResource("7_b5loo")
+
+[node name="DeadState" type="Node" parent="State"]
+script = ExtResource("8_1ejqj")
+
+[node name="SleepState" type="Node" parent="State"]
+script = ExtResource("9_bhc1h")
+
+[node name="Vision Cone" type="CollisionPolygon2D" parent="."]
+modulate = Color(0.827451, 0.00392157, 0.101961, 1)
+show_behind_parent = true
+polygon = PackedVector2Array(0, 0, -32, 32, -16, 44, 0, 48, 16, 44, 32, 32)
+script = ExtResource("10_etb0v")
+
+[node name="Area2D" type="Area2D" parent="."]
