@@ -32,14 +32,17 @@ texture = ExtResource("2_1064m")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="Ability1" parent="." instance=ExtResource("4_f7slq")]
-ability = 1
+[node name="Ability1" parent="." groups=["player"] instance=ExtResource("4_f7slq")]
+z_index = 1
 
 [node name="Ability2" parent="." instance=ExtResource("4_f7slq")]
-ability = 2
+ability = 1
 
 [node name="Ability3" parent="." instance=ExtResource("4_f7slq")]
 ability = 3
+
+[node name="DashCooldownTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="DashLengthTimer" type="Timer" parent="."]
 wait_time = 0.15
@@ -55,5 +58,7 @@ shape = SubResource("RectangleShape2D_k8y8m")
 
 [node name="MainGUI" parent="CanvasLayer" instance=ExtResource("5_urh8v")]
 
+[connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
 [connection signal="timeout" from="DashLengthTimer" to="." method="_on_dash_length_timer_timeout"]
 [connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_entered"]
+[connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_exited"]

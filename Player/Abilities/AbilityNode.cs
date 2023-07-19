@@ -23,13 +23,13 @@ public partial class AbilityNode : Node2D
 	public void UseAbility(){
 		canUseAbility = false;
 		cooldownTimer.Start();
-		// EmitSignal("AbilityUsedEventHandler", );
 		switch (ability){
-			case Player.ABILITIES.DASH:
-				Dash();
-				break;
+			// case Player.ABILITIES.DASH:
+			// 	Dash();
+			// 	break;
 			case Player.ABILITIES.DISTRACT:
 				Distract();
+				
 				break;
 			case Player.ABILITIES.STUN:
 				Stun();
@@ -37,9 +37,9 @@ public partial class AbilityNode : Node2D
 		}
 	}
 	
-	private void Dash(){
-		player.dashing = true;
-	}
+	// private void Dash(){
+	// 	player.dashing = true;
+	// }
 
 	private void Distract(){
 		Node2D newDistraction = (Node2D) distraction.Instantiate();

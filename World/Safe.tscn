@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fplt"]
 size = Vector2(16, 16)
 
-[node name="Safe" type="Area2D" groups=["safe"]]
+[node name="Safe" type="Area2D" groups=["interactable"]]
 script = ExtResource("1_o8plv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

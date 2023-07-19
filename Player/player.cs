@@ -7,18 +7,23 @@ public partial class Player : CharacterBody2D
 	public const float Speed = 100.0f;
 	[Export]
 	public const float DashSpeed = 3.0f;
-	public bool dashing
-	{get; set;} = false;
+	private bool dashing = false;
+	private bool canDash = true;
+	private bool canInteract = false;
+
+	private Interactable nearbyInteractable = null;
+
 
 	private Sprite2D sprite;
 	private Timer dashLengthTimer;
+	private Timer dashCooldownTimer;
 
 	private Control mainGUI;
 
 
 	private AbilityNode[] abilities = new AbilityNode[3];
 
-	public enum ABILITIES {NONE, DASH, DISTRACT, STUN, BOX}
+	public enum ABILITIES {NONE, DISTRACT, STUN, BOX}
 
 
     public override void _Ready()
@@ -30,11 +35,12 @@ public partial class Player : CharacterBody2D
 		abilities[2] = GetNode<AbilityNode>("Ability3");
 
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
+		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
-		mainGUI = GetNode<Control>("MainGUI");
+		mainGUI = GetNode<CanvasLayer>("CanvasLayer").GetNode<Control>("MainGUI");
     }
 
-	public override void _PhysicsProcess(double delta)
+	public override async void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
 		Vector2 dashDirection = Vector2.Zero;
@@ -51,19 +57,28 @@ public partial class Player : CharacterBody2D
 			abilities[2].UseAbility();
 		}
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
+		// Get the input direction and handle the movement/deceleration
 		Vector2 direction = Input.GetVector("left", "right", "up", "down");
-		velocity = direction.Normalized() * Speed;
+		
 
-		if (dashing){
-			dashDirection = velocity * DashSpeed;
-			velocity = dashDirection;
-
-			if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
+		if (Input.IsActionJustPressed("dash_interact")){
 			
-			// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
-			// dashing = false;
+			if (canInteract){
+				if (nearbyInteractable != null) nearbyInteractable.Interact();
+			}
+			else if (canDash){
+				velocity = direction.Normalized() * Speed * DashSpeed;
+				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
+				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
+
+				mainGUI.Visible = false;
+				
+				// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
+				canDash = false;
+				dashing = true;
+			}
+		} else if (!dashing) {
+			velocity = direction.Normalized() * Speed;
 		}
 
 		if (direction.X < 0){
@@ -78,12 +93,28 @@ public partial class Player : CharacterBody2D
 
 	private void _on_dash_length_timer_timeout(){
 		dashing = false;
+		mainGUI.Visible = true;
+	}
+
+	private void _on_dash_cooldown_timer_timeout(){
+		canDash = true;
 	}
 
 	private void _on_interact_area_entered(Area2D area){
-		if (area.IsInGroup("safe")){
-			var safe = (Safe) area;
-			safe.Open();
+		if (area.IsInGroup("interactable")) {
+			var interactable = (Interactable) area;
+			interactable.isInteractable = true;
+			canInteract = true;
+			nearbyInteractable = interactable;
+		}
+	}
+
+	private void _on_interact_area_exited(Area2D area){
+		if (area.IsInGroup("interactable")) {
+			var interactable = (Interactable) area;
+			interactable.isInteractable = false;
+			canInteract = false;
+			nearbyInteractable = null;
 		}
 	}
 }
