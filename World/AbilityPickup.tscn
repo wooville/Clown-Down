@@ -5,7 +5,7 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b8vnf"]
 
-[node name="AbilityPickup" type="Area2D" groups=["interactable"]]
+[node name="AbilityPickup" type="Area2D" groups=["ability_pickup", "interactable"]]
 script = ExtResource("1_7mybp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

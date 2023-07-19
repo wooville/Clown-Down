@@ -9,7 +9,7 @@ public partial class Player : CharacterBody2D
 	public const float DashSpeed = 3.0f;
 	private bool dashing = false;
 	private bool canDash = true;
-	private bool canInteract = false;
+	// private bool canInteract = false;
 
 	private Interactable nearbyInteractable = null;
 
@@ -18,13 +18,16 @@ public partial class Player : CharacterBody2D
 	private Timer dashLengthTimer;
 	private Timer dashCooldownTimer;
 
-	private Control mainGUI;
-
-
-	private AbilityNode[] abilities = new AbilityNode[3];
+	public AbilityNode[] abilities {get; set;}= new AbilityNode[3];
 
 	public enum ABILITIES {NONE, DISTRACT, STUN, BOX}
 
+	[Signal]
+	public delegate void HealthChangedEventHandler(int newHealth);
+	[Signal]
+	public delegate void DiedSignalEventHandler();
+	[Signal]
+	public delegate void AbilitySwappedSignalEventHandler(Player.ABILITIES ability);
 
     public override void _Ready()
     {
@@ -37,7 +40,7 @@ public partial class Player : CharacterBody2D
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
-		mainGUI = GetNode<CanvasLayer>("CanvasLayer").GetNode<Control>("MainGUI");
+		// signals
     }
 
 	public override async void _PhysicsProcess(double delta)
@@ -45,33 +48,48 @@ public partial class Player : CharacterBody2D
 		Vector2 velocity = Velocity;
 		Vector2 dashDirection = Vector2.Zero;
 
-		if (Input.IsActionJustPressed("ability_1") && abilities[0].canUseAbility){
-			abilities[0].UseAbility();
+		// if ability key is pressed, swap corresponding ability with ability pickup if one is nearby
+		// if not, use ability
+		if (Input.IsActionJustPressed("ability_1")){
+			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+				trySwapAbility(0);
+			}
+			else if (abilities[0].canUseAbility){
+				abilities[0].UseAbility();
+			}
 		}
 		
-		if (Input.IsActionJustPressed("ability_2") && abilities[1].canUseAbility){
-			abilities[1].UseAbility();
+		if (Input.IsActionJustPressed("ability_2")){
+			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+				trySwapAbility(1);
+			}
+			else if (abilities[1].canUseAbility){
+				abilities[1].UseAbility();
+			}
 		}
 
-		if (Input.IsActionJustPressed("ability_3") && abilities[2].canUseAbility){
-			abilities[2].UseAbility();
+		if (Input.IsActionJustPressed("ability_3")){
+			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+				trySwapAbility(2);
+			}
+			else if (abilities[2].canUseAbility){
+				abilities[2].UseAbility();
+			}
 		}
 
 		// Get the input direction and handle the movement/deceleration
 		Vector2 direction = Input.GetVector("left", "right", "up", "down");
 		
 
+		// interact if possible, else dash
 		if (Input.IsActionJustPressed("dash_interact")){
-			
-			if (canInteract){
-				if (nearbyInteractable != null) nearbyInteractable.Interact();
+			if (nearbyInteractable != null && !nearbyInteractable.IsInGroup("ability_pickup")){
+				nearbyInteractable.Interact();
 			}
 			else if (canDash){
 				velocity = direction.Normalized() * Speed * DashSpeed;
 				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
 				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
-
-				mainGUI.Visible = false;
 				
 				// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
 				canDash = false;
@@ -91,9 +109,19 @@ public partial class Player : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	// swap ability if standing near ability pickup
+	private void trySwapAbility(int index){
+		if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+			var nearbyPickup = (AbilityPickup) nearbyInteractable;
+			var temp = abilities[index].ability;
+			abilities[index].ability = nearbyPickup.ability;
+			nearbyPickup.Interact(temp);
+			EmitSignal(SignalName.AbilitySwappedSignal);
+		}
+	}
+
 	private void _on_dash_length_timer_timeout(){
 		dashing = false;
-		mainGUI.Visible = true;
 	}
 
 	private void _on_dash_cooldown_timer_timeout(){
@@ -104,7 +132,7 @@ public partial class Player : CharacterBody2D
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
 			interactable.isInteractable = true;
-			canInteract = true;
+			// canInteract = true;
 			nearbyInteractable = interactable;
 		}
 	}
@@ -113,7 +141,7 @@ public partial class Player : CharacterBody2D
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
 			interactable.isInteractable = false;
-			canInteract = false;
+			// canInteract = false;
 			nearbyInteractable = null;
 		}
 	}

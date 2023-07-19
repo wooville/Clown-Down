@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=3 format=3 uid="uid://c2gqyf401t7nr"]
+
+[ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
+[ext_resource type="Script" path="res://GUI/AbilityPanel.cs" id="2_nc4rm"]
 
 [node name="MainGUI" type="Control"]
 layout_mode = 3
@@ -7,55 +10,84 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mpsxc")
 
-[node name="MarginContainer2" type="MarginContainer" parent="."]
+[node name="AbilityMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -92.0
+offset_left = -136.0
 offset_top = -48.0
 offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="AbilityMarginContainer"]
 custom_minimum_size = Vector2(80, 40)
 layout_mode = 2
 
-[node name="AbilityPanel1" type="Panel" parent="MarginContainer2/HBoxContainer"]
+[node name="AbilityPanel1" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+script = ExtResource("2_nc4rm")
 
-[node name="AbilityPanel2" type="Panel" parent="MarginContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/AbilityPanel1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+clip_text = true
+
+[node name="AbilityPanel2" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+script = ExtResource("2_nc4rm")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/AbilityPanel2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+clip_text = true
+
+[node name="AbilityPanel3" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+script = ExtResource("2_nc4rm")
+
+[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/AbilityPanel3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+clip_text = true
+
+[node name="HealthMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 8.0
 offset_right = 230.0
 offset_bottom = 28.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthMarginContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 color = Color(1, 0.172549, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="MarginContainer/HBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(1, 0.172549, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="MarginContainer/HBoxContainer"]
+[node name="ColorRect3" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(1, 0.172549, 0, 1)

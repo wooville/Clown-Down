@@ -25,7 +25,12 @@ public partial class AbilityPickup : Interactable
 	{
 	}
 
-	public override void Interact(){
-		GD.Print("yay " + ability);
+	// public override void Interact(){
+	// 	GD.Print("yay " + ability);
+	// }
+
+	public void Interact(Player.ABILITIES swapAbility){
+		ability = swapAbility;
+		GD.Print("dropped" + ability);
 	}
 }
