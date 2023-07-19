@@ -1,11 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=8 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
 [ext_resource type="PackedScene" uid="uid://b3pqcoy352inl" path="res://Player/Abilities/AbilityNode.tscn" id="4_f7slq"]
+[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="5_urh8v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
+size = Vector2(7, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8y8m"]
 size = Vector2(7, 12)
 
 [node name="Player" type="CharacterBody2D"]
@@ -22,7 +26,7 @@ position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_20bqk")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(0.33, 0.33)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_1064m")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -41,4 +45,15 @@ ability = 3
 wait_time = 0.15
 one_shot = true
 
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_k8y8m")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("5_urh8v")]
+
 [connection signal="timeout" from="DashLengthTimer" to="." method="_on_dash_length_timer_timeout"]
+[connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_entered"]

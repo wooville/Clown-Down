@@ -1,12 +1,14 @@
 using Godot;
 using System;
 
-public partial class GeneratedTileMap : TileMap
+public partial class AbilityPickup : Node2D
 {
+	[Export]
+	public Player.ABILITIES ability;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("Hello");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

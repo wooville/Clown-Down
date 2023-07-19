@@ -10,6 +10,9 @@ public partial class AbilityNode : Node2D
 	private Player player;
 	private PackedScene distraction = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Distraction.tscn");
 
+	[Signal]
+	public delegate void AbilityUsedEventHandler(Player.ABILITIES ability, float cooldown);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -20,6 +23,7 @@ public partial class AbilityNode : Node2D
 	public void UseAbility(){
 		canUseAbility = false;
 		cooldownTimer.Start();
+		// EmitSignal("AbilityUsedEventHandler", );
 		switch (ability){
 			case Player.ABILITIES.DASH:
 				Dash();
@@ -39,8 +43,8 @@ public partial class AbilityNode : Node2D
 
 	private void Distract(){
 		Node2D newDistraction = (Node2D) distraction.Instantiate();
-		newDistraction.Position = player.GlobalPosition;
-		GD.Print(newDistraction.Position);
+		// newDistraction.Position = GlobalPosition;
+		AddSibling(newDistraction);
 	}
 
 	private void Stun(){

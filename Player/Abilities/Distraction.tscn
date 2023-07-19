@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Player/Abilities/Distraction.cs" id="1_panvr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u5nmr"]
-radius = 104.005
+radius = 29.0689
 
 [node name="Distraction" type="Node2D"]
 script = ExtResource("1_panvr")

@@ -4,7 +4,7 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	public const float Speed = 150.0f;
+	public const float Speed = 100.0f;
 	[Export]
 	public const float DashSpeed = 3.0f;
 	public bool dashing
@@ -13,10 +13,12 @@ public partial class Player : CharacterBody2D
 	private Sprite2D sprite;
 	private Timer dashLengthTimer;
 
+	private Control mainGUI;
+
 
 	private AbilityNode[] abilities = new AbilityNode[3];
 
-	public enum ABILITIES {NONE, DASH, DISTRACT, STUN}
+	public enum ABILITIES {NONE, DASH, DISTRACT, STUN, BOX}
 
 
     public override void _Ready()
@@ -28,6 +30,8 @@ public partial class Player : CharacterBody2D
 		abilities[2] = GetNode<AbilityNode>("Ability3");
 
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
+
+		mainGUI = GetNode<Control>("MainGUI");
     }
 
 	public override void _PhysicsProcess(double delta)
@@ -74,6 +78,13 @@ public partial class Player : CharacterBody2D
 
 	private void _on_dash_length_timer_timeout(){
 		dashing = false;
+	}
+
+	private void _on_interact_area_entered(Area2D area){
+		if (area.IsInGroup("safe")){
+			var safe = (Safe) area;
+			safe.Open();
+		}
 	}
 }
 
