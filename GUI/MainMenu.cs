@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 
-public partial class main_menu : Control
+public partial class MainMenu : Control
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -18,7 +18,7 @@ public partial class main_menu : Control
 
 	private void _on_start_button_pressed()
 	{
-		GetTree().ChangeSceneToFile("res://Scenes/test_level.tscn");
+		GetTree().ChangeSceneToFile("res://World/TestLevel.tscn");
 	}
 
 	private void _on_options_button_pressed()
@@ -31,3 +31,5 @@ public partial class main_menu : Control
 		GetTree().Quit();
 	}
 }
+
+

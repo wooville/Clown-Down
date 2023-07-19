@@ -1,14 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=7 format=3 uid="uid://bydivnjpmq1bh"]
 
-[ext_resource type="Script" path="res://Player/player.cs" id="1_c00dw"]
+[ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
+[ext_resource type="PackedScene" uid="uid://b3pqcoy352inl" path="res://Player/Abilities/AbilityNode.tscn" id="4_f7slq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
-size = Vector2(7, 14)
+size = Vector2(7, 12)
 
-[node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_c00dw")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8y8m"]
+size = Vector2(7, 12)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_u3edf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -17,17 +21,39 @@ region_enabled = true
 region_rect = Rect2(0, 48, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
+position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_20bqk")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(0.33, 0.33)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_1064m")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Ability1" parent="." instance=ExtResource("4_f7slq")]
+z_index = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 7)
+[node name="Ability2" parent="." instance=ExtResource("4_f7slq")]
+ability = 1
+
+[node name="Ability3" parent="." instance=ExtResource("4_f7slq")]
+ability = 3
+
+[node name="DashCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DashLengthTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_k8y8m")
+
+[connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
+[connection signal="timeout" from="DashLengthTimer" to="." method="_on_dash_length_timer_timeout"]
+[connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_entered"]
+[connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_exited"]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3pqcoy352inl"]
+
+[ext_resource type="Script" path="res://Player/Abilities/AbilityNode.cs" id="1_gbl8c"]
+
+[node name="AbilityNode" type="Node2D"]
+script = ExtResource("1_gbl8c")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
