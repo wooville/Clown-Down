@@ -5,12 +5,13 @@ using System.Collections;
 public partial class BasicGuardController : CharacterBody2D
 {
 	[Export] public float sightRange = 3.0f;
-	public float attackRange = 1.0f;
-	public float attackDuration = 1.0f;
-	public float searchDuration = 2.0f;
-	public float sleepDuration = 6.0f;
-	public float maxHealth = 1.0f;
+	[Export] public float attackRange = 1.0f;
+	[Export] public float attackDuration = 1.0f;
+	[Export] public float searchDuration = 2.0f;
+	[Export] public float sleepDuration = 6.0f;
+	[Export] public float maxHealth = 1.0f;
 
+	[Export] private Vector2 facing = new Vector2(0.0f, 1.0f);
 	private bool isControllable = true;
 	private State currentState;
 	private bool isDead = false;
@@ -24,6 +25,11 @@ public partial class BasicGuardController : CharacterBody2D
 	private float currentHealth;
 
 	/*********** Get and Set Functions ***********/
+	public Vector2 Facing{
+		get{return facing;}
+		set{facing = value;}
+	}
+	
 	public bool IsControllable{
 		get{return IsControllable;}
 		set{IsControllable = value;}
@@ -136,4 +142,8 @@ public partial class BasicGuardController : CharacterBody2D
 		//dose nothing currentlly
 	}
 
+	
 }
+
+
+

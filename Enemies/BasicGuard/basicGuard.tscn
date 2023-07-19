@@ -17,6 +17,13 @@ size = Vector2(7, 10)
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("2_k3pwv")
 
+[node name="VisionCone" type="Area2D" parent="."]
+modulate = Color(1, 0.0823529, 0.117647, 1)
+script = ExtResource("10_etb0v")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionCone"]
+polygon = PackedVector2Array(0, 0, -32, 32, -20, 44, 0, 48, 20, 44, 32, 32)
+
 [node name="HitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 2)
 shape = SubResource("RectangleShape2D_0k48t")
@@ -51,11 +58,3 @@ script = ExtResource("8_1ejqj")
 
 [node name="SleepState" type="Node" parent="State"]
 script = ExtResource("9_bhc1h")
-
-[node name="Vision Cone" type="CollisionPolygon2D" parent="."]
-modulate = Color(0.827451, 0.00392157, 0.101961, 1)
-show_behind_parent = true
-polygon = PackedVector2Array(0, 0, -32, 32, -16, 44, 0, 48, 16, 44, 32, 32)
-script = ExtResource("10_etb0v")
-
-[node name="Area2D" type="Area2D" parent="."]
