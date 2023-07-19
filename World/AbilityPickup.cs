@@ -11,6 +11,7 @@ public partial class AbilityPickup : Interactable
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		// swap sprite based on ability
 		// sprite = GetNode<Sprite2D>("Sprite2D");
 
 		// switch (ability){
@@ -18,6 +19,7 @@ public partial class AbilityPickup : Interactable
 		// 	sprite.Texture = 
 		// 	break;
 		// }
+		base._Ready();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

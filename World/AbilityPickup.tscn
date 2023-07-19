@@ -16,3 +16,14 @@ texture_filter = 1
 texture = ExtResource("2_pq6pa")
 region_enabled = true
 region_rect = Rect2(32, 16, 16, 16)
+
+[node name="ButtonPromptContainer" type="MarginContainer" parent="."]
+visible = false
+offset_left = -8.0
+offset_top = -40.0
+offset_right = 14.0
+
+[node name="Label" type="Label" parent="ButtonPromptContainer"]
+layout_mode = 2
+text = "J/K/L"
+horizontal_alignment = 1

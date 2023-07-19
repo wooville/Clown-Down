@@ -15,7 +15,6 @@ public partial class AbilityPanel : Panel
 	}
 
 	public void updatePanel(Player.ABILITIES newAbility){
-		GD.Print("panel");
 		ability = newAbility;
 		label.Text = ability.ToString();
 	}

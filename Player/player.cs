@@ -132,6 +132,7 @@ public partial class Player : CharacterBody2D
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
 			interactable.isInteractable = true;
+			interactable.ToggleButtonPrompt();
 			// canInteract = true;
 			nearbyInteractable = interactable;
 		}
@@ -141,6 +142,7 @@ public partial class Player : CharacterBody2D
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
 			interactable.isInteractable = false;
+			interactable.ToggleButtonPrompt();
 			// canInteract = false;
 			nearbyInteractable = null;
 		}

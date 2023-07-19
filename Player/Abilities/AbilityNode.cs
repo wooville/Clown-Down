@@ -8,6 +8,7 @@ public partial class AbilityNode : Node2D
 	public bool canUseAbility = true;
 	private Timer cooldownTimer;
 	private Player player;
+	private Node2D world;
 	private PackedScene distraction = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Distraction.tscn");
 
 	[Signal]
@@ -17,6 +18,8 @@ public partial class AbilityNode : Node2D
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
+		world = player.GetParent<Node2D>();
+
 		cooldownTimer = GetNode<Timer>("CooldownTimer");
 	}
 
@@ -43,8 +46,8 @@ public partial class AbilityNode : Node2D
 
 	private void Distract(){
 		Node2D newDistraction = (Node2D) distraction.Instantiate();
-		// newDistraction.Position = GlobalPosition;
-		AddSibling(newDistraction);
+		newDistraction.GlobalPosition = GlobalPosition;
+		world.AddChild(newDistraction);
 	}
 
 	private void Stun(){

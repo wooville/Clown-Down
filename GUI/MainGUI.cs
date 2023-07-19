@@ -21,7 +21,6 @@ public partial class MainGUI : Control
 		for (int i = 0; i < player.abilities.Length; i++){
 			// abilityPanels[i].ability = player.abilities[i].ability;
 			abilityPanels[i].updatePanel(player.abilities[i].ability);
-			GD.Print("update");
 		}
 	}
 
