@@ -35,6 +35,7 @@ size_flags_horizontal = 8
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
+ability = 2
 
 [node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel1"]
 layout_mode = 0
@@ -58,6 +59,7 @@ texture = ExtResource("3_lhpti")
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
+ability = 3
 
 [node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel2"]
 layout_mode = 0
@@ -81,6 +83,7 @@ texture = ExtResource("3_lhpti")
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
+ability = 5
 
 [node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel3"]
 layout_mode = 0

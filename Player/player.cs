@@ -138,7 +138,6 @@ public partial class Player : CharacterBody2D
 			playerSprite.FlipH = false;
 		}
 
-
 		// rotate pointer GUI element to face cursor
 		pointerControl.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
 
@@ -182,6 +181,17 @@ public partial class Player : CharacterBody2D
 			interactable.ToggleButtonPrompt();
 			// canInteract = false;
 			nearbyInteractable = null;
+		}
+	}
+
+	private void _on_pointer_area_entered(Area2D area){
+		if (area.IsInGroup("enemy")) {
+			// var interactable = (Interactable) area;
+			// interactable.isInteractable = true;
+			// interactable.ToggleButtonPrompt();
+			// // canInteract = true;
+			// nearbyInteractable = interactable;
+			GD.Print("yeah");
 		}
 	}
 }

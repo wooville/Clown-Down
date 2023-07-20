@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=10 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
@@ -12,6 +12,9 @@ size = Vector2(7, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8y8m"]
 size = Vector2(7, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_psnk7"]
+size = Vector2(2, 16)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_u3edf")
@@ -27,6 +30,7 @@ position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_20bqk")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(1, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_1064m")
@@ -99,8 +103,19 @@ texture = ExtResource("5_ra1vb")
 stretch_mode = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="PointerArea" type="Area2D" parent="PointerControl"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PointerControl/PointerArea"]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_psnk7")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+visible = false
+shadow_enabled = true
+
 [connection signal="AbilitySwappedSignal" from="." to="CanvasLayer/MainGUI" method="_on_player_ability_swapped_signal"]
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
 [connection signal="timeout" from="DashLengthTimer" to="." method="_on_dash_length_timer_timeout"]
 [connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_entered"]
 [connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_exited"]
+[connection signal="area_entered" from="PointerControl/PointerArea" to="." method="_on_pointer_area_entered"]
