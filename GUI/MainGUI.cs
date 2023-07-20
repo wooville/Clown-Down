@@ -10,7 +10,7 @@ public partial class MainGUI : Control
 	public override void _Ready()
 	{
 		// var player_max_health = $"../Characters/Player".max_health
-    	// bar.max_value = player_max_health
+		// bar.max_value = player_max_health
 		player = (Player) GetTree().GetFirstNodeInGroup("player");
 		mainAbilityPanel = GetNode<AbilityPanel>("AbilityMarginContainer/HBoxContainer/MainAbilityPanel");
 		abilityPanels[0] = GetNode<AbilityPanel>("AbilityMarginContainer/VBoxContainer/AbilityPanel1");
