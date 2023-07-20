@@ -97,5 +97,3 @@ position = Vector2(221, 156)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MainGUI" parent="CanvasLayer" instance=ExtResource("3_287cu")]
-
-[connection signal="AbilitySwappedSignal" from="Player" to="CanvasLayer/MainGUI" method="_on_player_ability_swapped_signal"]

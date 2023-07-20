@@ -29,11 +29,11 @@ public partial class Player : CharacterBody2D
 	[Signal]
 	public delegate void AbilitySwappedSignalEventHandler(Player.ABILITIES ability);
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		sprite = GetNode<Sprite2D>("Sprite2D");
 
-        abilities[0] = GetNode<AbilityNode>("Ability1");
+		abilities[0] = GetNode<AbilityNode>("Ability1");
 		abilities[1] = GetNode<AbilityNode>("Ability2");
 		abilities[2] = GetNode<AbilityNode>("Ability3");
 
@@ -41,7 +41,7 @@ public partial class Player : CharacterBody2D
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
 		// signals
-    }
+	}
 
 	public override async void _PhysicsProcess(double delta)
 	{

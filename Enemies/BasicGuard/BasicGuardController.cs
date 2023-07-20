@@ -125,6 +125,7 @@ public partial class BasicGuardController : CharacterBody2D
 
 	public void BeIdle(){
 		//does nothing when idle
+		//GD.Print("idle");
 	}
 
 	public void BeDead(){
@@ -142,8 +143,35 @@ public partial class BasicGuardController : CharacterBody2D
 		//dose nothing currentlly
 	}
 
+	private void _on_vision_body_shape_entered(Rid body_rid, Node2D body, long body_shape_index, long local_shape_index)
+	{
+		
+		//Array<StringName> temp = body.GetGroups();
+		foreach(String str in body.GetGroups()){
+			if (str == "player"){
+				GD.Print("Player Entered");
+				CanDetectPlayer = true;
+			}
+		}
 	
+	}
+
+	private void _on_vision_body_shape_exited(Rid body_rid, Node2D body, long body_shape_index, long local_shape_index)
+	{
+		foreach(String str in body.GetGroups()){
+			if (str == "player"){
+				GD.Print("Player Exited");
+				CanDetectPlayer = false;
+			}
+		}
+	}
 }
+
+
+
+
+
+
 
 
 

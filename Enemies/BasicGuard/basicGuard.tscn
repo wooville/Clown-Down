@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_cc1hu"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/BasicGuardController.cs" id="2_k3pwv"]
+[ext_resource type="Script" path="res://Enemies/BasicGuard/Vision.cs" id="2_rupft"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/State.cs" id="3_b5d00"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/IdleState.cs" id="4_oj22k"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/PursueState.cs" id="5_acoh8"]
@@ -9,7 +10,6 @@
 [ext_resource type="Script" path="res://Enemies/BasicGuard/SearchState.cs" id="7_b5loo"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/DeadState.cs" id="8_1ejqj"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/SleepState.cs" id="9_bhc1h"]
-[ext_resource type="Script" path="res://Enemies/BasicGuard/VisionCone.cs" id="10_etb0v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0k48t"]
 size = Vector2(7, 10)
@@ -17,11 +17,11 @@ size = Vector2(7, 10)
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("2_k3pwv")
 
-[node name="VisionCone" type="Area2D" parent="."]
-modulate = Color(1, 0.0823529, 0.117647, 1)
-script = ExtResource("10_etb0v")
+[node name="Vision" type="Area2D" parent="."]
+script = ExtResource("2_rupft")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionCone"]
+[node name="VisionShape" type="CollisionPolygon2D" parent="Vision"]
+modulate = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, 0, -32, 32, -20, 44, 0, 48, 20, 44, 32, 32)
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
@@ -58,3 +58,6 @@ script = ExtResource("8_1ejqj")
 
 [node name="SleepState" type="Node" parent="State"]
 script = ExtResource("9_bhc1h")
+
+[connection signal="body_shape_entered" from="Vision" to="." method="_on_vision_body_shape_entered"]
+[connection signal="body_shape_exited" from="Vision" to="." method="_on_vision_body_shape_exited"]
