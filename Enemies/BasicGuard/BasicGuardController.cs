@@ -125,7 +125,7 @@ public partial class BasicGuardController : CharacterBody2D
 
 	public void BeIdle(){
 		//does nothing when idle
-		GD.Print("idle");
+		// GD.Print("idle");
 	}
 
 	public void BeDead(){
