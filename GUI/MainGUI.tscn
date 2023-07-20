@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=4 format=3 uid="uid://c2gqyf401t7nr"]
 
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
 [ext_resource type="Script" path="res://GUI/AbilityPanel.cs" id="2_nc4rm"]
+[ext_resource type="Texture2D" uid="uid://oxleo82g5x3" path="res://Assets/pointer.png" id="3_lhpti"]
 
 [node name="MainGUI" type="Control"]
 layout_mode = 3
@@ -19,47 +20,97 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -136.0
-offset_top = -48.0
+offset_left = -104.0
+offset_top = -136.0
 offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 
+[node name="VBoxContainer" type="VBoxContainer" parent="AbilityMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="AbilityPanel1" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+script = ExtResource("2_nc4rm")
+
+[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+clip_text = true
+
+[node name="SelectedIndicator" type="TextureRect" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel1"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = -48.0
+offset_right = -8.0
+offset_bottom = 40.0
+rotation = 1.5708
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("3_lhpti")
+
+[node name="AbilityPanel2" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+script = ExtResource("2_nc4rm")
+
+[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+clip_text = true
+
+[node name="SelectedIndicator" type="TextureRect" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel2"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = -48.0
+offset_right = -8.0
+offset_bottom = 40.0
+rotation = 1.5708
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("3_lhpti")
+
+[node name="AbilityPanel3" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+script = ExtResource("2_nc4rm")
+
+[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+clip_text = true
+
+[node name="SelectedIndicator" type="TextureRect" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel3"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = -48.0
+offset_right = -8.0
+offset_bottom = 40.0
+rotation = 1.5708
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("3_lhpti")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="AbilityMarginContainer"]
-custom_minimum_size = Vector2(80, 40)
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
+size_flags_vertical = 8
 
-[node name="AbilityPanel1" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/AbilityPanel1"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
-[node name="AbilityPanel2" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+[node name="MainAbilityPanel" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
 
-[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/AbilityPanel2"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
-[node name="AbilityPanel3" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/AbilityPanel3"]
+[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/MainAbilityPanel"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0

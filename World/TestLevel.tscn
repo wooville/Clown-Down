@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpo3q328bief8"]
+[gd_scene load_steps=7 format=3 uid="uid://bpo3q328bief8"]
 
 [ext_resource type="Script" path="res://World/TestLevel.cs" id="1_8gjvq"]
 [ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="1_slguu"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_4dv50"]
-[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="3_287cu"]
 [ext_resource type="PackedScene" uid="uid://dfx4fn2ci7ikw" path="res://World/Safe.tscn" id="4_vxakd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w0git"]
@@ -93,9 +92,3 @@ layer_0/tile_data = PackedInt32Array(2228294, 65536, 3, 1376327, 65536, 3, 20972
 
 [node name="Safe" parent="." instance=ExtResource("4_vxakd")]
 position = Vector2(221, 156)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("3_287cu")]
-
-[connection signal="AbilitySwappedSignal" from="Player" to="CanvasLayer/MainGUI" method="_on_player_ability_swapped_signal"]

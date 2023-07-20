@@ -25,5 +25,5 @@ offset_right = 14.0
 
 [node name="Label" type="Label" parent="ButtonPromptContainer"]
 layout_mode = 2
-text = "J/K/L"
+text = "RMB"
 horizontal_alignment = 1

@@ -5,22 +5,44 @@ public partial class AbilityPanel : Panel
 {
 	[Export]
 	public Player.ABILITIES ability {get;set;}
-	public Label label;
+	// crashed the game for some reason
+	// {
+	// 	get
+	// 	{
+	// 		return ability;
+	// 	}
+	// 	set
+	// 	{
+	// 		ability = value;
+	// 		updatePanel();
+	// 	}
+	// }
+	public bool isSelected {get;set;}
+	// {
+	// 	get
+	// 	{
+	// 		return isSelected;
+	// 	}
+	// 	set
+	// 	{
+	// 		isSelected = value;
+	// 		updatePanel();
+	// 	}
+	// }
+	private Label label;
+	private TextureRect selectedIndicator;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		label = GetNode<Label>("Label");
-		label.Text = ability.ToString();
+		selectedIndicator = GetNode<TextureRect>("SelectedIndicator");
 	}
 
-	public void updatePanel(Player.ABILITIES newAbility){
-		ability = newAbility;
+	public void updatePanel(){
 		label.Text = ability.ToString();
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+		if (selectedIndicator != null){
+			selectedIndicator.Visible = isSelected;
+		}
 	}
 }

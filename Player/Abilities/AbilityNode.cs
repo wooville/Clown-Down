@@ -10,6 +10,8 @@ public partial class AbilityNode : Node2D
 	private Player player;
 	private Node2D world;
 	private PackedScene distraction = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Distraction.tscn");
+	private PackedScene honk = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Honk.tscn");
+
 
 	[Signal]
 	public delegate void AbilityUsedEventHandler(Player.ABILITIES ability, float cooldown);
@@ -30,9 +32,14 @@ public partial class AbilityNode : Node2D
 			// case Player.ABILITIES.DASH:
 			// 	Dash();
 			// 	break;
+			case Player.ABILITIES.HONK:
+				Honk();
+				break;
 			case Player.ABILITIES.DISTRACT:
 				Distract();
-				
+				break;
+			case Player.ABILITIES.SPIN:
+				Spin();
 				break;
 			case Player.ABILITIES.STUN:
 				Stun();
@@ -45,13 +52,24 @@ public partial class AbilityNode : Node2D
 	// }
 
 	private void Distract(){
-		Node2D newDistraction = (Node2D) distraction.Instantiate();
+		Node2D newDistraction = distraction.Instantiate<Node2D>();
 		newDistraction.GlobalPosition = GlobalPosition;
 		world.AddChild(newDistraction);
 	}
 
-	private void Stun(){
+	private void Honk(){
+		Node2D newHonk = honk.Instantiate<Node2D>();
+		// newHonk.Position = GlobalPosition;
+		newHonk.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
+		player.AddChild(newHonk);
+	}
+
+	private void Spin(){
 		
+	}
+
+	private void Stun(){
+
 	}
 
 	private void _on_cooldown_timer_timeout(){

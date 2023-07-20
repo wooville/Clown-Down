@@ -4,7 +4,7 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	public const float Speed = 100.0f;
+	public const float Speed = 75.0f;
 	[Export]
 	public const float DashSpeed = 3.0f;
 	private bool dashing = false;
@@ -14,13 +14,17 @@ public partial class Player : CharacterBody2D
 	private Interactable nearbyInteractable = null;
 
 
-	private Sprite2D sprite;
+	private Sprite2D playerSprite;
+	private Control pointerControl;
 	private Timer dashLengthTimer;
 	private Timer dashCooldownTimer;
 
-	public AbilityNode[] abilities {get; set;}= new AbilityNode[3];
+	public AbilityNode mainAbility {get; set;}
+	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
 
-	public enum ABILITIES {NONE, DISTRACT, STUN, BOX}
+	public int selectedAbility = 0;
+
+	public enum ABILITIES {NONE, HONK, DISTRACT, SPIN, STUN, BOX}
 
 	[Signal]
 	public delegate void HealthChangedEventHandler(int newHealth);
@@ -31,16 +35,18 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
-		sprite = GetNode<Sprite2D>("Sprite2D");
+		playerSprite = GetNode<Sprite2D>("PlayerSprite");
+		pointerControl = GetNode<Control>("PointerControl");
 
-        abilities[0] = GetNode<AbilityNode>("Ability1");
-		abilities[1] = GetNode<AbilityNode>("Ability2");
-		abilities[2] = GetNode<AbilityNode>("Ability3");
+		mainAbility = GetNode<AbilityNode>("MainAbility");
+        abilities[0] = GetNode<AbilityNode>("SecondaryAbility1");
+		abilities[1] = GetNode<AbilityNode>("SecondaryAbility2");
+		abilities[2] = GetNode<AbilityNode>("SecondaryAbility3");
 
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
-		// signals
+		EmitSignal(SignalName.AbilitySwappedSignal);
     }
 
 	public override async void _PhysicsProcess(double delta)
@@ -50,30 +56,57 @@ public partial class Player : CharacterBody2D
 
 		// if ability key is pressed, swap corresponding ability with ability pickup if one is nearby
 		// if not, use ability
-		if (Input.IsActionJustPressed("ability_1")){
-			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-				trySwapAbility(0);
-			}
-			else if (abilities[0].canUseAbility){
-				abilities[0].UseAbility();
-			}
-		}
+		// if (Input.IsActionJustPressed("ability_1")){
+		// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+		// 		trySwapAbility(0);
+		// 	}
+		// 	else if (abilities[0].canUseAbility){
+		// 		abilities[0].UseAbility();
+		// 	}
+		// }
 		
-		if (Input.IsActionJustPressed("ability_2")){
-			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-				trySwapAbility(1);
-			}
-			else if (abilities[1].canUseAbility){
-				abilities[1].UseAbility();
+		// if (Input.IsActionJustPressed("ability_2")){
+		// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+		// 		trySwapAbility(1);
+		// 	}
+		// 	else if (abilities[1].canUseAbility){
+		// 		abilities[1].UseAbility();
+		// 	}
+		// }
+
+		// if (Input.IsActionJustPressed("ability_3")){
+		// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+		// 		trySwapAbility(2);
+		// 	}
+		// 	else if (abilities[2].canUseAbility){
+		// 		abilities[2].UseAbility();
+		// 	}
+		// }
+
+		// update ability gui indicator
+		if (Input.IsActionJustPressed("cycle_selected_ability_down")){
+			selectedAbility++;
+			selectedAbility %= abilities.Length;
+			EmitSignal(SignalName.AbilitySwappedSignal);
+		}
+		if (Input.IsActionJustPressed("cycle_selected_ability_up")){
+			selectedAbility--;
+			if (selectedAbility < 0) selectedAbility = abilities.Length-1;
+			EmitSignal(SignalName.AbilitySwappedSignal);
+		}
+
+		if (Input.IsActionJustPressed("use_main_ability")){
+			if (mainAbility.canUseAbility){
+				mainAbility.UseAbility();
 			}
 		}
 
-		if (Input.IsActionJustPressed("ability_3")){
+		if (Input.IsActionJustPressed("use_secondary_ability")){
 			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-				trySwapAbility(2);
+				trySwapAbility(selectedAbility);
 			}
-			else if (abilities[2].canUseAbility){
-				abilities[2].UseAbility();
+			else if (abilities[selectedAbility].canUseAbility){
+				abilities[selectedAbility].UseAbility();
 			}
 		}
 
@@ -100,10 +133,14 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (direction.X < 0){
-			sprite.FlipH = true;
+			playerSprite.FlipH = true;
 		} else {
-			sprite.FlipH = false;
+			playerSprite.FlipH = false;
 		}
+
+
+		// rotate pointer GUI element to face cursor
+		pointerControl.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
 
 		Velocity = velocity;
 		MoveAndSlide();
