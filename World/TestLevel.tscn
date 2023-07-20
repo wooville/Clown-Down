@@ -78,10 +78,6 @@ map = NodePath("TestMap")
 z_index = 1
 position = Vector2(62, 33)
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
-color = Color(0, 0, 0, 1)
-
 [node name="TestMap" type="TileMap" parent="."]
 z_index = -1
 texture_filter = 1
