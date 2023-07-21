@@ -8,13 +8,15 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float attackRange = 1.0f;
 	[Export] public float attackDuration = 1.0f;
 	[Export] public float searchDuration = 2.0f;
-	[Export] public float sleepDuration = 6.0f;
+	[Export] public float sleepDuration = 1.0f;
 	[Export] public float maxHealth = 1.0f;
+	[Export] public float turnSpeed = 10.0f;
 
-	[Export] private Vector2 facing = new Vector2(0.0f, 1.0f);
+	[Export] private Vector2 facing = new Vector2(0,1);
 	[Export] private CharacterBody2D Target;
 
 	private RayCast2D lineOfSight;
+	private Area2D visionCone; 
 	private bool isControllable = true;
 	private State currentState;
 	private bool isDead = false;
@@ -26,6 +28,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private float sleepTimer = 0.0f;
 	private bool isAsleep = false;
 	private float currentHealth;
+	private double myDelta = 0;
 
 	/*********** Get and Set Functions ***********/
 	public Vector2 Facing{
@@ -76,6 +79,11 @@ public partial class BasicGuardController : CharacterBody2D
 		get{return isAsleep;}
 		set{isAsleep = value;}
 	}
+
+	public double MyDelta{
+		get{return myDelta;}
+		set{myDelta = value;}
+	}
 	
 	/*********** Godot Functions ************/
 
@@ -85,14 +93,16 @@ public partial class BasicGuardController : CharacterBody2D
 		ChangeState(new IdleState());
 		
 		lineOfSight = GetNode<RayCast2D>("LineOfSight");
+		visionCone = GetNode<Area2D>("Vision");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		MyDelta = delta;
+
 		if (!isControllable)
 			return;
-
 		currentState.Execute(this);
 	}
 
@@ -102,6 +112,7 @@ public partial class BasicGuardController : CharacterBody2D
 	public void CheckCanDetectPlayer(){
 
 	}
+
 	//check for line of sight with player
 	public void CheckCanSeePlayer(){
 		
@@ -160,6 +171,11 @@ public partial class BasicGuardController : CharacterBody2D
 
 	public void Pursue(){
 		//does nothing currently
+		//visionCone.LookAt(Target.GlobalPosition);
+		//GD.Print(visionCone.GetAngleTo(Target.GlobalPosition));
+		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
+		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+		//Facing = (this.GlobalPosition + Facing).Normalized();
 	}
 
 	public void Search(){
