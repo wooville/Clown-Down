@@ -11,6 +11,7 @@ public partial class AbilityNode : Node2D
 	private Node2D world;
 	private PackedScene distraction = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Distraction.tscn");
 	private PackedScene honk = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Honk.tscn");
+	private PackedScene gag = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Gag.tscn");
 
 
 	[Signal]
@@ -32,6 +33,9 @@ public partial class AbilityNode : Node2D
 			// case Player.ABILITIES.DASH:
 			// 	Dash();
 			// 	break;
+			case Player.ABILITIES.GAG:
+				Gag();
+				break;
 			case Player.ABILITIES.HONK:
 				Honk();
 				break;
@@ -40,16 +44,28 @@ public partial class AbilityNode : Node2D
 				break;
 			case Player.ABILITIES.SPIN:
 				Spin();
-				break;
+				break; 
 			case Player.ABILITIES.STUN:
 				Stun();
 				break;
 		}
+		// player.fixAbilitiesOrder();
+
+		player.abilities[2] = player.abilities[1];
+		player.abilities[1] = player.abilities[0];
+		player.abilities[0].ability = Player.ABILITIES.NONE;
 	}
 	
 	// private void Dash(){
 	// 	player.dashing = true;
 	// }
+
+	private void Honk(){
+		Node2D newHonk = honk.Instantiate<Node2D>();
+		// newHonk.Position = GlobalPosition;
+		newHonk.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
+		player.AddChild(newHonk);
+	}
 
 	private void Distract(){
 		Node2D newDistraction = distraction.Instantiate<Node2D>();
@@ -57,11 +73,11 @@ public partial class AbilityNode : Node2D
 		world.AddChild(newDistraction);
 	}
 
-	private void Honk(){
-		Node2D newHonk = honk.Instantiate<Node2D>();
+	private void Gag(){
+		Node2D newGag = gag.Instantiate<Node2D>();
 		// newHonk.Position = GlobalPosition;
-		newHonk.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
-		player.AddChild(newHonk);
+		newGag.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
+		player.AddChild(newGag);
 	}
 
 	private void Spin(){

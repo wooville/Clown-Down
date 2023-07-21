@@ -25,11 +25,12 @@ public partial class MainGUI : Control
 
 		for (int i = 0; i < player.abilities.Length; i++){
 			abilityPanels[i].ability = player.abilities[i].ability;
-			if (i == player.selectedAbility){
-				abilityPanels[i].isSelected = true;
-			} else {
-				abilityPanels[i].isSelected = false;
-			}
+			// GD.Print(player.abilities[i].ability);
+			// if (i == player.selectedAbility){
+			// 	abilityPanels[i].isSelected = true;
+			// } else {
+			// 	abilityPanels[i].isSelected = false;
+			// }
 			abilityPanels[i].updatePanel();
 		}
 	}

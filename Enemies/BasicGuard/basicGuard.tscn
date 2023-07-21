@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8j4jm5jlecfl"]
+[gd_scene load_steps=6 format=3 uid="uid://b8j4jm5jlecfl"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_cc1hu"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/BasicGuardController.cs" id="2_k3pwv"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0k48t"]
 size = Vector2(7, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h83s1"]
+size = Vector2(7, 13)
 
 [node name="Guard" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("2_k3pwv")
@@ -30,6 +33,12 @@ region_rect = Rect2(0, 64, 16, 16)
 [node name="RayCast2D" type="RayCast2D" parent="."]
 visible = false
 enabled = false
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_h83s1")
 
 [connection signal="body_shape_entered" from="Vision" to="." method="_on_vision_body_shape_entered"]
 [connection signal="body_shape_exited" from="Vision" to="." method="_on_vision_body_shape_exited"]

@@ -22,9 +22,9 @@ public partial class Player : CharacterBody2D
 	public AbilityNode mainAbility {get; set;}
 	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
 
-	public int selectedAbility = 0;
+	// public int selectedAbility = 0;
 
-	public enum ABILITIES {NONE, HONK, DISTRACT, SPIN, STUN, BOX}
+	public enum ABILITIES {NONE, GAG, HONK, DISTRACT, SPIN, STUN, BOX}
 
 	[Signal]
 	public delegate void HealthChangedEventHandler(int newHealth);
@@ -54,47 +54,6 @@ public partial class Player : CharacterBody2D
 		Vector2 velocity = Velocity;
 		Vector2 dashDirection = Vector2.Zero;
 
-		// if ability key is pressed, swap corresponding ability with ability pickup if one is nearby
-		// if not, use ability
-		// if (Input.IsActionJustPressed("ability_1")){
-		// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-		// 		trySwapAbility(0);
-		// 	}
-		// 	else if (abilities[0].canUseAbility){
-		// 		abilities[0].UseAbility();
-		// 	}
-		// }
-		
-		// if (Input.IsActionJustPressed("ability_2")){
-		// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-		// 		trySwapAbility(1);
-		// 	}
-		// 	else if (abilities[1].canUseAbility){
-		// 		abilities[1].UseAbility();
-		// 	}
-		// }
-
-		// if (Input.IsActionJustPressed("ability_3")){
-		// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-		// 		trySwapAbility(2);
-		// 	}
-		// 	else if (abilities[2].canUseAbility){
-		// 		abilities[2].UseAbility();
-		// 	}
-		// }
-
-		// update ability gui indicator
-		if (Input.IsActionJustPressed("cycle_selected_ability_down")){
-			selectedAbility++;
-			selectedAbility %= abilities.Length;
-			EmitSignal(SignalName.AbilitySwappedSignal);
-		}
-		if (Input.IsActionJustPressed("cycle_selected_ability_up")){
-			selectedAbility--;
-			if (selectedAbility < 0) selectedAbility = abilities.Length-1;
-			EmitSignal(SignalName.AbilitySwappedSignal);
-		}
-
 		if (Input.IsActionJustPressed("use_main_ability")){
 			if (mainAbility.canUseAbility){
 				mainAbility.UseAbility();
@@ -102,12 +61,15 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (Input.IsActionJustPressed("use_secondary_ability")){
-			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
-				trySwapAbility(selectedAbility);
+			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
+				// trySwapAbility(0);
+				tryQueueAbility();
+				// GD.Print("pickup");
 			}
-			else if (abilities[selectedAbility].canUseAbility){
-				abilities[selectedAbility].UseAbility();
+			else if (abilities[abilities.Length-1].canUseAbility){
+				abilities[abilities.Length-1].UseAbility();
 			}
+			EmitSignal(SignalName.AbilitySwappedSignal);
 		}
 
 		// Get the input direction and handle the movement/deceleration
@@ -146,15 +108,56 @@ public partial class Player : CharacterBody2D
 	}
 
 	// swap ability if standing near ability pickup
-	private void trySwapAbility(int index){
-		if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+	// private void trySwapAbility(int index){
+	// 	if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup")){
+	// 		var nearbyPickup = (AbilityPickup) nearbyInteractable;
+	// 		var temp = abilities[index].ability;
+	// 		abilities[index].ability = nearbyPickup.ability;
+	// 		nearbyPickup.Interact(temp);
+	// 		EmitSignal(SignalName.AbilitySwappedSignal);
+	// 	}
+	// }
+
+	private void tryQueueAbility(){
+		if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
 			var nearbyPickup = (AbilityPickup) nearbyInteractable;
-			var temp = abilities[index].ability;
-			abilities[index].ability = nearbyPickup.ability;
-			nearbyPickup.Interact(temp);
-			EmitSignal(SignalName.AbilitySwappedSignal);
+			
+			// put ability in first available slot from the bottom (end)
+			for (int i = abilities.Length-1; i >= 0 ; i--){
+				if (abilities[i].ability == ABILITIES.NONE){
+					abilities[i].ability = nearbyPickup.ability;
+					nearbyPickup.Interact();
+					// GD.Print(abilities[i].ability);
+					GD.Print("test " + i);
+					break;
+				}
+			}
+
+			for (int i = 0; i < abilities.Length; i++){
+				GD.Print(abilities[i].ability);
+			}
+			
+			// fixAbilitiesOrder();
+			
+			
+			// EmitSignal(SignalName.AbilitySwappedSignal);
 		}
 	}
+
+	// public void fixAbilitiesOrder(){
+	// 	// for (int i = abilities.Length-1; i >= 0; i--){
+	// 	// 	if (i == 0){
+	// 	// 		abilities[i].ability = Player.ABILITIES.NONE;
+	// 	// 	} else {
+	// 	// 		abilities[i] = abilities[i-1];
+	// 	// 	}
+	// 	// }
+	// 	abilities[0].ability = Player.ABILITIES.NONE;
+	// 	// play animation
+	// 	for (int i = abilities.Length-1; i > 0; i--){
+	// 		abilities[i] = abilities[i-1];
+	// 	}
+	// }
 
 	private void _on_dash_length_timer_timeout(){
 		dashing = false;
@@ -167,20 +170,22 @@ public partial class Player : CharacterBody2D
 	private void _on_interact_area_entered(Area2D area){
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
-			interactable.isInteractable = true;
-			interactable.ToggleButtonPrompt();
+			// interactable.isInteractable = true;
+			// interactable.ToggleButtonPrompt();
 			// canInteract = true;
 			nearbyInteractable = interactable;
+			// GD.Print("in");
 		}
 	}
 
 	private void _on_interact_area_exited(Area2D area){
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
-			interactable.isInteractable = false;
-			interactable.ToggleButtonPrompt();
+			// interactable.isInteractable = false;
+			// interactable.ToggleButtonPrompt();
 			// canInteract = false;
 			nearbyInteractable = null;
+			// GD.Print("out");
 		}
 	}
 

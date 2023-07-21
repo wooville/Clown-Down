@@ -30,9 +30,9 @@ position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_20bqk")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
 position = Vector2(1, 1)
 scale = Vector2(0.5, 0.5)
+shadow_enabled = true
 texture = ExtResource("2_1064m")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -44,10 +44,8 @@ ability = 1
 
 [node name="SecondaryAbility1" parent="." instance=ExtResource("4_f7slq")]
 z_index = 1
-ability = 2
 
 [node name="SecondaryAbility2" parent="." instance=ExtResource("4_f7slq")]
-ability = 2
 
 [node name="SecondaryAbility3" parent="." instance=ExtResource("4_f7slq")]
 ability = 3
@@ -59,7 +57,7 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[node name="InteractArea" type="Area2D" parent="."]
+[node name="InteractArea" type="Area2D" parent="." groups=["player"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
 position = Vector2(0.5, 1)
