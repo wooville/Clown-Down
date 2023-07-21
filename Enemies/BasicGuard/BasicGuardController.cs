@@ -12,6 +12,9 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float maxHealth = 1.0f;
 
 	[Export] private Vector2 facing = new Vector2(0.0f, 1.0f);
+	[Export] private CharacterBody2D Target;
+
+	private RayCast2D lineOfSight;
 	private bool isControllable = true;
 	private State currentState;
 	private bool isDead = false;
@@ -80,6 +83,8 @@ public partial class BasicGuardController : CharacterBody2D
 	public override void _Ready()
 	{
 		ChangeState(new IdleState());
+		
+		lineOfSight = GetNode<RayCast2D>("LineOfSight");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -99,7 +104,25 @@ public partial class BasicGuardController : CharacterBody2D
 	}
 	//check for line of sight with player
 	public void CheckCanSeePlayer(){
+		
+		if (CanDetectPlayer == true){
 
+			lineOfSight.TargetPosition = Target.GlobalPosition - this.GlobalPosition;
+			lineOfSight.ForceRaycastUpdate();
+			Object temp = lineOfSight.GetCollider();
+			//GD.Print(temp);
+
+			if (temp == Target){
+				CanSeePlayer = true;
+				//GD.Print("Can See Player");
+			}
+			else{
+				CanSeePlayer = false;
+			}
+		}
+		else{
+			CanSeePlayer = false;
+		}
 	}
 	//check if player is within attack range
 	public void CheckWithinRange(){
@@ -165,7 +188,11 @@ public partial class BasicGuardController : CharacterBody2D
 			}
 		}
 	}
+	
 }
+
+
+
 
 
 
