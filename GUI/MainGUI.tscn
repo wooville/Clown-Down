@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=5 format=3 uid="uid://c2gqyf401t7nr"]
 
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
 [ext_resource type="Script" path="res://GUI/AbilityPanel.cs" id="2_nc4rm"]
 [ext_resource type="Texture2D" uid="uid://oxleo82g5x3" path="res://Assets/pointer.png" id="3_lhpti"]
+[ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="4_5a42g"]
 
 [node name="MainGUI" type="Control"]
 layout_mode = 3
@@ -145,3 +146,16 @@ color = Color(1, 0.172549, 0, 1)
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(1, 0.172549, 0, 1)
+
+[node name="KeyMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 40.0
+
+[node name="KeyTexture" type="TextureRect" parent="KeyMarginContainer"]
+modulate = Color(1, 1, 1, 0.309804)
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("4_5a42g")
+flip_h = true

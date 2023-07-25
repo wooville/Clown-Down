@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D
 {
@@ -9,9 +10,12 @@ public partial class Player : CharacterBody2D
 	public const float DashSpeed = 3.0f;
 	private bool dashing = false;
 	private bool canDash = true;
+
+	public bool hasKey {get;set;} = false;
 	// private bool canInteract = false;
 
-	private Interactable nearbyInteractable = null;
+	private int selectedInteractable = 0;
+	private List<Interactable> nearbyInteractables = new List<Interactable>();
 
 
 	private Sprite2D playerSprite;
@@ -22,16 +26,17 @@ public partial class Player : CharacterBody2D
 	public AbilityNode mainAbility {get; set;}
 	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
 
-	// public int selectedAbility = 0;
-
 	public enum ABILITIES {NONE, GAG, HONK, DISTRACT, SPIN, STUN, BOX}
+
+	private PackedScene sound = (PackedScene) ResourceLoader.Load("res://World/Sound.tscn");
+	private Node2D world;
 
 	[Signal]
 	public delegate void HealthChangedEventHandler(int newHealth);
 	[Signal]
 	public delegate void DiedSignalEventHandler();
 	[Signal]
-	public delegate void AbilitySwappedSignalEventHandler(Player.ABILITIES ability);
+	public delegate void UpdateGUIEventHandler();
 
     public override void _Ready()
     {
@@ -46,7 +51,10 @@ public partial class Player : CharacterBody2D
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
-		EmitSignal(SignalName.AbilitySwappedSignal);
+		world = GetParent<Node2D>();
+
+		// EmitSignal(SignalName.AbilitySwappedSignal);
+		EmitSignal(SignalName.UpdateGUI);
     }
 
 	public override async void _PhysicsProcess(double delta)
@@ -61,15 +69,10 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (Input.IsActionJustPressed("use_secondary_ability")){
-			if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
-				// trySwapAbility(0);
-				tryQueueAbility();
-				// GD.Print("pickup");
-			}
-			else if (abilities[abilities.Length-1].canUseAbility){
+			if (abilities[abilities.Length-1].canUseAbility){
 				abilities[abilities.Length-1].UseAbility();
 			}
-			EmitSignal(SignalName.AbilitySwappedSignal);
+			EmitSignal(SignalName.UpdateGUI);
 		}
 
 		// Get the input direction and handle the movement/deceleration
@@ -78,20 +81,39 @@ public partial class Player : CharacterBody2D
 
 		// interact if possible, else dash
 		if (Input.IsActionJustPressed("dash_interact")){
-			if (nearbyInteractable != null && !nearbyInteractable.IsInGroup("ability_pickup")){
-				nearbyInteractable.Interact();
+			// interact with object if possible
+			if (nearbyInteractables.Count > 0){
+				if (nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup")){
+					if (abilities[0].ability == Player.ABILITIES.NONE) tryQueueAbility();
+					else GD.Print("abilities full");
+				} else {
+					nearbyInteractables[selectedInteractable].Interact();
+				}
 			}
+			// dash will speed up movement for very short duration
 			else if (canDash){
 				velocity = direction.Normalized() * Speed * DashSpeed;
 				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
 				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
-				
+
+				Sound newSound = (Sound) sound.Instantiate();
+				// assign sound here
+				newSound.GlobalPosition = GlobalPosition;
+				world.AddChild(newSound);
+
 				// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
 				canDash = false;
 				dashing = true;
 			}
+			EmitSignal(SignalName.UpdateGUI);
 		} else if (!dashing) {
+			// normal movement
 			velocity = direction.Normalized() * Speed;
+		}
+
+		if (Input.IsActionJustPressed("cycle_interactable")){
+			selectedInteractable++;
+			selectedInteractable = (nearbyInteractables.Count > 0) ? selectedInteractable%nearbyInteractables.Count : 0;
 		}
 
 		if (direction.X < 0){
@@ -119,46 +141,25 @@ public partial class Player : CharacterBody2D
 	// }
 
 	private void tryQueueAbility(){
-		if (nearbyInteractable != null && nearbyInteractable.IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
-			var nearbyPickup = (AbilityPickup) nearbyInteractable;
+		if (nearbyInteractables[selectedInteractable] != null && nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
+			// var nearbyPickup = (AbilityPickup) nearbyInteractable;
+			var nearbyPickup = (AbilityPickup) nearbyInteractables[selectedInteractable];
 			
 			// put ability in first available slot from the bottom (end)
 			for (int i = abilities.Length-1; i >= 0 ; i--){
 				if (abilities[i].ability == ABILITIES.NONE){
 					abilities[i].ability = nearbyPickup.ability;
 					nearbyPickup.Interact();
-					// GD.Print(abilities[i].ability);
-					GD.Print("test " + i);
 					break;
 				}
 			}
 
-			for (int i = 0; i < abilities.Length; i++){
-				GD.Print(abilities[i].ability);
-			}
+			// for (int i = 0; i < abilities.Length; i++){
+			// 	GD.Print(abilities[i].ability);
+			// }
 			
-			// fixAbilitiesOrder();
-			
-			
-			// EmitSignal(SignalName.AbilitySwappedSignal);
 		}
 	}
-
-	// public void fixAbilitiesOrder(){
-	// 	// for (int i = abilities.Length-1; i >= 0; i--){
-	// 	// 	if (i == 0){
-	// 	// 		abilities[i].ability = Player.ABILITIES.NONE;
-	// 	// 	} else {
-	// 	// 		abilities[i] = abilities[i-1];
-	// 	// 	}
-	// 	// }
-	// 	abilities[0].ability = Player.ABILITIES.NONE;
-	// 	// play animation
-	// 	for (int i = abilities.Length-1; i > 0; i--){
-	// 		abilities[i] = abilities[i-1];
-	// 	}
-	// }
-
 	private void _on_dash_length_timer_timeout(){
 		dashing = false;
 	}
@@ -170,32 +171,21 @@ public partial class Player : CharacterBody2D
 	private void _on_interact_area_entered(Area2D area){
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
-			// interactable.isInteractable = true;
-			// interactable.ToggleButtonPrompt();
-			// canInteract = true;
-			nearbyInteractable = interactable;
-			// GD.Print("in");
+			nearbyInteractables.Add(interactable);
+			selectedInteractable = nearbyInteractables.Count-1;	// default to last item in list to interact with
 		}
 	}
 
 	private void _on_interact_area_exited(Area2D area){
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
-			// interactable.isInteractable = false;
-			// interactable.ToggleButtonPrompt();
-			// canInteract = false;
-			nearbyInteractable = null;
-			// GD.Print("out");
+			nearbyInteractables.Remove(interactable);
+			selectedInteractable = 0;
 		}
 	}
 
 	private void _on_pointer_area_entered(Area2D area){
 		if (area.IsInGroup("enemy")) {
-			// var interactable = (Interactable) area;
-			// interactable.isInteractable = true;
-			// interactable.ToggleButtonPrompt();
-			// // canInteract = true;
-			// nearbyInteractable = interactable;
 			GD.Print("yeah");
 		}
 	}

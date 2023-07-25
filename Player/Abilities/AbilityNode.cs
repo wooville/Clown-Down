@@ -51,8 +51,8 @@ public partial class AbilityNode : Node2D
 		}
 		// player.fixAbilitiesOrder();
 
-		player.abilities[2] = player.abilities[1];
-		player.abilities[1] = player.abilities[0];
+		player.abilities[2].ability = player.abilities[1].ability;
+		player.abilities[1].ability = player.abilities[0].ability;
 		player.abilities[0].ability = Player.ABILITIES.NONE;
 	}
 	

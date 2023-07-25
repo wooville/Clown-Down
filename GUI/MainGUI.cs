@@ -6,6 +6,7 @@ public partial class MainGUI : Control
 	private AbilityPanel[] abilityPanels = new AbilityPanel[3];
 	private AbilityPanel mainAbilityPanel;
 	private Player player;
+	private TextureRect keyTexture;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -16,6 +17,9 @@ public partial class MainGUI : Control
 		abilityPanels[0] = GetNode<AbilityPanel>("AbilityMarginContainer/VBoxContainer/AbilityPanel1");
 		abilityPanels[1] = GetNode<AbilityPanel>("AbilityMarginContainer/VBoxContainer/AbilityPanel2");
 		abilityPanels[2] = GetNode<AbilityPanel>("AbilityMarginContainer/VBoxContainer/AbilityPanel3");
+
+		keyTexture = GetNode<TextureRect>("KeyMarginContainer/KeyTexture");
+
 		updateAbilityPanels();
 	}
 
@@ -31,11 +35,21 @@ public partial class MainGUI : Control
 			// } else {
 			// 	abilityPanels[i].isSelected = false;
 			// }
+			
 			abilityPanels[i].updatePanel();
 		}
 	}
 
-	private void _on_player_ability_swapped_signal(){
+	private void updateKeyTexture(){
+		if (player.hasKey){
+			keyTexture.Modulate = new Godot.Color(1, 1, 1, 255);
+		} else {
+			keyTexture.Modulate = new Godot.Color(0.5f, 0.5f, 0.5f, 80);
+		}
+	}
+
+	private void _on_player_update_gui(){
 		updateAbilityPanels();
+		updateKeyTexture();
 	}
 }

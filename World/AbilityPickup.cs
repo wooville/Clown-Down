@@ -32,8 +32,8 @@ public partial class AbilityPickup : Interactable
 		QueueFree();
 	}
 
-	// public void Interact(Player.ABILITIES swapAbility){
-	// 	ability = swapAbility;
-	// 	GD.Print("dropped" + ability);
-	// }
+	public void Interact(Player.ABILITIES swapAbility){
+		ability = swapAbility;
+		GD.Print("dropped" + ability);
+	}
 }
