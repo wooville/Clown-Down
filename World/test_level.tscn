@@ -94,5 +94,10 @@ layer_0/tile_data = PackedInt32Array(1507344, 65536, 3, 1572880, 65536, 3, 16384
 [node name="Player" parent="." instance=ExtResource("1_slguu")]
 position = Vector2(334, 24)
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("3_woi1t")]
-position = Vector2(605, 19)
+[node name="CharacterBody2D" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("3_woi1t")]
+position = Vector2(428, 111)
+Target = NodePath("../Player")
+
+[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("3_woi1t")]
+position = Vector2(598, 12)
+Target = NodePath("../Player")

@@ -16,18 +16,23 @@ public class AttackState : State
 		//change state
 		if (character.IsDead){
 			character.ChangeState(new DeadState());
+			GD.Print("Entered Dead State");
 		}
 		else if (character.IsAsleep){
 			character.ChangeState(new SleepState());
+			GD.Print("Entered Sleep State");
 		}
 		else if (character.CanSeePlayer && character.WithinRange){
 			character.Attack();
+			
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
 			character.ChangeState(new PursueState());
+			GD.Print("Entered Pursue State");
 		}
 		else{
 			character.ChangeState(new SearchState());
+			GD.Print("Entered Search State");
 		}
 	}
 }
