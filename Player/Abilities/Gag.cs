@@ -20,8 +20,9 @@ public partial class Gag : Node2D
 	private void _on_area_2d_area_entered(Area2D area){
 		if (area.IsInGroup("enemy")){
 			var enemy = (BasicGuardController) area.GetParent();
-			enemy.IsAsleep = true;
-			GD.Print(enemy.IsAsleep);
+			if (!enemy.CanSeePlayer){
+				enemy.IsAsleep = true;
+			}
 		}
 	}
 }

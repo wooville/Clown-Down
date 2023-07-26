@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	public const float Speed = 75.0f;
+	public const float Speed = 90.0f;
 	[Export]
 	public const float DashSpeed = 3.0f;
 	private bool dashing = false;

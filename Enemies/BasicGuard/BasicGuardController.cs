@@ -10,10 +10,13 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float searchDuration = 2.0f;
 	[Export] public float sleepDuration = 1.0f;
 	[Export] public float maxHealth = 1.0f;
+	[Export] public float moveSpeed = 70.0f;
 	[Export] public float turnSpeed = 10.0f;
+
 
 	[Export] private Vector2 facing = new Vector2(0,1);
 	[Export] private CharacterBody2D Target;
+	[Export] private TileMap tileMap;
 
 	private RayCast2D lineOfSight;
 	private Area2D visionCone; 
@@ -84,6 +87,8 @@ public partial class BasicGuardController : CharacterBody2D
 		get{return myDelta;}
 		set{myDelta = value;}
 	}
+
+	private NavigationAgent2D nav;
 	
 	/*********** Godot Functions ************/
 
@@ -94,6 +99,9 @@ public partial class BasicGuardController : CharacterBody2D
 		
 		lineOfSight = GetNode<RayCast2D>("LineOfSight");
 		visionCone = GetNode<Area2D>("Vision");
+
+		nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
+		nav.SetNavigationMap(tileMap.GetNavigationMap(1));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -175,6 +183,15 @@ public partial class BasicGuardController : CharacterBody2D
 		//GD.Print(visionCone.GetAngleTo(Target.GlobalPosition));
 		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
 		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+
+		nav.TargetPosition = Target.GlobalPosition;
+		
+		var direction = nav.GetNextPathPosition() - GlobalPosition;
+		direction = direction.Normalized();
+
+		Velocity = direction*moveSpeed;
+
+		MoveAndSlide();
 		//Facing = (this.GlobalPosition + Facing).Normalized();
 	}
 
