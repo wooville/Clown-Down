@@ -6,7 +6,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_icsa3"]
 
-[node name="Interactable" instance=ExtResource("1_cg8he")]
+[node name="Safe" instance=ExtResource("1_cg8he")]
 script = ExtResource("1_o8plv")
 
 [node name="CollisionShape2D" parent="." index="0"]

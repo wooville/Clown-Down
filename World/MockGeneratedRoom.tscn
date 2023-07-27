@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bi07hd21ks7bn"]
+[gd_scene load_steps=15 format=3 uid="uid://bi07hd21ks7bn"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_ph4eu"]
 [ext_resource type="Texture2D" uid="uid://8bsd7e6e1ycl" path="res://Assets/Sprite_Sheet_2.png" id="2_rf4if"]
 [ext_resource type="PackedScene" uid="uid://b8j4jm5jlecfl" path="res://Enemies/BasicGuard/basicGuard.tscn" id="3_0j5lm"]
 [ext_resource type="PackedScene" uid="uid://bty2cwt3m5r25" path="res://World/OcclusionTileMap.tscn" id="3_l7maf"]
+[ext_resource type="PackedScene" uid="uid://dfx4fn2ci7ikw" path="res://World/Safe.tscn" id="4_qn57v"]
 [ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="5_lw5yr"]
 [ext_resource type="PackedScene" uid="uid://dyv5h7xhs037d" path="res://World/Key.tscn" id="6_jxnr1"]
 [ext_resource type="PackedScene" uid="uid://btf85mvudkx8x" path="res://World/Door.tscn" id="7_lff6e"]
@@ -310,6 +311,7 @@ position = Vector2(98, 56)
 position = Vector2(-11, 189)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="Door" parent="." instance=ExtResource("7_lff6e")]
@@ -334,3 +336,19 @@ tileMap = NodePath("../TileMap")
 position = Vector2(198, 553)
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
+
+[node name="Guard5" parent="." node_paths=PackedStringArray("Target", "tileMap") instance=ExtResource("3_0j5lm")]
+position = Vector2(490, 562)
+Target = NodePath("../Player")
+tileMap = NodePath("../TileMap")
+
+[node name="Guard6" parent="." node_paths=PackedStringArray("Target", "tileMap") instance=ExtResource("3_0j5lm")]
+position = Vector2(368, 140)
+Target = NodePath("../Player")
+tileMap = NodePath("../TileMap")
+
+[node name="Safe" parent="." instance=ExtResource("4_qn57v")]
+position = Vector2(585, 297)
+
+[node name="Safe2" parent="." instance=ExtResource("4_qn57v")]
+position = Vector2(431, 634)

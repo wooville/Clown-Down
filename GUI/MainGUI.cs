@@ -19,8 +19,6 @@ public partial class MainGUI : Control
 		abilityPanels[2] = GetNode<AbilityPanel>("AbilityMarginContainer/VBoxContainer/AbilityPanel3");
 
 		keyTexture = GetNode<TextureRect>("KeyMarginContainer/KeyTexture");
-
-		updateAbilityPanels();
 	}
 
 	private void updateAbilityPanels(){

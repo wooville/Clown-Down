@@ -14,5 +14,6 @@ public partial class Safe : Interactable
 		newAbilityPickup.Position = new Vector2(GlobalPosition.X - 24, GlobalPosition.Y);
 		AddSibling(newAbilityPickup);
 		GD.Print(newAbilityPickup.ability);
+		base.Interact();
 	}
 }

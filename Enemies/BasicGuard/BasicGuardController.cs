@@ -101,7 +101,7 @@ public partial class BasicGuardController : CharacterBody2D
 		visionCone = GetNode<Area2D>("Vision");
 
 		nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
-		nav.SetNavigationMap(tileMap.GetNavigationMap(1));
+		nav.SetNavigationMap(tileMap.GetNavigationMap(0));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
