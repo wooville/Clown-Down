@@ -20,7 +20,7 @@ public partial class MainGUI : Control
 
 		keyTexture = GetNode<TextureRect>("KeyMarginContainer/KeyTexture");
 
-		updateAbilityPanels();
+		//updateAbilityPanels();
 	}
 
 	private void updateAbilityPanels(){
