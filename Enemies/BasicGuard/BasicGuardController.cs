@@ -4,7 +4,7 @@ using System.Collections;
 
 public partial class BasicGuardController : CharacterBody2D
 {
-	[Export] public float sightRange = 3.0f;
+	[Export] public float sightRange = 1.0f;
 	[Export] public float attackRange = 1.0f;
 	[Export] public float attackDuration = 1.0f;
 	[Export] public float searchDuration = 2.0f;
@@ -100,6 +100,10 @@ public partial class BasicGuardController : CharacterBody2D
 		lineOfSight = GetNode<RayCast2D>("LineOfSight");
 		visionCone = GetNode<Area2D>("Vision");
 
+		Vector2 visionScale = new Vector2(1,1);
+		visionScale *= sightRange; 
+		visionCone.Scale = (visionScale);
+
 		nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		nav.SetNavigationMap(tileMap.GetNavigationMap(0));
 	}
@@ -184,12 +188,15 @@ public partial class BasicGuardController : CharacterBody2D
 		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
 		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
 
+		/*
 		nav.TargetPosition = Target.GlobalPosition;
 		
 		var direction = nav.GetNextPathPosition() - GlobalPosition;
 		direction = direction.Normalized();
-
 		Velocity = direction*moveSpeed;
+		*/
+		Velocity = ( Target.GlobalPosition - this.GlobalPosition ) *( (float)MyDelta * moveSpeed);
+		
 
 		MoveAndSlide();
 		//Facing = (this.GlobalPosition + Facing).Normalized();

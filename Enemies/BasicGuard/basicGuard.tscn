@@ -13,6 +13,7 @@ size = Vector2(7, 13)
 
 [node name="Guard" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("2_k3pwv")
+moveSpeed = 1000.0
 
 [node name="Vision" type="Area2D" parent="."]
 script = ExtResource("2_rupft")
