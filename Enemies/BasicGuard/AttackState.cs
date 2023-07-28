@@ -7,8 +7,8 @@ public class AttackState : State
 	{
 		//run checks
 		character.CheckCanDetectPlayer();
-		if (character.CanDetectPlayer)
-			character.CheckCanSeePlayer();
+		
+		character.CheckCanSeePlayer();
 		if (character.CanSeePlayer)
 			character.CheckWithinRange();
 		character.CheckSearching();

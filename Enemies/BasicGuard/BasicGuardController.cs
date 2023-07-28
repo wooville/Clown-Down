@@ -140,10 +140,12 @@ public partial class BasicGuardController : CharacterBody2D
 				//GD.Print("Can See Player");
 			}
 			else{
+				//GD.Print("cant see player");
 				CanSeePlayer = false;
 			}
 		}
 		else{
+			//GD.Print("cant see player");
 			CanSeePlayer = false;
 		}
 	}
@@ -167,6 +169,8 @@ public partial class BasicGuardController : CharacterBody2D
 	/*********** Behaviours ***********/
 	public void Attack(){
 		//does nothing currently
+		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
+		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
 	}
 
 	public void BeIdle(){
@@ -228,8 +232,35 @@ public partial class BasicGuardController : CharacterBody2D
 			}
 		}
 	}
+	private void _on_attack_zone_body_entered(Node2D body)
+	{
+		// Replace with function body.
+		foreach(String str in body.GetGroups()){
+			if (str == "player"){
+				GD.Print("Player within attack range");
+				WithinRange = true;
+			}
+		}
+	}
+
+	private void _on_attack_zone_body_exited(Node2D body)
+	{
+		// Replace with function body.
+		foreach(String str in body.GetGroups()){
+			if (str == "player"){
+				GD.Print("Player outside attack range");
+				WithinRange = false;
+			}
+		}
+	}
 	
 }
+
+
+
+
+
+
 
 
 

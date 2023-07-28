@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8j4jm5jlecfl"]
+[gd_scene load_steps=8 format=3 uid="uid://b8j4jm5jlecfl"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_cc1hu"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/BasicGuardController.cs" id="2_k3pwv"]
@@ -10,6 +10,9 @@ size = Vector2(7, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h83s1"]
 size = Vector2(7, 13)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h7b5r"]
+radius = 25.0
 
 [node name="Guard" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("2_k3pwv")
@@ -48,5 +51,13 @@ path_postprocessing = 1
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("4_bsy0y")
 
+[node name="AttackZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackZone"]
+shape = SubResource("CircleShape2D_h7b5r")
+debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
+
 [connection signal="body_shape_entered" from="Vision" to="." method="_on_vision_body_shape_entered"]
 [connection signal="body_shape_exited" from="Vision" to="." method="_on_vision_body_shape_exited"]
+[connection signal="body_entered" from="AttackZone" to="." method="_on_attack_zone_body_entered"]
+[connection signal="body_exited" from="AttackZone" to="." method="_on_attack_zone_body_exited"]
