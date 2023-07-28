@@ -10,7 +10,7 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float searchDuration = 2.0f;
 	[Export] public float sleepDuration = 1.0f;
 	[Export] public float maxHealth = 1.0f;
-	[Export] public float moveSpeed = 70.0f;
+	[Export] public float moveSpeed = 10.0f;
 	[Export] public float turnSpeed = 10.0f;
 
 
@@ -89,6 +89,7 @@ public partial class BasicGuardController : CharacterBody2D
 	}
 
 	private NavigationAgent2D nav;
+	public PointLight2D light {get;set;}
 	
 	/*********** Godot Functions ************/
 
@@ -106,6 +107,8 @@ public partial class BasicGuardController : CharacterBody2D
 
 		nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		nav.SetNavigationMap(tileMap.GetNavigationMap(0));
+
+		light = GetNode<PointLight2D>("PointLight2D");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -195,7 +198,8 @@ public partial class BasicGuardController : CharacterBody2D
 		direction = direction.Normalized();
 		Velocity = direction*moveSpeed;
 		*/
-		Velocity = ( Target.GlobalPosition - this.GlobalPosition ) *( (float)MyDelta * moveSpeed);
+		Velocity = ( Target.GlobalPosition - this.GlobalPosition ).Normalized() *( (float)MyDelta * moveSpeed);
+
 		
 
 		MoveAndSlide();

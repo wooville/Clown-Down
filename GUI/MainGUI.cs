@@ -7,6 +7,12 @@ public partial class MainGUI : Control
 	private AbilityPanel mainAbilityPanel;
 	private Player player;
 	private TextureRect keyTexture;
+	private Label timerLabel;
+	private ProgressBar sillyProgressBar;
+
+	public bool timerActive = false;
+	public double timeElapsed {get;set;} = 0.0;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -19,6 +25,17 @@ public partial class MainGUI : Control
 		abilityPanels[2] = GetNode<AbilityPanel>("AbilityMarginContainer/VBoxContainer/AbilityPanel3");
 
 		keyTexture = GetNode<TextureRect>("KeyMarginContainer/KeyTexture");
+		timerLabel = GetNode<Label>("TimerLabel");
+		sillyProgressBar = GetNode<ProgressBar>("SillyMarginContainer/SillyProgressBar");
+
+		timerActive = true;
+	}
+
+	public override async void _Process(double delta){
+		if (timerActive){
+			timeElapsed += delta;
+		}
+		timerLabel.Text = timeElapsed.ToString("0.00");
 	}
 
 	private void updateAbilityPanels(){
@@ -27,13 +44,6 @@ public partial class MainGUI : Control
 
 		for (int i = 0; i < player.abilities.Length; i++){
 			abilityPanels[i].ability = player.abilities[i].ability;
-			// GD.Print(player.abilities[i].ability);
-			// if (i == player.selectedAbility){
-			// 	abilityPanels[i].isSelected = true;
-			// } else {
-			// 	abilityPanels[i].isSelected = false;
-			// }
-			
 			abilityPanels[i].updatePanel();
 		}
 	}
@@ -46,8 +56,13 @@ public partial class MainGUI : Control
 		}
 	}
 
+	private void updateSillyMeter(){
+		sillyProgressBar.Value = player.sillyProgress;
+	}
+
 	private void _on_player_update_gui(){
 		updateAbilityPanels();
 		updateKeyTexture();
+		updateSillyMeter();
 	}
 }

@@ -27,6 +27,7 @@ public class IdleState : State
 			GD.Print("Entered Attack State");
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
+			character.light.Visible = true;
 			character.ChangeState(new PursueState());
 			GD.Print("Entered Pursue State");
 		}

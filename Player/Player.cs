@@ -5,31 +5,46 @@ using System.Collections.Generic;
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	public const float Speed = 60.0f;
+	public float speed = 60.0f;
 	[Export]
-	public const float DashSpeed = 3.0f;
+	public float dashSpeed = 3.0f;
+	[Export]
+	public float sillySpeed = 100.0f;
+	private int hp = 3;
 	private bool dashing = false;
 	private bool canDash = true;
+	private bool canParry = true;
+	public int sillyProgress {get;set;} = 0;
+	private double sillyDiminish = 0.0;
+	public bool silly = false;
 
 	public bool hasKey {get;set;} = false;
-	// private bool canInteract = false;
 
 	private int selectedInteractable = 0;
 	private List<Interactable> nearbyInteractables = new List<Interactable>();
-
-
 	private Sprite2D playerSprite;
-	private Control pointerControl;
+	// private Control pointerControl;
 	private Timer dashLengthTimer;
 	private Timer dashCooldownTimer;
+	private Timer parryTimer;
+	private Timer parryCooldownTimer;
+	private Timer parryPauseTimer;
+	private Area2D parryArea;
+	private CollisionShape2D collisionShape;
 
 	public AbilityNode mainAbility {get; set;}
 	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
 
 	public enum ABILITIES {NONE, GAG, HONK, DISTRACT, SPIN, STUN, BOX}
+	private enum SIDES {NONE, LEFT, UP, RIGHT, DOWN};
+	private SIDES parryingOnSide = SIDES.NONE;
 
 	private PackedScene sound = (PackedScene) ResourceLoader.Load("res://World/Sound.tscn");
+	private PackedScene chicken = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Chicken.tscn");
 	private Node2D world;
+
+	// private PackedScene parry = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Parry.tscn");
+
 
 	[Signal]
 	public delegate void HealthChangedEventHandler(int newHealth);
@@ -41,7 +56,8 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
 		playerSprite = GetNode<Sprite2D>("PlayerSprite");
-		pointerControl = GetNode<Control>("PointerControl");
+		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+		// pointerControl = GetNode<Control>("PointerControl");
 
 		mainAbility = GetNode<AbilityNode>("MainAbility");
         abilities[0] = GetNode<AbilityNode>("SecondaryAbility1");
@@ -51,11 +67,34 @@ public partial class Player : CharacterBody2D
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
+		parryTimer = GetNode<Timer>("ParryTimer");
+		parryCooldownTimer = GetNode<Timer>("ParryCooldownTimer");
+		parryPauseTimer = GetNode<Timer>("ParryPauseTimer");
+		parryPauseTimer.ProcessMode = Node.ProcessModeEnum.Always;
+
+		parryArea = GetNode<Area2D>("ParryArea");
+
 		world = GetParent<Node2D>();
 
-		// EmitSignal(SignalName.AbilitySwappedSignal);
 		EmitSignal(SignalName.UpdateGUI);
     }
+
+	public override async void _Process(double delta){
+		if (silly){
+			sillyDiminish += (5 * delta);
+			if (sillyDiminish > 5.0){
+				sillyProgress -= (int)sillyDiminish;
+				sillyDiminish = 0;
+				if(sillyProgress < 0){
+					silly = false;
+					sillyProgress = 0;
+				}
+				GD.Print(sillyProgress);
+				EmitSignal(SignalName.UpdateGUI);
+			}
+		}
+		
+	}
 
 	public override async void _PhysicsProcess(double delta)
 	{
@@ -92,7 +131,7 @@ public partial class Player : CharacterBody2D
 			}
 			// dash will speed up movement for very short duration
 			else if (canDash){
-				velocity = direction.Normalized() * Speed * DashSpeed;
+				velocity = (silly) ? direction.Normalized() * sillySpeed * dashSpeed : direction.Normalized() * speed * dashSpeed;
 				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
 				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
 
@@ -108,7 +147,39 @@ public partial class Player : CharacterBody2D
 			EmitSignal(SignalName.UpdateGUI);
 		} else if (!dashing) {
 			// normal movement
-			velocity = direction.Normalized() * Speed;
+			velocity = (silly) ? direction.Normalized() * sillySpeed : direction.Normalized() * speed;
+		}
+
+		if (Input.IsActionJustPressed("action_left")){
+			if (silly){
+				chickenSlap(SIDES.LEFT);
+			} else if (canParry){
+				tryParryOnSide(SIDES.LEFT);
+			}
+		}
+
+		if (Input.IsActionJustPressed("action_up")){
+			if (silly){
+				chickenSlap(SIDES.UP);
+			} else if (canParry){
+				tryParryOnSide(SIDES.UP);
+			}
+		}
+
+		if (Input.IsActionJustPressed("action_right")){
+			if (silly){
+				chickenSlap(SIDES.RIGHT);
+			} else if (canParry){
+				tryParryOnSide(SIDES.RIGHT);
+			}
+		}
+
+		if (Input.IsActionJustPressed("action_down")){
+			if (silly){
+				chickenSlap(SIDES.DOWN);
+			} else if (canParry){
+				tryParryOnSide(SIDES.DOWN);
+			}
 		}
 
 		if (Input.IsActionJustPressed("cycle_interactable")){
@@ -123,7 +194,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		// rotate pointer GUI element to face cursor
-		pointerControl.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
+		// pointerControl.Rotation = GetAngleTo(GetGlobalMousePosition()) + 1.5708f;
 
 		Velocity = velocity;
 		MoveAndSlide();
@@ -140,6 +211,16 @@ public partial class Player : CharacterBody2D
 	// 	}
 	// }
 
+	private void tryParryOnSide(SIDES side){
+		GD.Print("PARRY " + side);
+		if (parryTimer.IsStopped()) parryTimer.Start();
+		if (parryCooldownTimer.IsStopped()) parryCooldownTimer.Start();
+
+		canParry = false;
+		parryingOnSide = side;
+		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, true);
+	}
+
 	private void tryQueueAbility(){
 		if (nearbyInteractables[selectedInteractable] != null && nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
 			// var nearbyPickup = (AbilityPickup) nearbyInteractable;
@@ -153,13 +234,22 @@ public partial class Player : CharacterBody2D
 					break;
 				}
 			}
-
-			// for (int i = 0; i < abilities.Length; i++){
-			// 	GD.Print(abilities[i].ability);
-			// }
-			
 		}
 	}
+
+	private void _on_parry_timer_timeout(){
+		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, false);
+		parryingOnSide = SIDES.NONE;
+	}
+
+	private void _on_parry_cooldown_timer_timeout(){
+		canParry = true;
+	}
+
+	private void _on_parry_pause_timer_timeout(){
+		GetTree().Paused = false;
+	}
+
 	private void _on_dash_length_timer_timeout(){
 		dashing = false;
 	}
@@ -184,11 +274,111 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void _on_pointer_area_entered(Area2D area){
-		if (area.IsInGroup("enemy")) {
-			GD.Print("yeah");
+	// private void _on_pointer_area_entered(Area2D area){
+	// 	if (area.IsInGroup("enemy")) {
+	// 		GD.Print("yeah");
+	// 	}
+		// if (area.IsInGroup("parryable")){
+		// 	if (parrying) {
+		// 		GD.Print("parried");
+		// 		canParry = true;
+		// 		sillyProgress += 10;
+		// 		parryCooldownTimer.Stop();
+		// 		parryPauseTimer.Start();
+		// 		EmitSignal(SignalName.UpdateGUI);
+		// 		GetTree().Paused = true;
+		// 	}
+		// }
+	// }
+
+	private void parrySuccess(){
+		// reset for next parry
+		canParry = true;
+		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, false);
+		parryingOnSide = SIDES.NONE;
+		parryTimer.Stop();
+
+		// reset cooldown and gain meter as a reward
+		parryCooldownTimer.Stop();
+		sillyProgress += 10;
+
+		if (sillyProgress >= 100){
+			sillyProgress = 100;
+			silly = true;
+		}
+
+		EmitSignal(SignalName.UpdateGUI);
+		
+		// start brief pause for juice
+		parryPauseTimer.Start();
+		GetTree().Paused = true;
+	}
+
+	private void _on_parry_area_entered(Area2D area){
+		if (area.IsInGroup("parryable")){
+			// check if the side user is trying to parry on matches with side that the parryable is on
+			// overlap on corners
+			switch (parryingOnSide){
+				case SIDES.LEFT:
+					GD.Print(area.GlobalPosition, " < ", collisionShape.GlobalPosition - collisionShape.GetTransform().X / 2);
+					// past the left face of the collision shape defining the player's body
+					// ie in the parry area but hasn't hit the player
+					// assumes player collision shape and parry area are centred at same point
+					if (area.GlobalPosition.X < (collisionShape.GlobalPosition - collisionShape.GetTransform().X / 2).X){
+						parrySuccess();
+					}
+					break;
+				case SIDES.UP:
+					GD.Print(area.GlobalPosition, " < ", collisionShape.GlobalPosition - collisionShape.GetTransform().Y / 2);
+					if (area.GlobalPosition.Y < (collisionShape.GlobalPosition - collisionShape.GetTransform().Y / 2).Y){
+						parrySuccess();
+					}
+					break;
+				case SIDES.RIGHT:
+					GD.Print(area.GlobalPosition, " > ", collisionShape.GlobalPosition - collisionShape.GetTransform().Y / 2);
+					if (area.GlobalPosition.X > (collisionShape.GlobalPosition + collisionShape.GetTransform().X / 2).X){
+						parrySuccess();
+					}
+					break;
+				case SIDES.DOWN:
+					GD.Print(area.GlobalPosition, " > ", collisionShape.GlobalPosition + collisionShape.GetTransform().Y / 2);
+					if (area.GlobalPosition.Y > (collisionShape.GlobalPosition + collisionShape.GetTransform().Y / 2).Y){
+						parrySuccess();
+					}
+					break;
+				default:
+					GD.Print("ouch");
+					break;
+			}
 		}
 	}
+
+	private void chickenSlap(SIDES side){
+		Node2D newChicken = chicken.Instantiate<Node2D>();
+		// newHonk.Position = GlobalPosition;
+		switch (side){
+			case SIDES.LEFT:
+				newChicken.RotationDegrees = -90;
+				newChicken.Position -= collisionShape.GetTransform().X / 2;
+				break;
+			case SIDES.UP:
+				newChicken.RotationDegrees = 0;
+				newChicken.Position -= collisionShape.GetTransform().Y / 2;
+				break;
+			case SIDES.RIGHT:
+				newChicken.RotationDegrees = 90;
+				newChicken.Position += collisionShape.GetTransform().X / 2;
+				break;
+			case SIDES.DOWN:
+				newChicken.RotationDegrees = 180;
+				newChicken.Position += collisionShape.GetTransform().Y / 2;
+				break;
+		}
+		
+		AddChild(newChicken);
+	}
+
+
 }
 
 
