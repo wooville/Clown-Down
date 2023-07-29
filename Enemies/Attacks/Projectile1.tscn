@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dharw2i75b2br"]
+[gd_scene load_steps=4 format=3 uid="uid://bvfolreabbcgk"]
 
-[ext_resource type="Script" path="res://Enemies/Attacks/Projectile1Script.cs" id="1_nb3gx"]
+[ext_resource type="Script" path="res://Enemies/Attacks/Projectile1.cs" id="1_cucsq"]
 [ext_resource type="Texture2D" uid="uid://cwmiel5gmwgje" path="res://Assets/projectile_1.png" id="2_tts10"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16thu"]
 radius = 4.0
 
 [node name="Projectile1" type="Area2D"]
-script = ExtResource("1_nb3gx")
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("1_cucsq")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_16thu")

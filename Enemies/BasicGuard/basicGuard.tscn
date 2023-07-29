@@ -57,7 +57,11 @@ texture = ExtResource("4_bsy0y")
 shape = SubResource("CircleShape2D_h7b5r")
 debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
 
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+
 [connection signal="body_shape_entered" from="Vision" to="." method="_on_vision_body_shape_entered"]
 [connection signal="body_shape_exited" from="Vision" to="." method="_on_vision_body_shape_exited"]
 [connection signal="body_entered" from="AttackZone" to="." method="_on_attack_zone_body_entered"]
 [connection signal="body_exited" from="AttackZone" to="." method="_on_attack_zone_body_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

@@ -16,11 +16,11 @@ public class AttackState : State
 		//change state
 		if (character.IsDead){
 			character.ChangeState(new DeadState());
-			GD.Print("Entered Dead State");
+			//GD.Print("Entered Dead State");
 		}
 		else if (character.IsAsleep){
 			character.ChangeState(new SleepState());
-			GD.Print("Entered Sleep State");
+			//GD.Print("Entered Sleep State");
 		}
 		else if (character.CanSeePlayer && character.WithinRange){
 			character.Attack();
@@ -28,11 +28,11 @@ public class AttackState : State
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
 			character.ChangeState(new PursueState());
-			GD.Print("Entered Pursue State");
+			//GD.Print("Entered Pursue State");
 		}
 		else{
 			character.ChangeState(new SearchState());
-			GD.Print("Entered Search State");
+			//GD.Print("Entered Search State");
 		}
 	}
 }
