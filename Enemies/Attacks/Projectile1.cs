@@ -55,9 +55,17 @@ public partial class Projectile1 : Area2D
 	{
 		
 		foreach(String str in body.GetGroups()){
+			GD.Print(str);
 			if (str == "player"){
 				GD.Print("Hit Player");
 				//body.TakeDamage(damage);
+				QueueFree();
+			}
+			else if(str == "wall" && numBounces > 0){
+				GD.Print("Hit wall and bounced");
+			}
+			else if (str == "wall"){
+				GD.Print("Hit wall and broke");
 				QueueFree();
 			}
 		}

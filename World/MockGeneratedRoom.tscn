@@ -293,7 +293,7 @@ sources/1 = SubResource("TileSetAtlasSource_pgoqc")
 
 [node name="PracticeRoom" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." groups=["wall"]]
 z_index = -1
 texture_filter = 1
 tile_set = SubResource("TileSet_hmkhq")
