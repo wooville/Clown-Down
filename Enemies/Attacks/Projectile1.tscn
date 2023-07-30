@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_16thu"]
 radius = 4.0
 
-[node name="Projectile1" type="Area2D"]
+[node name="Projectile1" type="Area2D" groups=["parryable"]]
 collision_layer = 9
 collision_mask = 9
 script = ExtResource("1_cucsq")
