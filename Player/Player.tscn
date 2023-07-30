@@ -1,19 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=8 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
 [ext_resource type="PackedScene" uid="uid://b3pqcoy352inl" path="res://Player/Abilities/AbilityNode.tscn" id="4_f7slq"]
-[ext_resource type="Texture2D" uid="uid://oxleo82g5x3" path="res://Assets/pointer.png" id="5_ra1vb"]
-[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="6_hgn5j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
-size = Vector2(7, 12)
+size = Vector2(6, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uty7k"]
+size = Vector2(8, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8y8m"]
-size = Vector2(7, 12)
+size = Vector2(6, 12)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
+collision_layer = 9
 script = ExtResource("1_u3edf")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
@@ -23,12 +26,13 @@ region_enabled = true
 region_rect = Rect2(0, 48, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_20bqk")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(1, 1)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.75, 0.75)
+energy = 1.5
+shadow_enabled = true
 texture = ExtResource("2_1064m")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -40,13 +44,21 @@ ability = 1
 
 [node name="SecondaryAbility1" parent="." instance=ExtResource("4_f7slq")]
 z_index = 1
-ability = 2
 
 [node name="SecondaryAbility2" parent="." instance=ExtResource("4_f7slq")]
-ability = 2
 
 [node name="SecondaryAbility3" parent="." instance=ExtResource("4_f7slq")]
 ability = 3
+
+[node name="ActionCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ParryTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="ParryPauseTimer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="DashCooldownTimer" type="Timer" parent="."]
 one_shot = true
@@ -55,52 +67,23 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[node name="InteractArea" type="Area2D" parent="."]
+[node name="ParryArea" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea"]
+shape = SubResource("RectangleShape2D_uty7k")
+debug_color = Color(0.607843, 0.419608, 0.87451, 0.419608)
+
+[node name="InteractArea" type="Area2D" parent="." groups=["player"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
-position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_k8y8m")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("6_hgn5j")]
-
-[node name="PointerControl" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(8, 8)
-metadata/_edit_use_anchors_ = true
-
-[node name="TextureRect" type="TextureRect" parent="PointerControl"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -8.0
-offset_top = -16.0
-offset_right = 8.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(8, 8)
-texture = ExtResource("5_ra1vb")
-stretch_mode = 2
-metadata/_edit_use_anchors_ = true
-
-[connection signal="AbilitySwappedSignal" from="." to="CanvasLayer/MainGUI" method="_on_player_ability_swapped_signal"]
+[connection signal="timeout" from="ActionCooldownTimer" to="." method="_on_action_cooldown_timer_timeout"]
+[connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]
+[connection signal="timeout" from="ParryPauseTimer" to="." method="_on_parry_pause_timer_timeout"]
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
 [connection signal="timeout" from="DashLengthTimer" to="." method="_on_dash_length_timer_timeout"]
+[connection signal="area_entered" from="ParryArea" to="." method="_on_parry_area_entered"]
 [connection signal="area_entered" from="InteractArea" to="." method="_on_interact_area_entered"]
 [connection signal="area_exited" from="InteractArea" to="." method="_on_interact_area_exited"]

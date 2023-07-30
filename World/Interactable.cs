@@ -13,10 +13,26 @@ public partial class Interactable : Area2D
 	}
 
     public virtual void Interact(){
-        GD.Print("Interacted with " + Name);
+        QueueFree();
     }
 
     public void ToggleButtonPrompt(){
         buttonPromptContainer.Visible = !buttonPromptContainer.Visible;
+    }
+
+    private void _on_area_entered(Area2D area){
+        if (area.IsInGroup("player")){
+            isInteractable = true;
+            ToggleButtonPrompt();
+            // GD.Print("in");
+        }
+    }
+
+    private void _on_area_exited(Area2D area){
+        if (area.IsInGroup("player")){
+            isInteractable = false;
+            ToggleButtonPrompt();
+            // GD.Print("out");
+        }
     }
 }

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://cag66m6037rea"]
+
+[ext_resource type="Script" path="res://Player/Abilities/Gag.cs" id="1_w0rt8"]
+[ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_3sl4o"]
+
+[node name="Gag" type="Node2D"]
+script = ExtResource("1_w0rt8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0.5, 1.5)
+rotation = 1.5708
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_3sl4o")
+flip_v = true
+region_enabled = true
+region_rect = Rect2(32, 16, 16, 16)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(0, 0, -4, -16, 4, -16)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
