@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bi07hd21ks7bn"]
+[gd_scene load_steps=19 format=3 uid="uid://bi07hd21ks7bn"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_ph4eu"]
 [ext_resource type="Texture2D" uid="uid://8bsd7e6e1ycl" path="res://Assets/Sprite_Sheet_2.png" id="2_rf4if"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c3031580lp5oq" path="res://World/JailCell.tscn" id="8_i5nyu"]
 [ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="9_mwsc6"]
 [ext_resource type="PackedScene" uid="uid://yb554ra3llqb" path="res://GUI/ChoiceMenu.tscn" id="10_343l2"]
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="11_7lpcw"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5qekt"]
 vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -293,6 +294,9 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_w0git")
 sources/1 = SubResource("TileSetAtlasSource_pgoqc")
 
+[sub_resource type="Theme" id="Theme_nmv62"]
+default_font = ExtResource("11_7lpcw")
+
 [node name="MockGeneratedRoom" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="." groups=["wall"]]
@@ -328,7 +332,7 @@ sightRange = 3.0
 attackPattern = 2
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
-patrolPoints = PackedVector2Array(0, 32, -20, 0, 0, -32, 20, 0)
+patrolPoints = PackedVector2Array(0, 60, -40, 0, 0, -60, 40, 0)
 
 [node name="Guard2" parent="." node_paths=PackedStringArray("Target", "tileMap") instance=ExtResource("3_0j5lm")]
 position = Vector2(225, 339)
@@ -378,6 +382,7 @@ position = Vector2(20, 56)
 process_mode = 3
 
 [node name="ChoiceMenu" parent="CanvasLayer" instance=ExtResource("10_343l2")]
+theme = SubResource("Theme_nmv62")
 
 [connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
 [connection signal="UpgradeChoice" from="JailCell" to="Player" method="_on_jail_cell_upgrade_choice"]

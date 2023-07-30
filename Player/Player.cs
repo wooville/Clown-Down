@@ -18,7 +18,8 @@ public partial class Player : CharacterBody2D
 	private double sillyDiminish = 0.0;
 	public bool silly = false;
 
-	public bool hasKey {get;set;} = false;
+	// public bool hasKey {get;set;} = false;
+	public int keys {get;set;} = 0;
 
 	private int selectedInteractable = 0;
 	private List<Interactable> nearbyInteractables = new List<Interactable>();
@@ -138,10 +139,10 @@ public partial class Player : CharacterBody2D
 				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
 				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
 
-				Sound newSound = (Sound) sound.Instantiate();
-				// assign sound here
-				newSound.GlobalPosition = GlobalPosition;
-				world.AddChild(newSound);
+				// Sound newSound = (Sound) sound.Instantiate();
+				// // assign sound here
+				// newSound.GlobalPosition = GlobalPosition;
+				// world.AddChild(newSound);
 
 				// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
 				canDash = false;
