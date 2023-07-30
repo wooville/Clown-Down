@@ -54,14 +54,14 @@ public partial class Player : CharacterBody2D
 	[Signal]
 	public delegate void UpdateGUIEventHandler();
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		playerSprite = GetNode<Sprite2D>("PlayerSprite");
 		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		// pointerControl = GetNode<Control>("PointerControl");
 
 		mainAbility = GetNode<AbilityNode>("MainAbility");
-        abilities[0] = GetNode<AbilityNode>("SecondaryAbility1");
+		abilities[0] = GetNode<AbilityNode>("SecondaryAbility1");
 		abilities[1] = GetNode<AbilityNode>("SecondaryAbility2");
 		abilities[2] = GetNode<AbilityNode>("SecondaryAbility3");
 
@@ -78,7 +78,7 @@ public partial class Player : CharacterBody2D
 		world = GetParent<Node2D>();
 
 		// EmitSignal(SignalName.UpdateGUI);
-    }
+	}
 
 	public override async void _Process(double delta){
 		if (silly){

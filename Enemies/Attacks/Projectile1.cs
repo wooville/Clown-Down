@@ -55,7 +55,7 @@ public partial class Projectile1 : Area2D
 	{
 		
 		foreach(String str in body.GetGroups()){
-			GD.Print(str);
+			//GD.Print(str);
 			if (str == "player"){
 				GD.Print("Hit Player");
 				//body.TakeDamage(damage);
