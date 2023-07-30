@@ -323,7 +323,7 @@ position = Vector2(580, 55)
 [node name="Guard" parent="." node_paths=PackedStringArray("Target", "tileMap") instance=ExtResource("3_0j5lm")]
 position = Vector2(107, 214)
 sightRange = 3.0
-moveSpeed = 10000.0
+moveSpeed = 15000.0
 attackPattern = 2
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
