@@ -1,30 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfx4fn2ci7ikw"]
+[gd_scene load_steps=5 format=3 uid="uid://dfx4fn2ci7ikw"]
 
+[ext_resource type="PackedScene" uid="uid://b13oypic51c26" path="res://World/Interactable.tscn" id="1_cg8he"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_dllg7"]
 [ext_resource type="Script" path="res://World/Safe.cs" id="1_o8plv"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0fplt"]
-size = Vector2(16, 16)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icsa3"]
 
-[node name="Safe" type="Area2D" groups=["interactable"]]
+[node name="Safe" instance=ExtResource("1_cg8he")]
 script = ExtResource("1_o8plv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_0fplt")
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_icsa3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" parent="." index="1"]
 texture_filter = 1
 texture = ExtResource("1_dllg7")
 region_enabled = true
 region_rect = Rect2(64, 0, 16, 16)
-
-[node name="ButtonPromptContainer" type="MarginContainer" parent="."]
-visible = false
-offset_left = -8.0
-offset_top = -40.0
-offset_right = 14.0
-
-[node name="Label" type="Label" parent="ButtonPromptContainer"]
-layout_mode = 2
-text = "A"
-horizontal_alignment = 1

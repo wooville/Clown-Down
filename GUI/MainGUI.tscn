@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
 [ext_resource type="Script" path="res://GUI/AbilityPanel.cs" id="2_nc4rm"]
-[ext_resource type="Texture2D" uid="uid://oxleo82g5x3" path="res://Assets/pointer.png" id="3_lhpti"]
+[ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="4_5a42g"]
 
 [node name="MainGUI" type="Control"]
 layout_mode = 3
@@ -35,6 +35,7 @@ size_flags_horizontal = 8
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
+ability = 2
 
 [node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel1"]
 layout_mode = 0
@@ -43,21 +44,11 @@ offset_bottom = 23.0
 horizontal_alignment = 1
 clip_text = true
 
-[node name="SelectedIndicator" type="TextureRect" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel1"]
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_left = -48.0
-offset_right = -8.0
-offset_bottom = 40.0
-rotation = 1.5708
-pivot_offset = Vector2(20, 20)
-texture = ExtResource("3_lhpti")
-
 [node name="AbilityPanel2" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
+ability = 3
 
 [node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel2"]
 layout_mode = 0
@@ -66,21 +57,11 @@ offset_bottom = 23.0
 horizontal_alignment = 1
 clip_text = true
 
-[node name="SelectedIndicator" type="TextureRect" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel2"]
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_left = -48.0
-offset_right = -8.0
-offset_bottom = 40.0
-rotation = 1.5708
-pivot_offset = Vector2(20, 20)
-texture = ExtResource("3_lhpti")
-
 [node name="AbilityPanel3" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 script = ExtResource("2_nc4rm")
+ability = 5
 
 [node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel3"]
 layout_mode = 0
@@ -88,17 +69,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 horizontal_alignment = 1
 clip_text = true
-
-[node name="SelectedIndicator" type="TextureRect" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel3"]
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_left = -48.0
-offset_right = -8.0
-offset_bottom = 40.0
-rotation = 1.5708
-pivot_offset = Vector2(20, 20)
-texture = ExtResource("3_lhpti")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="AbilityMarginContainer"]
 custom_minimum_size = Vector2(10, 0)
@@ -142,3 +112,43 @@ color = Color(1, 0.172549, 0, 1)
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(1, 0.172549, 0, 1)
+
+[node name="KeyMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 40.0
+
+[node name="KeyTexture" type="TextureRect" parent="KeyMarginContainer"]
+modulate = Color(1, 1, 1, 0.309804)
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("4_5a42g")
+flip_h = true
+
+[node name="TimerLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -48.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 40.0
+grow_horizontal = 0
+text = "0.0"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="SillyMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 192.0
+offset_right = 48.0
+offset_bottom = 352.0
+
+[node name="SillyProgressBar" type="ProgressBar" parent="SillyMarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+value = 75.0
+fill_mode = 3

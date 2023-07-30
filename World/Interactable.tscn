@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://b13oypic51c26"]
+
+[ext_resource type="Script" path="res://World/Interactable.cs" id="1_xabxd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iydqe"]
+
+[node name="Interactable" type="Area2D" groups=["interactable"]]
+script = ExtResource("1_xabxd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_iydqe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ButtonPromptContainer" type="MarginContainer" parent="."]
+visible = false
+offset_left = -8.0
+offset_top = -40.0
+offset_right = 8.0
+
+[node name="Label" type="Label" parent="ButtonPromptContainer"]
+layout_mode = 2
+text = "SPC"
+horizontal_alignment = 1
+clip_text = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
