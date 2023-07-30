@@ -7,8 +7,8 @@ public class PursueState : State
 	{
 		//run checks
 		character.CheckCanDetectPlayer();
-		if (character.CanDetectPlayer)
-			character.CheckCanSeePlayer();
+		
+		character.CheckCanSeePlayer();
 		if (character.CanSeePlayer)
 			character.CheckWithinRange();
 		character.CheckSearching();
@@ -16,22 +16,22 @@ public class PursueState : State
 		//change state
 		if (character.IsDead){
 			character.ChangeState(new DeadState());
-			GD.Print("Entered Dead State");
+			//GD.Print("Entered Dead State");
 		}
 		else if (character.IsAsleep){
 			character.ChangeState(new SleepState());
-			GD.Print("Entered Sleep State");
+			//GD.Print("Entered Sleep State");
 		}
 		else if (character.CanSeePlayer && character.WithinRange){
 			character.ChangeState(new AttackState());
-			GD.Print("Entered Attack State");
+			//GD.Print("Entered Attack State");
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
 			character.Pursue();
 		}
 		else{
 			character.ChangeState(new SearchState());
-			GD.Print("Entered Search State");
+			//GD.Print("Entered Search State");
 		}
 	}
 }

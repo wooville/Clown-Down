@@ -12,14 +12,17 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float maxHealth = 1.0f;
 	[Export] public float moveSpeed = 10.0f;
 	[Export] public float turnSpeed = 10.0f;
+	[Export] public int attackPattern = 1;
 
 
 	[Export] private Vector2 facing = new Vector2(0,1);
 	[Export] private CharacterBody2D Target;
 	[Export] private TileMap tileMap;
+	[Export] private PackedScene projectile;
 
 	private RayCast2D lineOfSight;
-	private Area2D visionCone; 
+	private Area2D visionCone;
+	private Timer attackCoolDown; 
 	private bool isControllable = true;
 	private State currentState;
 	private bool isDead = false;
@@ -32,6 +35,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private bool isAsleep = false;
 	private float currentHealth;
 	private double myDelta = 0;
+	private bool canAttack = true;
 
 	/*********** Get and Set Functions ***********/
 	public Vector2 Facing{
@@ -88,6 +92,11 @@ public partial class BasicGuardController : CharacterBody2D
 		set{myDelta = value;}
 	}
 
+	public bool CanAttack{
+		get{return canAttack;}
+		set{canAttack = value;}
+	}
+
 	private NavigationAgent2D nav;
 	public PointLight2D light {get;set;}
 	
@@ -100,10 +109,13 @@ public partial class BasicGuardController : CharacterBody2D
 		
 		lineOfSight = GetNode<RayCast2D>("LineOfSight");
 		visionCone = GetNode<Area2D>("Vision");
+		attackCoolDown = GetNode<Timer>("AttackTimer");
 
 		Vector2 visionScale = new Vector2(1,1);
 		visionScale *= sightRange; 
 		visionCone.Scale = (visionScale);
+
+
 
 		nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		nav.SetNavigationMap(tileMap.GetNavigationMap(0));
@@ -143,10 +155,12 @@ public partial class BasicGuardController : CharacterBody2D
 				//GD.Print("Can See Player");
 			}
 			else{
+				//GD.Print("cant see player");
 				CanSeePlayer = false;
 			}
 		}
 		else{
+			//GD.Print("cant see player");
 			CanSeePlayer = false;
 		}
 	}
@@ -169,7 +183,49 @@ public partial class BasicGuardController : CharacterBody2D
 	
 	/*********** Behaviours ***********/
 	public void Attack(){
-		//does nothing currently
+		//rotate vision cone
+		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
+		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+
+		if(canAttack == true){
+			CanAttack = false;
+			attackCoolDown.Start();
+			Vector2 direction = (Target.GlobalPosition - this.GlobalPosition );
+			switch(attackPattern){
+				case 1:
+					FireProjectile(direction, 0);
+					break;
+				case 2:
+					FireProjectile(direction, 0);
+					FireProjectile(direction, 0.125f);
+					FireProjectile(direction, -0.125f);
+					break;
+				case 3:
+					FireProjectile(direction, 0);
+					FireProjectile(direction, 0.25f);
+					FireProjectile(direction, -0.25f);
+					FireProjectile(direction, 0.5f);
+					FireProjectile(direction, -0.5f);
+					FireProjectile(direction, 0.75f);
+					FireProjectile(direction, -0.75f);
+					FireProjectile(direction, 1.0f);
+					break;
+
+				case 4:
+					FireProjectile(direction, 0);
+					FireProjectile(direction, 0.75f);
+					FireProjectile(direction, -0.75f);
+					FireProjectile(direction, 1.5f);
+					FireProjectile(direction, -1.5f);
+					FireProjectile(direction, 2.25f);
+					FireProjectile(direction, -2.25f);
+					FireProjectile(direction, 3.0f);
+					break;
+				default:
+					FireProjectile(direction, 0);
+					break;
+			}
+		}
 	}
 
 	public void BeIdle(){
@@ -179,15 +235,14 @@ public partial class BasicGuardController : CharacterBody2D
 
 	public void BeDead(){
 		//does nothing currently
+		QueueFree();
 	}
 	public void BeAsleep(){
 		//does nothing currently
 	}
 
 	public void Pursue(){
-		//does nothing currently
-		//visionCone.LookAt(Target.GlobalPosition);
-		//GD.Print(visionCone.GetAngleTo(Target.GlobalPosition));
+		//rotate vision cone
 		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
 		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
 
@@ -210,13 +265,21 @@ public partial class BasicGuardController : CharacterBody2D
 		//dose nothing currentlly
 	}
 
+	public void FireProjectile(Vector2 direction, float offsetAngle){
+		GD.Print("Fired");
+		Projectile1 inst = (Projectile1)projectile.Instantiate();
+		inst.Direction = direction.Rotated(offsetAngle);
+		inst.GlobalPosition = this.GlobalPosition;
+		Owner.AddChild(inst);
+	}
+
 	private void _on_vision_body_shape_entered(Rid body_rid, Node2D body, long body_shape_index, long local_shape_index)
 	{
 		
 		//Array<StringName> temp = body.GetGroups();
 		foreach(String str in body.GetGroups()){
 			if (str == "player"){
-				GD.Print("Player Entered");
+				//GD.Print("Player Entered");
 				CanDetectPlayer = true;
 			}
 		}
@@ -227,13 +290,48 @@ public partial class BasicGuardController : CharacterBody2D
 	{
 		foreach(String str in body.GetGroups()){
 			if (str == "player"){
-				GD.Print("Player Exited");
+				//GD.Print("Player Exited");
 				CanDetectPlayer = false;
 			}
 		}
 	}
+	private void _on_attack_zone_body_entered(Node2D body)
+	{
+		// Replace with function body.
+		foreach(String str in body.GetGroups()){
+			if (str == "player"){
+				//GD.Print("Player within attack range");
+				WithinRange = true;
+			}
+		}
+	}
+
+	private void _on_attack_zone_body_exited(Node2D body)
+	{
+		// Replace with function body.
+		foreach(String str in body.GetGroups()){
+			if (str == "player"){
+				//GD.Print("Player outside attack range");
+				WithinRange = false;
+			}
+		}
+	}
+
+	private void _on_attack_timer_timeout()
+	{
+		CanAttack = true;
+	}
 	
 }
+
+
+
+
+
+
+
+
+
 
 
 
