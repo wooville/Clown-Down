@@ -11,7 +11,7 @@ public class SearchState : State
 		character.CheckCanSeePlayer();
 		if (character.CanSeePlayer)
 			character.CheckWithinRange();
-		character.CheckSearching();
+		// character.CheckSearching();
 		
 		//change state
 		if (character.IsDead){
@@ -27,6 +27,8 @@ public class SearchState : State
 			GD.Print("Entered Attack State");
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
+			character.IsSearching = false;
+			character.searchTimer.Stop();
 			character.ChangeState(new PursueState());
 			GD.Print("Entered Pursue State");
 		}

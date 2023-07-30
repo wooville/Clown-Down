@@ -11,7 +11,7 @@ public class SleepState : State
 		character.CheckCanSeePlayer();
 		if (character.CanSeePlayer)
 			character.CheckWithinRange();
-		character.CheckSearching();
+		// character.CheckSearching();
 		
 		//change state
 		if (character.IsDead){
