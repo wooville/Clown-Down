@@ -1,13 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://bi07hd21ks7bn"]
+[gd_scene load_steps=17 format=3 uid="uid://bi07hd21ks7bn"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_ph4eu"]
 [ext_resource type="Texture2D" uid="uid://8bsd7e6e1ycl" path="res://Assets/Sprite_Sheet_2.png" id="2_rf4if"]
 [ext_resource type="PackedScene" uid="uid://b8j4jm5jlecfl" path="res://Enemies/BasicGuard/basicGuard.tscn" id="3_0j5lm"]
 [ext_resource type="PackedScene" uid="uid://bty2cwt3m5r25" path="res://World/OcclusionTileMap.tscn" id="3_l7maf"]
-[ext_resource type="PackedScene" uid="uid://dfx4fn2ci7ikw" path="res://World/Safe.tscn" id="4_qn57v"]
 [ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="5_lw5yr"]
 [ext_resource type="PackedScene" uid="uid://dyv5h7xhs037d" path="res://World/Key.tscn" id="6_jxnr1"]
 [ext_resource type="PackedScene" uid="uid://btf85mvudkx8x" path="res://World/Door.tscn" id="7_lff6e"]
+[ext_resource type="PackedScene" uid="uid://c3031580lp5oq" path="res://World/JailCell.tscn" id="8_i5nyu"]
+[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="9_mwsc6"]
+[ext_resource type="PackedScene" uid="uid://yb554ra3llqb" path="res://GUI/ChoiceMenu.tscn" id="10_343l2"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5a4ll"]
 vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -22,7 +24,7 @@ texture = ExtResource("1_ph4eu")
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
-1:0/0/modulate = Color(1, 0.168627, 0.168627, 1)
+1:0/0/modulate = Color(1, 0, 0, 1)
 1:0/0/z_index = -1
 1:0/0/terrain_set = 0
 1:0/0/terrain = 0
@@ -311,6 +313,7 @@ position = Vector2(98, 56)
 position = Vector2(-11, 189)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="Door" parent="." instance=ExtResource("7_lff6e")]
@@ -353,8 +356,16 @@ sightRange = 3.0
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
 
-[node name="Safe" parent="." instance=ExtResource("4_qn57v")]
-position = Vector2(585, 297)
+[node name="JailCell" parent="." instance=ExtResource("8_i5nyu")]
+position = Vector2(60, 56)
 
-[node name="Safe2" parent="." instance=ExtResource("4_qn57v")]
-position = Vector2(431, 634)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("9_mwsc6")]
+process_mode = 3
+
+[node name="ChoiceMenu" parent="CanvasLayer" instance=ExtResource("10_343l2")]
+
+[connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
+[connection signal="UpgradeChoice" from="JailCell" to="CanvasLayer/ChoiceMenu" method="_on_jail_cell_upgrade_choice"]
+[connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]

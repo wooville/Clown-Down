@@ -13,7 +13,7 @@ public partial class Player : CharacterBody2D
 	private int hp = 3;
 	private bool dashing = false;
 	private bool canDash = true;
-	private bool canParry = true;
+	private bool canPerformAction = true;
 	public int sillyProgress {get;set;} = 0;
 	private double sillyDiminish = 0.0;
 	public bool silly = false;
@@ -27,7 +27,7 @@ public partial class Player : CharacterBody2D
 	private Timer dashLengthTimer;
 	private Timer dashCooldownTimer;
 	private Timer parryTimer;
-	private Timer parryCooldownTimer;
+	private Timer actionCooldownTimer;
 	private Timer parryPauseTimer;
 	private Area2D parryArea;
 	private CollisionShape2D collisionShape;
@@ -36,6 +36,7 @@ public partial class Player : CharacterBody2D
 	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
 
 	public enum ABILITIES {NONE, GAG, HONK, DISTRACT, SPIN, STUN, BOX}
+	public enum UPGRADES {WHOOPIE_CUSHION, PIE, GUN, HORN, LOLLIPOP, FLOWER}
 	private enum SIDES {NONE, LEFT, UP, RIGHT, DOWN};
 	private SIDES parryingOnSide = SIDES.NONE;
 
@@ -68,7 +69,7 @@ public partial class Player : CharacterBody2D
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
 
 		parryTimer = GetNode<Timer>("ParryTimer");
-		parryCooldownTimer = GetNode<Timer>("ParryCooldownTimer");
+		actionCooldownTimer = GetNode<Timer>("ActionCooldownTimer");
 		parryPauseTimer = GetNode<Timer>("ParryPauseTimer");
 		parryPauseTimer.ProcessMode = Node.ProcessModeEnum.Always;
 
@@ -76,7 +77,7 @@ public partial class Player : CharacterBody2D
 
 		world = GetParent<Node2D>();
 
-		EmitSignal(SignalName.UpdateGUI);
+		// EmitSignal(SignalName.UpdateGUI);
     }
 
 	public override async void _Process(double delta){
@@ -151,34 +152,42 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (Input.IsActionJustPressed("action_left")){
-			if (silly){
-				chickenSlap(SIDES.LEFT);
-			} else if (canParry){
-				tryParryOnSide(SIDES.LEFT);
+			if (canPerformAction){
+				if (silly){
+					chickenSlap(SIDES.LEFT);
+				} else {
+					tryParryOnSide(SIDES.LEFT);
+				}
 			}
 		}
 
 		if (Input.IsActionJustPressed("action_up")){
-			if (silly){
-				chickenSlap(SIDES.UP);
-			} else if (canParry){
-				tryParryOnSide(SIDES.UP);
+			if (canPerformAction){
+				if (silly){
+					chickenSlap(SIDES.UP);
+				} else {
+					tryParryOnSide(SIDES.UP);
+				}
 			}
 		}
 
 		if (Input.IsActionJustPressed("action_right")){
-			if (silly){
-				chickenSlap(SIDES.RIGHT);
-			} else if (canParry){
-				tryParryOnSide(SIDES.RIGHT);
+			if (canPerformAction){
+				if (silly){
+					chickenSlap(SIDES.RIGHT);
+				} else {
+					tryParryOnSide(SIDES.RIGHT);
+				}
 			}
 		}
 
 		if (Input.IsActionJustPressed("action_down")){
-			if (silly){
-				chickenSlap(SIDES.DOWN);
-			} else if (canParry){
-				tryParryOnSide(SIDES.DOWN);
+			if (canPerformAction){
+				if (silly){
+					chickenSlap(SIDES.DOWN);
+				} else {
+					tryParryOnSide(SIDES.DOWN);
+				}
 			}
 		}
 
@@ -214,9 +223,9 @@ public partial class Player : CharacterBody2D
 	private void tryParryOnSide(SIDES side){
 		GD.Print("PARRY " + side);
 		if (parryTimer.IsStopped()) parryTimer.Start();
-		if (parryCooldownTimer.IsStopped()) parryCooldownTimer.Start();
+		if (actionCooldownTimer.IsStopped()) actionCooldownTimer.Start();
 
-		canParry = false;
+		canPerformAction = false;
 		parryingOnSide = side;
 		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, true);
 	}
@@ -242,8 +251,8 @@ public partial class Player : CharacterBody2D
 		parryingOnSide = SIDES.NONE;
 	}
 
-	private void _on_parry_cooldown_timer_timeout(){
-		canParry = true;
+	private void _on_action_cooldown_timer_timeout(){
+		canPerformAction = true;
 	}
 
 	private void _on_parry_pause_timer_timeout(){
@@ -281,9 +290,9 @@ public partial class Player : CharacterBody2D
 		// if (area.IsInGroup("parryable")){
 		// 	if (parrying) {
 		// 		GD.Print("parried");
-		// 		canParry = true;
+		// 		canPerformAction = true;
 		// 		sillyProgress += 10;
-		// 		parryCooldownTimer.Stop();
+		// 		actionCooldownTimer.Stop();
 		// 		parryPauseTimer.Start();
 		// 		EmitSignal(SignalName.UpdateGUI);
 		// 		GetTree().Paused = true;
@@ -293,13 +302,13 @@ public partial class Player : CharacterBody2D
 
 	private void parrySuccess(){
 		// reset for next parry
-		canParry = true;
+		canPerformAction = true;
 		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, false);
 		parryingOnSide = SIDES.NONE;
 		parryTimer.Stop();
 
 		// reset cooldown and gain meter as a reward
-		parryCooldownTimer.Stop();
+		actionCooldownTimer.Stop();
 		sillyProgress += 10;
 
 		if (sillyProgress >= 100){
@@ -376,9 +385,13 @@ public partial class Player : CharacterBody2D
 		}
 		
 		AddChild(newChicken);
+		canPerformAction = false;
+		if (actionCooldownTimer.IsStopped()) actionCooldownTimer.Start();
 	}
 
-
+	private void _on_choice_menu_upgrade_acquired(Player.UPGRADES upgrade){
+		
+	}
 }
 
 

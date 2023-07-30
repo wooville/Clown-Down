@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3031580lp5oq"]
+
+[ext_resource type="PackedScene" uid="uid://b13oypic51c26" path="res://World/Interactable.tscn" id="1_lbg05"]
+[ext_resource type="Script" path="res://World/JailCell.cs" id="2_widk6"]
+[ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="3_0uign"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icsa3"]
+
+[node name="JailCell" instance=ExtResource("1_lbg05")]
+script = ExtResource("2_widk6")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_icsa3")
+
+[node name="Sprite2D" parent="." index="1"]
+texture_filter = 1
+texture = ExtResource("3_0uign")
+region_enabled = true
+region_rect = Rect2(64, 0, 16, 16)

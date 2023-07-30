@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=8 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
 [ext_resource type="PackedScene" uid="uid://b3pqcoy352inl" path="res://Player/Abilities/AbilityNode.tscn" id="4_f7slq"]
-[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="6_hgn5j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
 size = Vector2(6, 12)
@@ -50,7 +49,7 @@ z_index = 1
 [node name="SecondaryAbility3" parent="." instance=ExtResource("4_f7slq")]
 ability = 3
 
-[node name="ParryCooldownTimer" type="Timer" parent="."]
+[node name="ActionCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="ParryTimer" type="Timer" parent="."]
@@ -79,12 +78,7 @@ debug_color = Color(0.607843, 0.419608, 0.87451, 0.419608)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
 shape = SubResource("RectangleShape2D_k8y8m")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("6_hgn5j")]
-
-[connection signal="UpdateGUI" from="." to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
-[connection signal="timeout" from="ParryCooldownTimer" to="." method="_on_parry_cooldown_timer_timeout"]
+[connection signal="timeout" from="ActionCooldownTimer" to="." method="_on_action_cooldown_timer_timeout"]
 [connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryPauseTimer" to="." method="_on_parry_pause_timer_timeout"]
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]

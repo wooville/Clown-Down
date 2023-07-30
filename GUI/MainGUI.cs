@@ -29,6 +29,9 @@ public partial class MainGUI : Control
 		sillyProgressBar = GetNode<ProgressBar>("SillyMarginContainer/SillyProgressBar");
 
 		timerActive = true;
+		updateAbilityPanels();
+		updateKeyTexture();
+		updateSillyMeter();
 	}
 
 	public override async void _Process(double delta){
