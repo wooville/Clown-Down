@@ -37,6 +37,8 @@ public partial class BasicGuardController : CharacterBody2D
 	private double myDelta = 0;
 	private bool canAttack = true;
 
+	private Vector2 lastSeen = new Vector2(0f,0f);
+
 	/*********** Get and Set Functions ***********/
 	public Vector2 Facing{
 		get{return facing;}
@@ -152,6 +154,7 @@ public partial class BasicGuardController : CharacterBody2D
 
 			if (temp == Target){
 				CanSeePlayer = true;
+				lastSeen = Target.GlobalPosition;
 				//GD.Print("Can See Player");
 			}
 			else{
