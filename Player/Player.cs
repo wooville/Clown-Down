@@ -18,7 +18,8 @@ public partial class Player : CharacterBody2D
 	private double sillyDiminish = 0.0;
 	public bool silly = false;
 
-	public bool hasKey {get;set;} = false;
+	// public bool hasKey {get;set;} = false;
+	public int keys {get;set;} = 0;
 
 	private int selectedInteractable = 0;
 	private List<Interactable> nearbyInteractables = new List<Interactable>();
@@ -34,9 +35,11 @@ public partial class Player : CharacterBody2D
 
 	public AbilityNode mainAbility {get; set;}
 	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
+	// public UPGRADES[] upgrades {get; set;} = new UPGRADES[3];
+	public List<UPGRADES> upgrades {get; set;} = new List<UPGRADES>();
 
 	public enum ABILITIES {NONE, GAG, HONK, DISTRACT, SPIN, STUN, BOX}
-	public enum UPGRADES {WHOOPIE_CUSHION, PIE, GUN, HORN, LOLLIPOP, FLOWER}
+	public enum UPGRADES {NONE, WHOOPIE_CUSHION, PIE, GUN, HORN, LOLLIPOP, FLOWER}
 	private enum SIDES {NONE, LEFT, UP, RIGHT, DOWN};
 	private SIDES parryingOnSide = SIDES.NONE;
 
@@ -90,7 +93,7 @@ public partial class Player : CharacterBody2D
 					silly = false;
 					sillyProgress = 0;
 				}
-				GD.Print(sillyProgress);
+				// GD.Print(sillyProgress);
 				EmitSignal(SignalName.UpdateGUI);
 			}
 		}
@@ -136,10 +139,10 @@ public partial class Player : CharacterBody2D
 				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
 				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
 
-				Sound newSound = (Sound) sound.Instantiate();
-				// assign sound here
-				newSound.GlobalPosition = GlobalPosition;
-				world.AddChild(newSound);
+				// Sound newSound = (Sound) sound.Instantiate();
+				// // assign sound here
+				// newSound.GlobalPosition = GlobalPosition;
+				// world.AddChild(newSound);
 
 				// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
 				canDash = false;
@@ -257,6 +260,7 @@ public partial class Player : CharacterBody2D
 
 	private void _on_parry_pause_timer_timeout(){
 		GetTree().Paused = false;
+		// GD.Print("test");
 	}
 
 	private void _on_dash_length_timer_timeout(){
@@ -394,8 +398,13 @@ public partial class Player : CharacterBody2D
 		if (actionCooldownTimer.IsStopped()) actionCooldownTimer.Start();
 	}
 
+	private void _on_jail_cell_upgrade_choice(UPGRADES choice1, UPGRADES choice2){
+		if (!parryPauseTimer.IsStopped()) parryPauseTimer.Stop();
+	}
+
 	private void _on_choice_menu_upgrade_acquired(Player.UPGRADES upgrade){
-		
+		upgrades.Add(upgrade);
+		EmitSignal(SignalName.UpdateGUI);
 	}
 }
 

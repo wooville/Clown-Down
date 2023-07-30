@@ -12,10 +12,10 @@ public partial class Door : Interactable
 	}
 
 	public override void Interact(){
-		if (player.hasKey) {
-			GetTree().ChangeSceneToFile("res://GUI/MainMenu.tscn");
-		} else {
-			GD.Print("Get that key!");
-		}
+		// if (player.hasKey) {
+		GetTree().ChangeSceneToFile("res://GUI/MainMenu.tscn");
+		// } else {
+		// 	GD.Print("Get that key!");
+		// }
 	}
 }

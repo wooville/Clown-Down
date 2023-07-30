@@ -14,11 +14,12 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float turnSpeed = 10.0f;
 	[Export] public int attackPattern = 1;
 
-
 	[Export] private Vector2 facing = new Vector2(0,1);
 	[Export] private CharacterBody2D Target;
 	[Export] private TileMap tileMap;
 	[Export] private PackedScene projectile;
+
+	[Export] private Vector2[] patrolPoints;
 
 	private RayCast2D lineOfSight;
 	private Area2D visionCone;
@@ -29,7 +30,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private bool canSeePlayer = false;
 	private bool canDetectPlayer = false;
 	private bool withinRange = false;
-	private float searchTimer = 0.0f; 
+	// private float searchTimer = 0.0f; 
 	private bool isSearching = false;
 	private float sleepTimer = 0.0f;
 	private bool isAsleep = false;
@@ -38,6 +39,9 @@ public partial class BasicGuardController : CharacterBody2D
 	private bool canAttack = true;
 
 	private Vector2 lastSeen = new Vector2(0f,0f);
+	private Vector2 startingPosition;
+	private Vector2 nextPatrolTarget;
+	private int currentPatrolIndex;
 
 	/*********** Get and Set Functions ***********/
 	public Vector2 Facing{
@@ -69,10 +73,10 @@ public partial class BasicGuardController : CharacterBody2D
 		set{withinRange = value;}
 	} 
 
-	public float SearchTimer{
-		get{return searchTimer;}
-		set{searchTimer = value;}
-	}
+	// public float SearchTimer{
+	// 	get{return searchTimer;}
+	// 	set{searchTimer = value;}
+	// }
 
 	public bool IsSearching{
 		get{return isSearching;}
@@ -101,6 +105,7 @@ public partial class BasicGuardController : CharacterBody2D
 
 	private NavigationAgent2D nav;
 	public PointLight2D light {get;set;}
+	public Timer searchTimer {get;set;}
 	
 	/*********** Godot Functions ************/
 
@@ -123,16 +128,31 @@ public partial class BasicGuardController : CharacterBody2D
 		nav.SetNavigationMap(tileMap.GetNavigationMap(0));
 
 		light = GetNode<PointLight2D>("PointLight2D");
+
+		if (patrolPoints == null) patrolPoints = new Vector2[] {Vector2.Zero}; 
+		startingPosition = GlobalPosition.Round();
+		nextPatrolTarget = GlobalPosition.Round() + patrolPoints[0];
+
+		searchTimer = GetNode<Timer>("SearchTimer");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		MyDelta = delta;
+		// MyDelta = delta;
 
 		if (!isControllable)
 			return;
 		currentState.Execute(this);
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		MyDelta = delta;
+
+		// if (!isControllable)
+		// 	return;
+		// currentState.Execute(this);
 	}
 
 	/*********** Update Functions ***********/
@@ -173,10 +193,10 @@ public partial class BasicGuardController : CharacterBody2D
 	}
 
 	public void CheckSearching(){
-		if (searchTimer > 0.0f)
-			isSearching = true;
-		else
-			isSearching = false; 
+		if (searchTimer.IsStopped())
+			isSearching = false;
+		// else
+		// 	isSearching = false; 
 	}
 
 	//changes current state
@@ -234,6 +254,27 @@ public partial class BasicGuardController : CharacterBody2D
 	public void BeIdle(){
 		//does nothing when idle
 		// GD.Print("idle");
+		if (patrolPoints[currentPatrolIndex] != Vector2.Zero){
+			float angle = visionCone.GetAngleTo(nextPatrolTarget) - 1.5f;
+			visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+
+			// move to next patrol point after reaching target
+			if ((GlobalPosition - nextPatrolTarget).Round().IsZeroApprox()){
+				currentPatrolIndex++;
+				currentPatrolIndex %= patrolPoints.Length;
+				startingPosition = GlobalPosition.Round();
+				nextPatrolTarget = startingPosition + patrolPoints[currentPatrolIndex];
+				// GD.Print(nextPatrolTarget);
+			}
+
+			nav.TargetPosition = nextPatrolTarget;
+			
+			var direction = nav.GetNextPathPosition() - GlobalPosition;
+			direction = direction.Normalized();
+			Velocity = direction *( (float)MyDelta * moveSpeed);
+			MoveAndSlide();
+		}
+		
 	}
 
 	public void BeDead(){
@@ -249,14 +290,14 @@ public partial class BasicGuardController : CharacterBody2D
 		float angle = visionCone.GetAngleTo(Target.GlobalPosition) - 1.5f;
 		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
 
-		/*
+		
 		nav.TargetPosition = Target.GlobalPosition;
 		
 		var direction = nav.GetNextPathPosition() - GlobalPosition;
 		direction = direction.Normalized();
-		Velocity = direction*moveSpeed;
-		*/
-		Velocity = ( Target.GlobalPosition - this.GlobalPosition ).Normalized() *( (float)MyDelta * moveSpeed);
+		Velocity = direction*( (float)MyDelta * moveSpeed);;
+		
+		// Velocity = ( Target.GlobalPosition - this.GlobalPosition ).Normalized() *( (float)MyDelta * moveSpeed);
 
 		
 
@@ -265,7 +306,16 @@ public partial class BasicGuardController : CharacterBody2D
 	}
 
 	public void Search(){
-		//dose nothing currentlly
+		float angle = visionCone.GetAngleTo(lastSeen) - 1.5f;
+		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+
+		nav.TargetPosition = lastSeen;
+		
+		var direction = nav.GetNextPathPosition() - GlobalPosition;
+		direction = direction.Normalized();
+		Velocity = direction*( (float)MyDelta * moveSpeed);;
+
+		MoveAndSlide();
 	}
 
 	public void FireProjectile(Vector2 direction, float offsetAngle){
@@ -324,7 +374,11 @@ public partial class BasicGuardController : CharacterBody2D
 	{
 		CanAttack = true;
 	}
-	
+
+	private void _on_search_timer_timeout(){
+		isSearching = false;
+		GD.Print("done");
+	}
 }
 
 

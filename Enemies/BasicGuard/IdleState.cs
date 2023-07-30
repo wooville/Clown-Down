@@ -12,7 +12,7 @@ public class IdleState : State
 		
 		if (character.CanSeePlayer)
 			character.CheckWithinRange();
-		character.CheckSearching();
+		// character.CheckSearching();
 
 		//change state
 		if (character.IsDead){
