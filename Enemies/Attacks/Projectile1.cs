@@ -4,7 +4,7 @@ using System;
 public partial class Projectile1 : Area2D
 {
 	[Export] public float speed = 40.0f;
-	[Export] public float damage = 1.0f;
+	[Export] public int damage = 1;
 	[Export] public int numBounces = 0;
 
 	private Vector2 direction = new Vector2(0,1);
@@ -35,7 +35,7 @@ public partial class Projectile1 : Area2D
 	private void _on_area_entered(Area2D area)
 	{
 		foreach(String str in area.GetGroups()){
-			GD.Print(str);
+			//GD.Print(str);
 			/*
 			if(str == "wall" && numBounces > 0){
 				GD.Print("Hit wall and bounced");
@@ -57,15 +57,15 @@ public partial class Projectile1 : Area2D
 		foreach(String str in body.GetGroups()){
 			//GD.Print(str);
 			if (str == "player"){
-				GD.Print("Hit Player");
-				//body.TakeDamage(damage);
+				//GD.Print("Hit Player");
+				((Player)body).TakeDamage(damage);
 				QueueFree();
 			}
 			else if(str == "wall" && numBounces > 0){
-				GD.Print("Hit wall and bounced");
+				//GD.Print("Hit wall and bounced");
 			}
 			else if (str == "wall"){
-				GD.Print("Hit wall and broke");
+				//GD.Print("Hit wall and broke");
 				QueueFree();
 			}
 		}

@@ -283,6 +283,11 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+	public void TakeDamage(int damage){
+		hp -= damage;
+		GD.Print(hp);
+	}
+
 	// private void _on_pointer_area_entered(Area2D area){
 	// 	if (area.IsInGroup("enemy")) {
 	// 		GD.Print("yeah");
