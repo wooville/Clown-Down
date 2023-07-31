@@ -9,7 +9,7 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float attackDuration = 1.0f;
 	[Export] public float searchDuration = 2.0f;
 	[Export] public float sleepDuration = 1.0f;
-	[Export] public float maxHealth = 1.0f;
+	[Export] public int maxHealth = 1;
 	[Export] public float moveSpeed = 10.0f;
 	[Export] public float turnSpeed = 10.0f;
 	[Export] public int attackPattern = 1;
@@ -18,23 +18,23 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] private CharacterBody2D Target;
 	[Export] private TileMap tileMap;
 	[Export] private PackedScene projectile;
-
 	[Export] private Vector2[] patrolPoints;
 
 	private RayCast2D lineOfSight;
 	private Area2D visionCone;
-	private Timer attackCoolDown; 
+	private Timer attackCoolDown;
+	private Timer alertTimer; 
 	private bool isControllable = true;
 	private State currentState;
 	private bool isDead = false;
 	private bool canSeePlayer = false;
 	private bool canDetectPlayer = false;
 	private bool withinRange = false;
-	// private float searchTimer = 0.0f; 
+	private bool isAlert = false; 
 	private bool isSearching = false;
 	private float sleepTimer = 0.0f;
 	private bool isAsleep = false;
-	private float currentHealth;
+	private int currentHealth;
 	private double myDelta = 0;
 	private bool canAttack = true;
 
@@ -103,6 +103,11 @@ public partial class BasicGuardController : CharacterBody2D
 		set{canAttack = value;}
 	}
 
+	public bool IsAlert{
+		get{return isAlert;}
+		set{isAlert = value;}
+	}
+
 	private NavigationAgent2D nav;
 	public PointLight2D light {get;set;}
 	public Timer searchTimer {get;set;}
@@ -113,10 +118,12 @@ public partial class BasicGuardController : CharacterBody2D
 	public override void _Ready()
 	{
 		ChangeState(new IdleState());
+		currentHealth = maxHealth;
 		
 		lineOfSight = GetNode<RayCast2D>("LineOfSight");
 		visionCone = GetNode<Area2D>("Vision");
 		attackCoolDown = GetNode<Timer>("AttackTimer");
+		alertTimer = GetNode<Timer>("AlertTimer");
 
 		Vector2 visionScale = new Vector2(1,1);
 		visionScale *= sightRange; 
@@ -197,6 +204,27 @@ public partial class BasicGuardController : CharacterBody2D
 			isSearching = false;
 		// else
 		// 	isSearching = false; 
+	}
+
+	public void StartSearch(){
+		IsSearching = true;
+		if (searchTimer.IsStopped())
+			searchTimer.Start();
+	}
+	public void EndSearch(){
+		IsSearching = false;
+		searchTimer.Stop();
+	}
+
+	public void StartAlert(){
+		IsAlert = true;
+		if(alertTimer.IsStopped())
+			alertTimer.Start();
+	}
+
+	public void EndAlert(){
+		IsAlert = false;
+		alertTimer.Stop();
 	}
 
 	//changes current state
@@ -318,6 +346,10 @@ public partial class BasicGuardController : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	public void BeAlert(){
+		float angle =  0.125f;
+		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+	}
 	public void FireProjectile(Vector2 direction, float offsetAngle){
 		GD.Print("Fired");
 		Projectile1 inst = (Projectile1)projectile.Instantiate();
@@ -326,9 +358,15 @@ public partial class BasicGuardController : CharacterBody2D
 		Owner.AddChild(inst);
 	}
 
+	public void takeDamage(int damage){
+		currentHealth -= damage;
+		if(currentHealth <= 0){
+			isDead = true;
+		}
+	}
+
 	private void _on_vision_body_shape_entered(Rid body_rid, Node2D body, long body_shape_index, long local_shape_index)
 	{
-		
 		//Array<StringName> temp = body.GetGroups();
 		foreach(String str in body.GetGroups()){
 			if (str == "player"){
@@ -379,25 +417,12 @@ public partial class BasicGuardController : CharacterBody2D
 		isSearching = false;
 		GD.Print("done");
 	}
+
+	private void _on_alert_timer_timeout()
+	{
+		isAlert = false;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

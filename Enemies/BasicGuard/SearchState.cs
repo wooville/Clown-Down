@@ -16,19 +16,21 @@ public class SearchState : State
 		//change state
 		if (character.IsDead){
 			character.ChangeState(new DeadState());
+			character.EndSearch();
 			GD.Print("Entered Dead State");
 		}
 		else if (character.IsAsleep){
 			character.ChangeState(new SleepState());
+			character.EndSearch();
 			GD.Print("Entered Sleep State");
 		}
 		else if (character.CanSeePlayer && character.WithinRange){
+			character.EndSearch();
 			character.ChangeState(new AttackState());
 			GD.Print("Entered Attack State");
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
-			character.IsSearching = false;
-			character.searchTimer.Stop();
+			character.EndSearch();
 			character.ChangeState(new PursueState());
 			GD.Print("Entered Pursue State");
 		}
@@ -36,8 +38,9 @@ public class SearchState : State
 			character.Search();
 		}
 		else{
-			character.ChangeState(new IdleState());
-			GD.Print("Entered Idle State");
+			character.StartAlert();
+			character.ChangeState(new AlertState());
+			GD.Print("Entered Alert State");
 		}
 	}
 }

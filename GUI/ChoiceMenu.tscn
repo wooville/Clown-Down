@@ -73,6 +73,7 @@ texture = SubResource("CanvasTexture_4aeph")
 [node name="ColorRect" type="ColorRect" parent="ChoiceControl1"]
 visible = false
 z_index = -1
+custom_minimum_size = Vector2(180, 200)
 layout_mode = 0
 offset_right = 180.0
 offset_bottom = 200.0
@@ -135,6 +136,8 @@ texture = SubResource("CanvasTexture_4aeph")
 [node name="ColorRect" type="ColorRect" parent="ChoiceControl2"]
 visible = false
 z_index = -1
+custom_minimum_size = Vector2(180, 200)
+layout_mode = 0
 offset_right = 180.0
 offset_bottom = 200.0
 color = Color(1, 0, 0, 1)

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class AttackState : State
+public class AlertState : State
 {
 	public override void Execute(BasicGuardController character)
 	{
@@ -14,25 +14,31 @@ public class AttackState : State
 		
 		//change state
 		if (character.IsDead){
+            character.EndAlert();
 			character.ChangeState(new DeadState());
 			//GD.Print("Entered Dead State");
 		}
 		else if (character.IsAsleep){
+            character.EndAlert();
 			character.ChangeState(new SleepState());
 			//GD.Print("Entered Sleep State");
 		}
 		else if (character.CanSeePlayer && character.WithinRange){
-			character.Attack();
+            character.EndAlert();
+			character.ChangeState(new AttackState());
 			
 		}
 		else if (character.CanDetectPlayer && character.CanSeePlayer){
+            character.EndAlert();
 			character.ChangeState(new PursueState());
 			//GD.Print("Entered Pursue State");
 		}
+        else if (character.IsAlert){
+            character.BeAlert();
+        }
 		else{
-			character.StartSearch();
-			character.ChangeState(new SearchState());
-			//GD.Print("Entered Search State");
+			character.ChangeState(new IdleState());
+			//GD.Print("Entered Idle State");
 		}
 	}
 }

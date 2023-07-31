@@ -30,8 +30,7 @@ public class PursueState : State
 			character.Pursue();
 		}
 		else{
-			character.IsSearching = true;
-			if (character.searchTimer.IsStopped()) character.searchTimer.Start();
+			character.StartSearch();
 			character.ChangeState(new SearchState());
 			//GD.Print("Entered Search State");
 		}
