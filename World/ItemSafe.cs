@@ -9,6 +9,7 @@ public partial class ItemSafe : Interactable
 	private Player player;
 
 	public override void _Ready(){
+		base._Ready();
 		player = (Player) GetTree().GetFirstNodeInGroup("player");
 	}
 
