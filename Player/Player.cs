@@ -48,7 +48,7 @@ public partial class Player : CharacterBody2D
 
 	private PackedScene sound = (PackedScene) ResourceLoader.Load("res://World/Sound.tscn");
 	private PackedScene chicken = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Chicken.tscn");
-	private PackedScene pie = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Chicken.tscn");
+	private PackedScene pie = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Pie.tscn");
 
 	private Node2D world;
 
@@ -311,7 +311,11 @@ public partial class Player : CharacterBody2D
 
 		// reset cooldown and gain meter as a reward
 		actionCooldownTimer.Stop();
-		sillyProgress += 10;
+		if (upgrades.Contains(UPGRADES.HORN)){
+			sillyProgress += 20;
+		} else {
+			sillyProgress += 10;
+		}
 
 		if (sillyProgress >= 100){
 			sillyProgress = 100;
@@ -386,7 +390,7 @@ public partial class Player : CharacterBody2D
 
 	private void sillyAttack(SIDES side){
 		if (upgrades.Contains(UPGRADES.PIE)){
-
+			throwPie(side);
 		} else {
 			chickenSlap(side);
 		}
@@ -395,30 +399,34 @@ public partial class Player : CharacterBody2D
 	}
 
 	private void throwPie(SIDES side){
-		Node2D newPie = pie.Instantiate<Node2D>();
+		Pie newPie = pie.Instantiate<Pie>();
 		// newHonk.Position = GlobalPosition;
 		switch (side){
 			case SIDES.LEFT:
 				newPie.RotationDegrees = -90;
+				newPie.direction = Vector2.Left;
 				// newChicken.Position -= collisionShape.GetTransform().X / 2;
 				break;
 			case SIDES.UP:
 				newPie.RotationDegrees = 0;
+				newPie.direction = Vector2.Up;
 				// newPie.Position -= collisionShape.GetTransform().Y / 2;
 				break;
 			case SIDES.RIGHT:
 				newPie.RotationDegrees = 90;
+				newPie.direction = Vector2.Right;
 				// newChicken.Position += collisionShape.GetTransform().X / 2;
 				break;
 			case SIDES.DOWN:
 				newPie.RotationDegrees = 180;
+				newPie.direction = Vector2.Down;
 				// newChicken.Position += collisionShape.GetTransform().Y / 2;
 				break;
 		}
 
-		if (upgrades.Contains(UPGRADES.HORN)){
-			newPie.Scale *= 1.5f;
-		}
+		// if (upgrades.Contains(UPGRADES.HORN)){
+		// 	newPie.Scale *= 2f;
+		// }
 		
 		AddChild(newPie);
 	}
@@ -445,9 +453,9 @@ public partial class Player : CharacterBody2D
 				break;
 		}
 
-		if (upgrades.Contains(UPGRADES.HORN)){
-			newChicken.Scale *= 1.5f;
-		}
+		// if (upgrades.Contains(UPGRADES.HORN)){
+		// 	newChicken.Scale *= 2f;
+		// }
 		
 		AddChild(newChicken);
 	}
