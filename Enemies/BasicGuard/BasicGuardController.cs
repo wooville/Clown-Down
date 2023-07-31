@@ -9,7 +9,7 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float attackDuration = 1.0f;
 	[Export] public float searchDuration = 2.0f;
 	[Export] public float sleepDuration = 1.0f;
-	[Export] public float maxHealth = 1.0f;
+	[Export] public int maxHealth = 1;
 	[Export] public float moveSpeed = 10.0f;
 	[Export] public float turnSpeed = 10.0f;
 	[Export] public int attackPattern = 1;
@@ -34,7 +34,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private bool isSearching = false;
 	private float sleepTimer = 0.0f;
 	private bool isAsleep = false;
-	private float currentHealth;
+	public int currentHealth = 1;
 	private double myDelta = 0;
 	private bool canAttack = true;
 
@@ -378,6 +378,14 @@ public partial class BasicGuardController : CharacterBody2D
 	private void _on_search_timer_timeout(){
 		isSearching = false;
 		GD.Print("done");
+	}
+
+	public void TakeDamage(int damage){
+		currentHealth -= damage;
+
+		if (currentHealth <= 0){
+			isDead = true;
+		}
 	}
 }
 

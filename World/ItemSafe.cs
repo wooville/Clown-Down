@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class JailCell : Interactable
+public partial class ItemSafe : Interactable
 {
 	[Signal]
 	public delegate void UpgradeChoiceEventHandler(Player.UPGRADES choice1, Player.UPGRADES choice2);

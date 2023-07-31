@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="5_lw5yr"]
 [ext_resource type="PackedScene" uid="uid://dyv5h7xhs037d" path="res://World/Key.tscn" id="6_jxnr1"]
 [ext_resource type="PackedScene" uid="uid://btf85mvudkx8x" path="res://World/Door.tscn" id="7_lff6e"]
-[ext_resource type="PackedScene" uid="uid://c3031580lp5oq" path="res://World/JailCell.tscn" id="8_i5nyu"]
+[ext_resource type="PackedScene" uid="uid://c3031580lp5oq" path="res://World/ItemSafe.tscn" id="8_i5nyu"]
 [ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="9_mwsc6"]
 [ext_resource type="PackedScene" uid="uid://yb554ra3llqb" path="res://GUI/ChoiceMenu.tscn" id="10_343l2"]
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="11_7lpcw"]
@@ -360,18 +360,6 @@ sightRange = 3.0
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
 
-[node name="JailCell" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(60, 56)
-
-[node name="JailCell2" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(60, 90)
-
-[node name="JailCell3" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(20, 90)
-
-[node name="JailCell4" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(20, 56)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MainGUI" parent="CanvasLayer" instance=ExtResource("9_mwsc6")]
@@ -382,14 +370,22 @@ theme = SubResource("Theme_nmv62")
 
 [node name="GameOverGUI" parent="CanvasLayer" instance=ExtResource("12_jr2ny")]
 
+[node name="ItemSafe" parent="." instance=ExtResource("8_i5nyu")]
+position = Vector2(46, 56)
+
+[node name="ItemSafe2" parent="." instance=ExtResource("8_i5nyu")]
+position = Vector2(13, 57)
+
+[node name="ItemSafe3" parent="." instance=ExtResource("8_i5nyu")]
+position = Vector2(68, 103)
+
+[node name="ItemSafe4" parent="." instance=ExtResource("8_i5nyu")]
+position = Vector2(18, 97)
+
 [connection signal="Died" from="Player" to="CanvasLayer/GameOverGUI" method="_on_player_died"]
 [connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
-[connection signal="UpgradeChoice" from="JailCell" to="Player" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell" to="CanvasLayer/ChoiceMenu" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell2" to="Player" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell2" to="CanvasLayer/ChoiceMenu" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell3" to="Player" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell3" to="CanvasLayer/ChoiceMenu" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell4" to="Player" method="_on_jail_cell_upgrade_choice"]
-[connection signal="UpgradeChoice" from="JailCell4" to="CanvasLayer/ChoiceMenu" method="_on_jail_cell_upgrade_choice"]
 [connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]
+[connection signal="UpgradeChoice" from="ItemSafe" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
+[connection signal="UpgradeChoice" from="ItemSafe2" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
+[connection signal="UpgradeChoice" from="ItemSafe3" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
+[connection signal="UpgradeChoice" from="ItemSafe4" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]

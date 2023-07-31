@@ -6,6 +6,7 @@ public partial class Projectile1 : Area2D
 	[Export] public float speed = 40.0f;
 	[Export] public int damage = 1;
 	[Export] public int numBounces = 0;
+	private bool parryRedirected = false;
 
 	private Vector2 direction = new Vector2(0,1);
 
@@ -56,9 +57,13 @@ public partial class Projectile1 : Area2D
 		
 		foreach(String str in body.GetGroups()){
 			//GD.Print(str);
-			if (str == "player"){
+			if (str == "player" && !parryRedirected){
 				//GD.Print("Hit Player");
 				((Player)body).TakeDamage(damage);
+				QueueFree();
+			}
+			else if (str == "enemy" && parryRedirected){
+				((BasicGuardController)body).TakeDamage(damage);
 				QueueFree();
 			}
 			else if(str == "wall" && numBounces > 0){
@@ -70,6 +75,27 @@ public partial class Projectile1 : Area2D
 			}
 		}
 		
+	}
+
+	public void redirectProjectile(Player.SIDES side){
+		parryRedirected = true;
+		GD.Print(side);
+		switch (side){
+			case Player.SIDES.LEFT:
+				direction = Vector2.Left;
+				break;
+			case Player.SIDES.UP:
+				direction = Vector2.Up;
+				break;
+			case Player.SIDES.RIGHT:
+				direction = Vector2.Right;
+				break;
+			case Player.SIDES.DOWN:
+				direction = Vector2.Down;
+				break;
+		}
+		// direction *= -1;
+		speed *= 1.5f;
 	}
 }
 

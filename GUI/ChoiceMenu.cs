@@ -45,7 +45,7 @@ public partial class ChoiceMenu : Control
 		}
 	}
 
-	private void _on_jail_cell_upgrade_choice(Player.UPGRADES choice1, Player.UPGRADES choice2){
+	private void _on_item_safe_upgrade_choice(Player.UPGRADES choice1, Player.UPGRADES choice2){
 		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
 		choiceControl1.upgrade = choice1;
 		choiceControl2.upgrade = choice2;
