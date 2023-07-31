@@ -7,16 +7,17 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public float speed = 60.0f;
 	[Export]
-	public float dashSpeed = 3.0f;
-	[Export]
 	public float sillySpeed = 100.0f;
-	private int hp = 3;
+	[Export]
+	public float dashSpeed = 3.0f;
+	
+	public int hp = 3;
 	private bool dashing = false;
 	private bool canDash = true;
 	private bool canPerformAction = true;
 	public int sillyProgress {get;set;} = 0;
 	private double sillyDiminish = 0.0;
-	public bool silly = false;
+	public bool silly = false;	// "silly mode" - allows user to attack guards when sillyProgress reaches 100 from parrying
 
 	// public bool hasKey {get;set;} = false;
 	public int keys {get;set;} = 0;
@@ -34,7 +35,7 @@ public partial class Player : CharacterBody2D
 	private CollisionShape2D collisionShape;
 
 	public AbilityNode mainAbility {get; set;}
-	public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
+	// public AbilityNode[] abilities {get; set;} = new AbilityNode[3];
 	// public UPGRADES[] upgrades {get; set;} = new UPGRADES[3];
 	public List<UPGRADES> upgrades {get; set;} = new List<UPGRADES>();
 
@@ -49,11 +50,8 @@ public partial class Player : CharacterBody2D
 
 	// private PackedScene parry = (PackedScene) ResourceLoader.Load("res://Player/Abilities/Parry.tscn");
 
-
 	[Signal]
-	public delegate void HealthChangedEventHandler(int newHealth);
-	[Signal]
-	public delegate void DiedSignalEventHandler();
+	public delegate void DiedEventHandler();
 	[Signal]
 	public delegate void UpdateGUIEventHandler();
 
@@ -63,10 +61,10 @@ public partial class Player : CharacterBody2D
 		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		// pointerControl = GetNode<Control>("PointerControl");
 
-		mainAbility = GetNode<AbilityNode>("MainAbility");
-		abilities[0] = GetNode<AbilityNode>("SecondaryAbility1");
-		abilities[1] = GetNode<AbilityNode>("SecondaryAbility2");
-		abilities[2] = GetNode<AbilityNode>("SecondaryAbility3");
+		// mainAbility = GetNode<AbilityNode>("MainAbility");
+		// abilities[0] = GetNode<AbilityNode>("SecondaryAbility1");
+		// abilities[1] = GetNode<AbilityNode>("SecondaryAbility2");
+		// abilities[2] = GetNode<AbilityNode>("SecondaryAbility3");
 
 		dashLengthTimer = GetNode<Timer>("DashLengthTimer");
 		dashCooldownTimer = GetNode<Timer>("DashCooldownTimer");
@@ -105,19 +103,6 @@ public partial class Player : CharacterBody2D
 		Vector2 velocity = Velocity;
 		Vector2 dashDirection = Vector2.Zero;
 
-		if (Input.IsActionJustPressed("use_main_ability")){
-			if (mainAbility.canUseAbility){
-				mainAbility.UseAbility();
-			}
-		}
-
-		if (Input.IsActionJustPressed("use_secondary_ability")){
-			if (abilities[abilities.Length-1].canUseAbility){
-				abilities[abilities.Length-1].UseAbility();
-			}
-			EmitSignal(SignalName.UpdateGUI);
-		}
-
 		// Get the input direction and handle the movement/deceleration
 		Vector2 direction = Input.GetVector("left", "right", "up", "down");
 		
@@ -126,12 +111,12 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("dash_interact")){
 			// interact with object if possible
 			if (nearbyInteractables.Count > 0){
-				if (nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup")){
-					if (abilities[0].ability == Player.ABILITIES.NONE) tryQueueAbility();
-					else GD.Print("abilities full");
-				} else {
-					nearbyInteractables[selectedInteractable].Interact();
-				}
+				// if (nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup")){
+				// 	if (abilities[0].ability == Player.ABILITIES.NONE) tryQueueAbility();
+				// 	else GD.Print("abilities full");
+				// } else {
+				nearbyInteractables[selectedInteractable].Interact();
+				// }
 			}
 			// dash will speed up movement for very short duration
 			else if (canDash){
@@ -233,21 +218,21 @@ public partial class Player : CharacterBody2D
 		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, true);
 	}
 
-	private void tryQueueAbility(){
-		if (nearbyInteractables[selectedInteractable] != null && nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
-			// var nearbyPickup = (AbilityPickup) nearbyInteractable;
-			var nearbyPickup = (AbilityPickup) nearbyInteractables[selectedInteractable];
+	// private void tryQueueAbility(){
+	// 	if (nearbyInteractables[selectedInteractable] != null && nearbyInteractables[selectedInteractable].IsInGroup("ability_pickup") && abilities[0].ability == Player.ABILITIES.NONE){
+	// 		// var nearbyPickup = (AbilityPickup) nearbyInteractable;
+	// 		var nearbyPickup = (AbilityPickup) nearbyInteractables[selectedInteractable];
 			
-			// put ability in first available slot from the bottom (end)
-			for (int i = abilities.Length-1; i >= 0 ; i--){
-				if (abilities[i].ability == ABILITIES.NONE){
-					abilities[i].ability = nearbyPickup.ability;
-					nearbyPickup.Interact();
-					break;
-				}
-			}
-		}
-	}
+	// 		// put ability in first available slot from the bottom (end)
+	// 		for (int i = abilities.Length-1; i >= 0 ; i--){
+	// 			if (abilities[i].ability == ABILITIES.NONE){
+	// 				abilities[i].ability = nearbyPickup.ability;
+	// 				nearbyPickup.Interact();
+	// 				break;
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	private void _on_parry_timer_timeout(){
 		parryArea.SetDeferred(Area2D.PropertyName.Monitoring, false);
@@ -289,7 +274,13 @@ public partial class Player : CharacterBody2D
 
 	public void TakeDamage(int damage){
 		hp -= damage;
-		GD.Print(hp);
+		// GD.Print(hp);
+		EmitSignal(SignalName.UpdateGUI);
+
+		if (hp <= 0){
+			GetTree().Paused = true;
+			EmitSignal(SignalName.Died);
+		}
 	}
 
 	// private void _on_pointer_area_entered(Area2D area){
@@ -403,6 +394,7 @@ public partial class Player : CharacterBody2D
 	}
 
 	private void _on_choice_menu_upgrade_acquired(Player.UPGRADES upgrade){
+		GD.Print("what");
 		upgrades.Add(upgrade);
 		EmitSignal(SignalName.UpdateGUI);
 	}

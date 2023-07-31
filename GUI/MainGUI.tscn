@@ -32,50 +32,6 @@ offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="VBoxContainerOld" type="VBoxContainer" parent="AbilityMarginContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="AbilityPanel3" type="Panel" parent="AbilityMarginContainer/VBoxContainerOld"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-ability = 5
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainerOld/AbilityPanel3"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
-[node name="AbilityPanel2" type="Panel" parent="AbilityMarginContainer/VBoxContainerOld"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-ability = 3
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainerOld/AbilityPanel2"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
-[node name="AbilityPanel1" type="Panel" parent="AbilityMarginContainer/VBoxContainerOld"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-ability = 2
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainerOld/AbilityPanel1"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
 [node name="VBoxContainer" type="VBoxContainer" parent="AbilityMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
@@ -110,26 +66,11 @@ offset_bottom = 32.0
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-color = Color(1, 0.172549, 0, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-color = Color(1, 0.172549, 0, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-color = Color(1, 0.172549, 0, 1)
-
 [node name="KeyMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 6.0
-offset_right = 52.0
+offset_right = 48.0
 offset_bottom = 38.0
 
 [node name="KeyTexture" type="TextureRect" parent="KeyMarginContainer"]
@@ -156,9 +97,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -48.0
-offset_top = 8.0
+offset_top = 12.0
 offset_right = -8.0
-offset_bottom = 40.0
+offset_bottom = 44.0
 grow_horizontal = 0
 text = "0.0"
 horizontal_alignment = 2

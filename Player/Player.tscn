@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=7 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
-[ext_resource type="PackedScene" uid="uid://b3pqcoy352inl" path="res://Player/Abilities/AbilityNode.tscn" id="4_f7slq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
 size = Vector2(6, 12)
@@ -37,18 +36,6 @@ texture = ExtResource("2_1064m")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
-
-[node name="MainAbility" parent="." instance=ExtResource("4_f7slq")]
-z_index = 1
-ability = 1
-
-[node name="SecondaryAbility1" parent="." instance=ExtResource("4_f7slq")]
-z_index = 1
-
-[node name="SecondaryAbility2" parent="." instance=ExtResource("4_f7slq")]
-
-[node name="SecondaryAbility3" parent="." instance=ExtResource("4_f7slq")]
-ability = 3
 
 [node name="ActionCooldownTimer" type="Timer" parent="."]
 one_shot = true

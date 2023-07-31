@@ -1,12 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://yb554ra3llqb"]
+[gd_scene load_steps=6 format=3 uid="uid://yb554ra3llqb"]
 
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_eak0m"]
 [ext_resource type="Script" path="res://GUI/ChoiceMenu.cs" id="1_yx8g8"]
 [ext_resource type="Script" path="res://GUI/ChoiceControl.cs" id="2_8i435"]
+
+[sub_resource type="Theme" id="Theme_0tjjj"]
+default_font = ExtResource("1_eak0m")
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_4aeph"]
 
 [node name="ChoiceMenu" type="Control"]
-process_mode = 2
+process_mode = 4
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -14,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_0tjjj")
 script = ExtResource("1_yx8g8")
 
 [node name="ChoiceControl1" type="Control" parent="."]
@@ -135,6 +140,7 @@ texture = SubResource("CanvasTexture_4aeph")
 [node name="ColorRect" type="ColorRect" parent="ChoiceControl2"]
 visible = false
 z_index = -1
+layout_mode = 0
 offset_right = 180.0
 offset_bottom = 200.0
 color = Color(1, 0, 0, 1)
