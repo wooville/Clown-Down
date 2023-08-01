@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://dopq2dk4vchws"]
+[gd_scene load_steps=14 format=3 uid="uid://djlcu3fqp0uqm"]
 
 [ext_resource type="Texture2D" uid="uid://8bsd7e6e1ycl" path="res://Assets/Sprite_Sheet_2.png" id="2_awixb"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_nyshq"]
 [ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="3_lxoh3"]
 [ext_resource type="PackedScene" uid="uid://dfx4fn2ci7ikw" path="res://World/Safe.tscn" id="4_38sjq"]
 [ext_resource type="PackedScene" uid="uid://b8j4jm5jlecfl" path="res://Enemies/BasicGuard/basicGuard.tscn" id="4_mgvf1"]
-[ext_resource type="PackedScene" uid="uid://dyv5h7xhs037d" path="res://World/Key.tscn" id="5_cv6r2"]
-[ext_resource type="PackedScene" uid="uid://btf85mvudkx8x" path="res://World/Door.tscn" id="7_xul5m"]
+[ext_resource type="PackedScene" uid="uid://cow3canwnrve3" path="res://World/Key.tscn" id="5_cv6r2"]
+[ext_resource type="PackedScene" path="res://World/Door.tscn" id="7_xul5m"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3s5dr"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)

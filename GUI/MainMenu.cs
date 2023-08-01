@@ -6,7 +6,7 @@ public partial class MainMenu : Control
 {
 	private void _on_start_button_pressed()
 	{
-		GetTree().ChangeSceneToFile("res://World/MockGeneratedRoom.tscn");
+		GetTree().ChangeSceneToFile("res://World/TestLevel.tscn");
 	}
 
 	private void _on_options_button_pressed()
