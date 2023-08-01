@@ -12,7 +12,7 @@ public partial class Key : Interactable
 	}
 
 	public override void Interact(){
-		player.hasKey = true;
+		player.keys++;
 		// EmitSignal(SignalName.);
         QueueFree();
     }

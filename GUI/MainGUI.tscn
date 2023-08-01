@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=6 format=3 uid="uid://c2gqyf401t7nr"]
 
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_kg4xl"]
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
 [ext_resource type="Script" path="res://GUI/AbilityPanel.cs" id="2_nc4rm"]
 [ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="4_5a42g"]
+
+[sub_resource type="Theme" id="Theme_bbbls"]
+default_font = ExtResource("1_kg4xl")
 
 [node name="MainGUI" type="Control"]
 layout_mode = 3
@@ -11,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_bbbls")
 script = ExtResource("1_mpsxc")
 
 [node name="AbilityMarginContainer" type="MarginContainer" parent="."]
@@ -30,47 +35,10 @@ grow_vertical = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="AbilityMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-
-[node name="AbilityPanel1" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-ability = 2
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel1"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
-[node name="AbilityPanel2" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-ability = 3
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel2"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
-[node name="AbilityPanel3" type="Panel" parent="AbilityMarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-ability = 5
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/VBoxContainer/AbilityPanel3"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
+size_flags_vertical = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="AbilityMarginContainer"]
+visible = false
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_vertical = 8
@@ -90,41 +58,38 @@ clip_text = true
 [node name="HealthMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
 offset_left = 80.0
-offset_top = 8.0
+offset_top = 12.0
 offset_right = 230.0
-offset_bottom = 28.0
+offset_bottom = 32.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HealthMarginContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-color = Color(1, 0.172549, 0, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-color = Color(1, 0.172549, 0, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="HealthMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-color = Color(1, 0.172549, 0, 1)
-
 [node name="KeyMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
+offset_top = 6.0
 offset_right = 48.0
-offset_bottom = 40.0
+offset_bottom = 38.0
 
 [node name="KeyTexture" type="TextureRect" parent="KeyMarginContainer"]
-modulate = Color(1, 1, 1, 0.309804)
 texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 texture = ExtResource("4_5a42g")
+stretch_mode = 4
 flip_h = true
+
+[node name="KeyNumberLabel" type="Label" parent="KeyMarginContainer"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 2
+vertical_alignment = 2
+clip_text = true
+uppercase = true
 
 [node name="TimerLabel" type="Label" parent="."]
 layout_mode = 1
@@ -132,9 +97,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -48.0
-offset_top = 8.0
+offset_top = 12.0
 offset_right = -8.0
-offset_bottom = 40.0
+offset_bottom = 44.0
 grow_horizontal = 0
 text = "0.0"
 horizontal_alignment = 2

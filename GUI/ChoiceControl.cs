@@ -22,9 +22,29 @@ public partial class ChoiceControl : Control
 
 	public void updateControl(){
 		switch (upgrade){
+			case Player.UPGRADES.WHOOPIE_CUSHION:
+				titleLabel.Text = "Whoopie Cushion";
+				contentLabel.Text = "Dash farther and faster";
+				break;
+			case Player.UPGRADES.PIE:
+				titleLabel.Text = "Cream Pie";
+				contentLabel.Text = "Throw pies during Silly Time";
+				break;
+			case Player.UPGRADES.GUN:
+				titleLabel.Text = "Bang Gun";
+				contentLabel.Text = "Increase parrying range";
+				break;
+			case Player.UPGRADES.HORN:
+				titleLabel.Text = "Clown Horn";
+				contentLabel.Text = "Parries give more meter";
+				break;
+			case Player.UPGRADES.LOLLIPOP:
+				titleLabel.Text = "Jumbo Lollipop";
+				contentLabel.Text = "Silly Time lasts longer";
+				break;
 			case Player.UPGRADES.FLOWER:
 				titleLabel.Text = "Water Flower";
-				contentLabel.Text = "";
+				contentLabel.Text = "Parry redirects projectiles";
 				break;
 			default:
 				titleLabel.Text = upgrade.ToString();

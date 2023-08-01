@@ -35,15 +35,18 @@ public partial class ChoiceMenu : Control
 				GetTree().Paused = false;
 				EmitSignal(SignalName.UpgradeAcquired, (int) choiceControl1.upgrade);
 				CallDeferred(MethodName.SetVisible, false);
+				CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.Disabled);
 			} else if (choiceControl2.selected){
 				GetTree().Paused = false;
 				EmitSignal(SignalName.UpgradeAcquired, (int) choiceControl2.upgrade);
 				CallDeferred(MethodName.SetVisible, false);
+				CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.Disabled);
 			}
 		}
 	}
 
-	private void _on_jail_cell_upgrade_choice(Player.UPGRADES choice1, Player.UPGRADES choice2){
+	private void _on_item_safe_upgrade_choice(Player.UPGRADES choice1, Player.UPGRADES choice2){
+		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
 		choiceControl1.upgrade = choice1;
 		choiceControl2.upgrade = choice2;
 		choiceControl1.updateControl();
