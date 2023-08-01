@@ -35,13 +35,19 @@ public partial class TestLevel : Node2D
 	[Export]
 	public Godot.TileMap map;
 
+	private PackedScene keyNode = (PackedScene) ResourceLoader.Load("res://World/Key.tscn");
+	private PackedScene enemy = (PackedScene) ResourceLoader.Load("res://Enemies/BasicGuard/basicGuard.tscn");
+	//private PackedScene jailNode = (PackedScene) ResourceLoader.Load("res://World/JailCell.tscn");
+
 	const int numOptions = 3;
 	int[,,] setUpArray;
 
-	int doorFreq = 40;
+	int doorFreq = 30;
 
 	HashSet<int> vertSpots = new HashSet<int>();
 	HashSet<int> horSpots = new HashSet<int>();
+
+	Dictionary<int,int> keyClownPairs = new Dictionary<int,int>();
 
 	public void buildWalls(int xWalls, int[] xL, int[] X, HashSet<int> checkSet, int dim) {
 		int last = 0;
@@ -61,6 +67,12 @@ public partial class TestLevel : Node2D
 			temp = random.Next(5, dim-1);
 			xL[i] = temp;
 		}
+	}
+
+	public bool suitableZoneSize(int x, int y) {
+		int[] zone = findZone(x,y);
+
+		return ((zone[0]+zone[1] >= 3 && zone[2] >=1 && zone[3] >= 1) || (zone[0] >= 1 && zone[1] >= 1 && zone[2] + zone[3] >= 3));
 	}
 
 	public void setCells(int x, int y, int val) {
@@ -95,8 +107,52 @@ public partial class TestLevel : Node2D
 		}
 	}
 
-	public void drawCLine(int x, int y, int[] zone) {
+	public void drawCloset(int x, int y, int[] zone) {
+		/*var random = new Random();
 
+		int type = random.Next(0, 4); // which way is opening facing
+
+		int hor = 0;
+		int ver = random.Next(0, zone[2]);;
+
+		if (type == 0) {
+			hor = random.Next(0, zone[0]);
+			
+		}*/
+	}
+
+	public void drawLittleL(int x, int y, int[] zone) {
+		var random = new Random();
+
+		int lr = random.Next(0, 2);
+		int ud = random.Next(0, 2);
+
+		int temp;
+		if (lr == 0) {
+			temp = random.Next(0,zone[0]);
+			for (int i = x-temp; i <= x; i++) {
+				setCells(i,y,1);
+			}
+		} else {
+			temp = random.Next(0,zone[1]);
+			for (int i = x+temp; i >= x; i--) {
+				setCells(i,y,1);
+			} 
+		}
+
+		if (ud == 0) {
+			temp = random.Next(0,zone[2]);
+			for (int i = y+temp; i >= y; i--) {
+				setCells(x,i,1);
+			}
+		} else {
+			temp = random.Next(0,zone[3]);
+			for (int i = y-temp; i <= y; i++) {
+				setCells(x,i,1);
+			} 
+		}		
+
+		
 	}
 
 	public void drawClump(int x, int y, int[] zone) {
@@ -124,7 +180,24 @@ public partial class TestLevel : Node2D
 	}
 
 	public void drawBox(int x, int y, int[] zone) {
+		var random = new Random();
 
+
+		int left = random.Next(0, zone[0]);
+		int right = random.Next(0, zone[1]);
+		int up = random.Next(0, zone[2]);
+		int down = random.Next(0, zone[3]);
+
+		GD.Print(left);
+		GD.Print(right);
+		GD.Print(up);
+		GD.Print(down);
+
+		for (int i = x-left; i < x+right; i++) {
+			for (int j = y-down; j <= y+up; j++) {
+				setCells(i,j,1);
+			}
+		}
 	}
 
 	public void drawPlus(int x, int y, int[] zone) {
@@ -195,13 +268,15 @@ public partial class TestLevel : Node2D
 		return toRet;
 	}
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
+	public void setupLevel(int iteration) {
+
+		GD.Print("Setting up");
+		
 		// Make global*(many are)***********************
-		var random = new Random();
-		width = random.Next(40,60);
-		height = random.Next(40,60);
+		var random = new Random(1);
+		double scalar = (1+iteration*0.3);
+		width = random.Next((int)(40*scalar),(int)(60*scalar));
+		height = random.Next((int)(40*scalar),(int)(60*scalar));
 
 		vertSpots.Add(0);
 		vertSpots.Add(width-1);
@@ -373,9 +448,19 @@ public partial class TestLevel : Node2D
 				}
 			}
 			if (failureCount < 100) {
-				int garbageType = random.Next(0, 2);
+				int garbageType = random.Next(0,100);
 
-				switch (garbageType) {
+				if (garbageType <= 20) {
+					drawLine(tempX,tempY,zone);
+				} else if (garbageType <= 40) {
+					drawLittleL(tempX,tempY,zone);
+				} else if (garbageType <= 60) {
+					drawBox(tempX,tempY,zone);
+				} else if (garbageType <= 70) {
+					drawClump(tempX,tempY,zone);
+				}
+
+				/*switch (garbageType) {
 					case 0:
 						drawLine(tempX,tempY,zone);
 						break;
@@ -383,64 +468,85 @@ public partial class TestLevel : Node2D
 						drawClump(tempX,tempY,zone);
 						break;
 					case 2:
+						GD.Print("Draw box");
 						drawBox(tempX,tempY,zone);
 						break;
 					case 3:
-						drawPlus(tempX,tempY,zone);
+						drawLittleL(tempX,tempY,zone);
 						break;
 
-				}
+				}*/
 
 				numGarbage--;
 			} else {
 				break;
 			}
-		}
 
-		// Cover shit in garbage
-		/*
-		int numCover = (tWalls+bWalls+lWalls+rWalls);
-		numCover = random.Next(numCover, 2*numCover);
-
-		while (numCover > 0) {
-			int coverType = random.Next(0, 3);
 			
-			if (coverType == 0) { // cluster
-				int x = random.Next(1, width-1);
-				int y = random.Next(1, height-1);
+		}
+			
 
-				if (occupied[x,y] == 0) {
+			// Add items*****************
 
-				}
-			} else if (coverType == 1) { // wall
-				while (true) {
-					int x = random.Next(1, width-1);
-					int y = random.Next(1, height-1);
 
-					int direction = random.Next(0,2);
-					int max = random.Next(1,10);
+			// Keys
+			
+			int numKeyClowns = keyClownPairs[iteration];
+			GD.Print("Num keys");
+			GD.Print(numKeyClowns);
 
-					bool crossed = false;
+			
 
-					if (occupied[x,y] == 0) {
-						while(max > 0) {
-							if (direction == 0) {
+			for (int i = 0; i < numKeyClowns; i++) {
+				GD.Print("I");
+				GD.Print(i);
+				int x = random.Next(0, width);
+				int y = random.Next(0, height);
 
-							} else {
-
-							}
-							max--;
-						}
-						break;
-					}
+				while (!suitableZoneSize(x,y)) {
+					x = random.Next(0, width);
+					y = random.Next(0, height);
 				}
 
-			} else if (coverType == 2) { // T
-
+				var newKey = (Key) keyNode.Instantiate();
+				newKey.Position = new Vector2(16*x, 16*y);
+				AddChild(newKey);
 			}
+			GD.Print("Added");
+			// Add clowns/safes
 
-			numCover--;
-		}*/
+
+			// Exit
+
+
+			// Add enemies
+			int numEnemies = (int)scalar*random.Next(12,18);
+			GD.Print(numEnemies);
+
+			for (int i = 0; i < numEnemies; i++) {
+				GD.Print(i);
+				int x = random.Next(0, width);
+				int y = random.Next(0, height);
+
+				while (!suitableZoneSize(x,y)) {
+					x = random.Next(0, width);
+					y = random.Next(0, height);
+				}
+
+				var nme = (BasicGuardController) enemy.Instantiate();
+				nme.Position = new Vector2(16*x, 16*y);
+				AddChild(nme);
+			}
+		}
+	
+
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		keyClownPairs.Add(1, 1);
+		keyClownPairs.Add(2, 3);
+		keyClownPairs.Add(3, 5);
+		setupLevel(1);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
