@@ -281,6 +281,7 @@ public partial class Player : CharacterBody2D
 			if (!parryPauseTimer.IsStopped()) parryPauseTimer.Stop();
 			GetTree().Paused = true;
 			EmitSignal(SignalName.Died);
+			GetTree().CallGroup("stats_tracker", "gameEnd");
 		}
 	}
 

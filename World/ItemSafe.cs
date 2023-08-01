@@ -35,7 +35,8 @@ public partial class ItemSafe : Interactable
 			choice2 = itemsLeft[random.Next(itemsLeft.Count)];
 		} while (choice1 == choice2);
 		
-		EmitSignal(SignalName.UpgradeChoice, (int) choice1, (int) choice2);
+		// EmitSignal(SignalName.UpgradeChoice, (int) choice1, (int) choice2);
+		GetTree().CallGroup("choice_menu", "presentChoice", (int) choice1, (int) choice2);
 		base.Interact();
 	}
 }

@@ -14,6 +14,7 @@ public partial class Door : Interactable
 	public override void Interact(){
 		// if (player.hasKey) {
 		GetTree().ChangeSceneToFile("res://GUI/MainMenu.tscn");
+		// GetTree().CallGroup("level", "exitLevel");
 		// } else {
 		// 	GD.Print("Get that key!");
 		// }

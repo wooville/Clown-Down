@@ -52,7 +52,10 @@ public partial class MainGUI : Control
 		if (timerActive){
 			timeElapsed += delta;
 		}
-		timerLabel.Text = timeElapsed.ToString("0.00");
+		var minutes = timeElapsed / 60;
+		var seconds = timeElapsed % 60;
+		var milliseconds = (timeElapsed % 1) *100;
+		timerLabel.Text = ((int)minutes).ToString("00") + ":" + ((int)seconds).ToString("00") + ":" + ((int)milliseconds).ToString("00");
 	}
 
 	// private void updateAbilityPanels(){

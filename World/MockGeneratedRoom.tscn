@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bi07hd21ks7bn"]
+[gd_scene load_steps=21 format=3 uid="uid://bi07hd21ks7bn"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_ph4eu"]
 [ext_resource type="Texture2D" uid="uid://8bsd7e6e1ycl" path="res://Assets/Sprite_Sheet_2.png" id="2_rf4if"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://yb554ra3llqb" path="res://GUI/ChoiceMenu.tscn" id="10_343l2"]
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="11_7lpcw"]
 [ext_resource type="PackedScene" uid="uid://c4pil31gilho8" path="res://GUI/GameOverGUI.tscn" id="12_jr2ny"]
+[ext_resource type="PackedScene" uid="uid://bkqffqq8or71y" path="res://World/ClownJail.tscn" id="13_h5hxr"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5qekt"]
 vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -316,7 +317,11 @@ position = Vector2(98, 56)
 [node name="Key" parent="." instance=ExtResource("6_jxnr1")]
 position = Vector2(-11, 189)
 
+[node name="Key2" parent="." instance=ExtResource("6_jxnr1")]
+position = Vector2(142, 87)
+
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="Door" parent="." instance=ExtResource("7_lff6e")]
@@ -359,32 +364,28 @@ sightRange = 3.0
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="Guard6"]
 
-[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("9_mwsc6")]
+[node name="MainGUI" parent="Guard6/CanvasLayer" instance=ExtResource("9_mwsc6")]
 process_mode = 3
 
-[node name="ChoiceMenu" parent="CanvasLayer" instance=ExtResource("10_343l2")]
+[node name="ChoiceMenu" parent="Guard6/CanvasLayer" groups=["choice_menu"] instance=ExtResource("10_343l2")]
 theme = SubResource("Theme_nmv62")
 
-[node name="GameOverGUI" parent="CanvasLayer" instance=ExtResource("12_jr2ny")]
+[node name="GameOverGUI" parent="Guard6/CanvasLayer" instance=ExtResource("12_jr2ny")]
 
 [node name="ItemSafe" parent="." instance=ExtResource("8_i5nyu")]
 position = Vector2(46, 56)
 
 [node name="ItemSafe2" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(13, 57)
+position = Vector2(10, 85)
 
 [node name="ItemSafe3" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(68, 103)
+position = Vector2(46, 95)
 
-[node name="ItemSafe4" parent="." instance=ExtResource("8_i5nyu")]
-position = Vector2(18, 97)
+[node name="ClownJail" parent="." instance=ExtResource("13_h5hxr")]
+position = Vector2(125, 8)
 
-[connection signal="Died" from="Player" to="CanvasLayer/GameOverGUI" method="_on_player_died"]
-[connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
-[connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]
-[connection signal="UpgradeChoice" from="ItemSafe" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
-[connection signal="UpgradeChoice" from="ItemSafe2" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
-[connection signal="UpgradeChoice" from="ItemSafe3" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
-[connection signal="UpgradeChoice" from="ItemSafe4" to="CanvasLayer/ChoiceMenu" method="_on_item_safe_upgrade_choice"]
+[connection signal="Died" from="Player" to="Guard6/CanvasLayer/GameOverGUI" method="_on_player_died"]
+[connection signal="UpdateGUI" from="Player" to="Guard6/CanvasLayer/MainGUI" method="_on_player_update_gui"]
+[connection signal="UpgradeAcquired" from="Guard6/CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]

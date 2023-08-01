@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkqffqq8or71y"]
+
+[ext_resource type="PackedScene" uid="uid://b13oypic51c26" path="res://World/Interactable.tscn" id="1_rsbu8"]
+[ext_resource type="Script" path="res://World/ClownJail.cs" id="2_5x4jx"]
+[ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="3_i5c2y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icsa3"]
+
+[node name="ClownJail" instance=ExtResource("1_rsbu8")]
+script = ExtResource("2_5x4jx")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_icsa3")
+
+[node name="Sprite2D" parent="." index="1"]
+texture_filter = 1
+texture = ExtResource("3_i5c2y")
+region_enabled = true
+region_rect = Rect2(32, 32, 16, 16)

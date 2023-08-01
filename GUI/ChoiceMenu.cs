@@ -45,7 +45,7 @@ public partial class ChoiceMenu : Control
 		}
 	}
 
-	private void _on_item_safe_upgrade_choice(Player.UPGRADES choice1, Player.UPGRADES choice2){
+	private void presentChoice(Player.UPGRADES choice1, Player.UPGRADES choice2){
 		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
 		choiceControl1.upgrade = choice1;
 		choiceControl2.upgrade = choice2;
@@ -53,4 +53,13 @@ public partial class ChoiceMenu : Control
 		choiceControl2.updateControl();
 		CallDeferred(MethodName.SetVisible, true);
 	}
+
+	// private void _on_item_safe_upgrade_choice(Player.UPGRADES choice1, Player.UPGRADES choice2){
+	// 	CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
+	// 	choiceControl1.upgrade = choice1;
+	// 	choiceControl2.upgrade = choice2;
+	// 	choiceControl1.updateControl();
+	// 	choiceControl2.updateControl();
+	// 	CallDeferred(MethodName.SetVisible, true);
+	// }
 }
