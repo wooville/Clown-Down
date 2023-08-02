@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://bi07hd21ks7bn"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_ph4eu"]
-[ext_resource type="Texture2D" uid="uid://8bsd7e6e1ycl" path="res://Assets/Sprite_Sheet_2.png" id="2_rf4if"]
+[ext_resource type="Texture2D" uid="uid://bpj45yxuelc4w" path="res://Assets/Sprite_Sheet_2.png" id="2_rf4if"]
 [ext_resource type="PackedScene" uid="uid://b8j4jm5jlecfl" path="res://Enemies/BasicGuard/basicGuard.tscn" id="3_0j5lm"]
 [ext_resource type="PackedScene" uid="uid://cy0a0gvk21sm4" path="res://World/OcclusionTileMap.tscn" id="3_l7maf"]
 [ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="5_lw5yr"]
@@ -333,7 +333,6 @@ position = Vector2(107, 214)
 sightRange = 3.0
 Target = NodePath("../Player")
 tileMap = NodePath("../TileMap")
-patrolPoints = PackedVector2Array(0, 60, -40, 0, 0, -60, 40, 0)
 
 [node name="Guard2" parent="." node_paths=PackedStringArray("Target", "tileMap") instance=ExtResource("3_0j5lm")]
 position = Vector2(225, 339)
