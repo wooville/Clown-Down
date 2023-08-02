@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-public partial class TestLevel : Node2D
+public partial class TestLevel_old : Node2D
 {
 	// Randomized number of vertical walls
 	int tWalls;
@@ -36,8 +36,9 @@ public partial class TestLevel : Node2D
 	public Godot.TileMap map;
 
 	private PackedScene keyNode = (PackedScene) ResourceLoader.Load("res://World/Key.tscn");
+	private PackedScene clownNode = (PackedScene) ResourceLoader.Load("res://World/ClownJail.tscn");
 	private PackedScene enemy = (PackedScene) ResourceLoader.Load("res://Enemies/BasicGuard/basicGuard.tscn");
-	private PackedScene safeNode = (PackedScene) ResourceLoader.Load("res://World/Safe.tscn");
+	private PackedScene safeNode = (PackedScene) ResourceLoader.Load("res://World/ItemSafe.tscn");
 	//private PackedScene jailNode = (PackedScene) ResourceLoader.Load("res://World/JailCell.tscn");
 
 	const int numOptions = 3;
@@ -512,7 +513,7 @@ public partial class TestLevel : Node2D
 			}
 			GD.Print("Added");
 			// Add clowns
-			/*for (int i = 0; i < numKeyClowns; i++) {
+			for (int i = 0; i < numKeyClowns; i++) {
 				int x = random.Next(0, width);
 				int y = random.Next(0, height);
 
@@ -521,10 +522,10 @@ public partial class TestLevel : Node2D
 					y = random.Next(0, height);
 				}
 
-				var newClown = (Key) keyNode.Instantiate();
+				var newClown = (ClownJail) clownNode.Instantiate();
 				newClown.Position = new Vector2(16*x, 16*y);
 				AddChild(newClown);
-			}*/
+			}
 
 			// Add safe
 			for (int i = 0; i < 1; i++) {
@@ -536,7 +537,7 @@ public partial class TestLevel : Node2D
 					y = random.Next(0, height);
 				}
 
-				var newSafe = (Safe) safeNode.Instantiate();
+				var newSafe = (ItemSafe) safeNode.Instantiate();
 				newSafe.Position = new Vector2(16*x, 16*y);
 				AddChild(newSafe);
 			}
@@ -559,6 +560,7 @@ public partial class TestLevel : Node2D
 
 				var nme = (BasicGuardController) enemy.Instantiate();
 				nme.Position = new Vector2(16*x, 16*y);
+				// nme.moveSpeed = 3000;
 				AddChild(nme);
 			}
 		}

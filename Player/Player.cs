@@ -79,7 +79,6 @@ public partial class Player : CharacterBody2D
 		parryTextures[(int) SIDES.DOWN] = GetNode<TextureRect>("ParryTextureDown");
 
 		world = GetParent<Node2D>();
-
 		// EmitSignal(SignalName.UpdateGUI);
 	}
 

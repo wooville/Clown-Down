@@ -36,7 +36,7 @@ public partial class GameOverGUI : Control
 			} else if (retryControl.selected){
 				CallDeferred(MethodName.SetVisible, false);
 				CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.Disabled);
-				GetTree().ChangeSceneToFile("res://World/MockGeneratedRoom.tscn");
+				GetTree().ChangeSceneToFile("res://World/LevelGenerator.tscn");
 				GetTree().Paused = false;
 			}
 		}

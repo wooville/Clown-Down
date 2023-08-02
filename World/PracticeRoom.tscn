@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dfx4fn2ci7ikw" path="res://World/Safe.tscn" id="4_38sjq"]
 [ext_resource type="PackedScene" uid="uid://b8j4jm5jlecfl" path="res://Enemies/BasicGuard/basicGuard.tscn" id="4_mgvf1"]
 [ext_resource type="PackedScene" uid="uid://cow3canwnrve3" path="res://World/Key.tscn" id="5_cv6r2"]
-[ext_resource type="PackedScene" path="res://World/Door.tscn" id="7_xul5m"]
+[ext_resource type="PackedScene" uid="uid://btf85mvudkx8x" path="res://World/Exit.tscn" id="7_xul5m"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3s5dr"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -289,7 +289,7 @@ sources/1 = SubResource("TileSetAtlasSource_pgoqc")
 
 [node name="PracticeRoom" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." groups=["tilemap"]]
 z_index = -1
 texture_filter = 1
 position = Vector2(37, 10)

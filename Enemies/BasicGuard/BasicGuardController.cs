@@ -14,15 +14,16 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] public float turnSpeed = 10.0f;
 	[Export] public int attackPattern = 1;
 
-	[Export] private Vector2 facing = new Vector2(0,1);
+	// [Export] private Vector2 facing = new Vector2(0,1);
 	[Export] private CharacterBody2D Target;
 	[Export] private TileMap tileMap;
-	[Export] private PackedScene projectile;
+	[Export] private PackedScene projectile  = (PackedScene) ResourceLoader.Load("res://Enemies/Attacks/Projectile1.tscn");
 
 	[Export] private Vector2[] patrolPoints;
 
 	private RayCast2D lineOfSight;
 	private Area2D visionCone;
+	private Area2D attackZone;
 	private Timer attackCoolDown; 
 	private bool isControllable = true;
 	private State currentState;
@@ -44,10 +45,10 @@ public partial class BasicGuardController : CharacterBody2D
 	private int currentPatrolIndex;
 
 	/*********** Get and Set Functions ***********/
-	public Vector2 Facing{
-		get{return facing;}
-		set{facing = value;}
-	}
+	// public Vector2 Facing{
+	// 	get{return facing;}
+	// 	set{facing = value;}
+	// }
 	
 	public bool IsControllable{
 		get{return IsControllable;}
@@ -106,6 +107,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private NavigationAgent2D nav;
 	public PointLight2D light {get;set;}
 	public Timer searchTimer {get;set;}
+	private Node2D world;
 	
 	/*********** Godot Functions ************/
 
@@ -113,6 +115,9 @@ public partial class BasicGuardController : CharacterBody2D
 	public override void _Ready()
 	{
 		ChangeState(new IdleState());
+
+		Target = (Player) GetTree().GetFirstNodeInGroup("player");
+		tileMap = (TileMap) GetTree().GetFirstNodeInGroup("tilemap");
 		
 		lineOfSight = GetNode<RayCast2D>("LineOfSight");
 		visionCone = GetNode<Area2D>("Vision");
@@ -122,7 +127,8 @@ public partial class BasicGuardController : CharacterBody2D
 		visionScale *= sightRange; 
 		visionCone.Scale = (visionScale);
 
-
+		attackZone = GetNode<Area2D>("AttackZone");
+		attackZone.Scale *= attackRange;
 
 		nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		nav.SetNavigationMap(tileMap.GetNavigationMap(0));
@@ -134,6 +140,9 @@ public partial class BasicGuardController : CharacterBody2D
 		nextPatrolTarget = GlobalPosition.Round() + patrolPoints[0];
 
 		searchTimer = GetNode<Timer>("SearchTimer");
+		world = GetParent<Node2D>();
+
+		randomizeFacing();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -279,6 +288,7 @@ public partial class BasicGuardController : CharacterBody2D
 
 	public void BeDead(){
 		//does nothing currently
+		GetTree().CallGroup("manager", "guardGoofed");
 		QueueFree();
 	}
 	public void BeAsleep(){
@@ -323,7 +333,8 @@ public partial class BasicGuardController : CharacterBody2D
 		Projectile1 inst = (Projectile1)projectile.Instantiate();
 		inst.Direction = direction.Rotated(offsetAngle);
 		inst.GlobalPosition = this.GlobalPosition;
-		Owner.AddChild(inst);
+
+		world.AddChild(inst);
 	}
 
 	private void _on_vision_body_shape_entered(Rid body_rid, Node2D body, long body_shape_index, long local_shape_index)
@@ -386,6 +397,15 @@ public partial class BasicGuardController : CharacterBody2D
 		if (currentHealth <= 0){
 			isDead = true;
 		}
+	}
+
+	public void randomizeFacing(){
+		var random = new Random();
+		
+
+		var nearbyPoint = new Vector2(random.Next(-500, 500), random.Next(-500, 500));
+		float angle = visionCone.GetAngleTo(Position + nearbyPoint);
+		visionCone.Rotate(angle);
 	}
 }
 

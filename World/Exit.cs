@@ -1,8 +1,9 @@
 using Godot;
 using System;
 
-public partial class Door : Interactable
+public partial class Exit : Interactable
 {
+	public int currentLevel;
 	private Player player;
 	
 	public override void _Ready()
@@ -13,8 +14,10 @@ public partial class Door : Interactable
 
 	public override void Interact(){
 		// if (player.hasKey) {
-		GetTree().ChangeSceneToFile("res://GUI/MainMenu.tscn");
-		// GetTree().CallGroup("level", "exitLevel");
+		GetTree().CallGroup("manager", "tryEndLevel", currentLevel);
+		
+		// GetTree().ChangeSceneToFile("res://GUI/MainMenu.tscn");
+		// 
 		// } else {
 		// 	GD.Print("Get that key!");
 		// }

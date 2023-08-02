@@ -1,0 +1,36 @@
+[gd_scene load_steps=9 format=3 uid="uid://c5yw87njogilo"]
+
+[ext_resource type="Script" path="res://World/LevelGenerator.cs" id="1_3w6pn"]
+[ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="2_pslma"]
+[ext_resource type="PackedScene" uid="uid://cy0a0gvk21sm4" path="res://World/OcclusionTileMap.tscn" id="3_i1sv8"]
+[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="4_ejbhb"]
+[ext_resource type="PackedScene" uid="uid://yb554ra3llqb" path="res://GUI/ChoiceMenu.tscn" id="5_i7x2j"]
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="6_pjyot"]
+[ext_resource type="PackedScene" uid="uid://c4pil31gilho8" path="res://GUI/GameOverGUI.tscn" id="7_k7ioq"]
+
+[sub_resource type="Theme" id="Theme_vcdn7"]
+default_font = ExtResource("6_pjyot")
+
+[node name="TestLevel" type="Node2D" node_paths=PackedStringArray("map")]
+script = ExtResource("1_3w6pn")
+map = NodePath("OcclusionTileMap")
+
+[node name="Player" parent="." instance=ExtResource("2_pslma")]
+position = Vector2(25, 27)
+
+[node name="OcclusionTileMap" parent="." groups=["tilemap", "wall"] instance=ExtResource("3_i1sv8")]
+position = Vector2(0.399994, -0.200001)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("4_ejbhb")]
+process_mode = 3
+
+[node name="ChoiceMenu" parent="CanvasLayer" groups=["choice_menu"] instance=ExtResource("5_i7x2j")]
+theme = SubResource("Theme_vcdn7")
+
+[node name="GameOverGUI" parent="CanvasLayer" instance=ExtResource("7_k7ioq")]
+
+[connection signal="Died" from="Player" to="CanvasLayer/GameOverGUI" method="_on_player_died"]
+[connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
+[connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]

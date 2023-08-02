@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8j4jm5jlecfl"]
+[gd_scene load_steps=8 format=3 uid="uid://b8j4jm5jlecfl"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_cc1hu"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/BasicGuardController.cs" id="2_k3pwv"]
-[ext_resource type="PackedScene" uid="uid://bvfolreabbcgk" path="res://Enemies/Attacks/Projectile1.tscn" id="2_nhft2"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/Vision.cs" id="2_rupft"]
 [ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="4_bsy0y"]
 
@@ -17,9 +16,10 @@ radius = 25.0
 
 [node name="Guard" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("2_k3pwv")
+sightRange = 3.0
+attackRange = 3.0
 moveSpeed = 2000.0
 turnSpeed = 1.0
-projectile = ExtResource("2_nhft2")
 
 [node name="Vision" type="Area2D" parent="."]
 script = ExtResource("2_rupft")

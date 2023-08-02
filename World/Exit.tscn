@@ -1,13 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://btf85mvudkx8x"]
 
 [ext_resource type="PackedScene" uid="uid://b13oypic51c26" path="res://World/Interactable.tscn" id="1_ci53v"]
-[ext_resource type="Script" path="res://World/Door.cs" id="2_2tq20"]
+[ext_resource type="Script" path="res://World/Exit.cs" id="2_qepqo"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_rym5r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oy4o8"]
 
-[node name="Door" instance=ExtResource("1_ci53v")]
-script = ExtResource("2_2tq20")
+[node name="Exit" instance=ExtResource("1_ci53v")]
+script = ExtResource("2_qepqo")
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_oy4o8")

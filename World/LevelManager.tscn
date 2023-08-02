@@ -1,0 +1,31 @@
+[gd_scene load_steps=8 format=3 uid="uid://b61v7me4osawa"]
+
+[ext_resource type="Script" path="res://World/LevelManager.cs" id="1_8cg6b"]
+[ext_resource type="PackedScene" uid="uid://bydivnjpmq1bh" path="res://Player/Player.tscn" id="2_t0pwe"]
+[ext_resource type="PackedScene" uid="uid://c2gqyf401t7nr" path="res://GUI/MainGUI.tscn" id="4_fguey"]
+[ext_resource type="PackedScene" uid="uid://yb554ra3llqb" path="res://GUI/ChoiceMenu.tscn" id="5_msnay"]
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="6_4iw2l"]
+[ext_resource type="PackedScene" uid="uid://c4pil31gilho8" path="res://GUI/GameOverGUI.tscn" id="7_cwgqy"]
+
+[sub_resource type="Theme" id="Theme_vcdn7"]
+default_font = ExtResource("6_4iw2l")
+
+[node name="LevelManager" type="Node2D" groups=["manager"]]
+script = ExtResource("1_8cg6b")
+
+[node name="Player" parent="." instance=ExtResource("2_t0pwe")]
+position = Vector2(25, 27)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainGUI" parent="CanvasLayer" instance=ExtResource("4_fguey")]
+process_mode = 3
+
+[node name="ChoiceMenu" parent="CanvasLayer" groups=["choice_menu"] instance=ExtResource("5_msnay")]
+theme = SubResource("Theme_vcdn7")
+
+[node name="GameOverGUI" parent="CanvasLayer" instance=ExtResource("7_cwgqy")]
+
+[connection signal="Died" from="Player" to="CanvasLayer/GameOverGUI" method="_on_player_died"]
+[connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
+[connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]
