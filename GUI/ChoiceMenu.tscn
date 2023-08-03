@@ -9,12 +9,12 @@
 [sub_resource type="Theme" id="Theme_0tjjj"]
 default_font = ExtResource("1_eak0m")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7mr5e"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vgmr"]
 resource_local_to_scene = true
 atlas = ExtResource("5_wrbjh")
 region = Rect2(48, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w8t7b"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4bvt"]
 resource_local_to_scene = true
 atlas = ExtResource("5_wrbjh")
 region = Rect2(48, 16, 16, 16)
@@ -89,7 +89,7 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 80.0
 grow_vertical = 1
-texture = SubResource("AtlasTexture_7mr5e")
+texture = SubResource("AtlasTexture_7vgmr")
 
 [node name="ChoiceControl2" type="Control" parent="."]
 anchors_preset = 0
@@ -97,6 +97,7 @@ offset_left = 360.0
 offset_top = 80.0
 offset_right = 540.0
 offset_bottom = 260.0
+scale = Vector2(0.990225, 0.950876)
 script = ExtResource("2_8i435")
 
 [node name="Panel" type="Panel" parent="ChoiceControl2"]
@@ -149,4 +150,4 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 80.0
 grow_vertical = 1
-texture = SubResource("AtlasTexture_w8t7b")
+texture = SubResource("AtlasTexture_o4bvt")

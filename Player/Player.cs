@@ -78,7 +78,9 @@ public partial class Player : CharacterBody2D
 		parryTextures[(int) SIDES.RIGHT] = GetNode<TextureRect>("ParryTextureRight");
 		parryTextures[(int) SIDES.DOWN] = GetNode<TextureRect>("ParryTextureDown");
 
-		world = GetParent<Node2D>();
+		world = (Node2D) GetTree().GetFirstNodeInGroup("level");
+		upgrades.Add(UPGRADES.PIE);
+		sillyProgress = 90;
 		// EmitSignal(SignalName.UpdateGUI);
 	}
 
@@ -428,7 +430,7 @@ public partial class Player : CharacterBody2D
 		// 	newPie.Scale *= 2f;
 		// }
 		
-		AddChild(newPie);
+		world.AddChild(newPie);
 	}
 
 	private void chickenSlap(SIDES side){
@@ -458,6 +460,10 @@ public partial class Player : CharacterBody2D
 		// }
 		
 		AddChild(newChicken);
+	}
+
+	private void levelSpawned(){
+		world = (Node2D) GetTree().GetFirstNodeInGroup("level");
 	}
 
 	private void _on_jail_cell_upgrade_choice(UPGRADES choice1, UPGRADES choice2){

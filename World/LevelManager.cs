@@ -309,9 +309,12 @@ public partial class LevelManager : Node2D
 		// make new node for level and add map to it
 		levelNode = new Node2D();
 		levelNode.Name = "LevelNode";
+		levelNode.AddToGroup("level");
 		map = mapScene.Instantiate<TileMap>();
 		levelNode.AddChild(map);
 		AddChild(levelNode);
+
+		GetTree().CallGroup("player", "levelSpawned");
 		
 		// Make global*(many are)***********************
 		var random = new Random();
