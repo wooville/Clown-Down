@@ -69,7 +69,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="AlertTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 15.0
 
 [connection signal="body_shape_entered" from="Vision" to="." method="_on_vision_body_shape_entered"]
 [connection signal="body_shape_exited" from="Vision" to="." method="_on_vision_body_shape_exited"]
