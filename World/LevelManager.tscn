@@ -26,6 +26,9 @@ theme = SubResource("Theme_vcdn7")
 
 [node name="GameOverGUI" parent="CanvasLayer" instance=ExtResource("7_cwgqy")]
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)
+
 [connection signal="Died" from="Player" to="CanvasLayer/GameOverGUI" method="_on_player_died"]
 [connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
 [connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]

@@ -19,9 +19,6 @@ public partial class ClownJail : Interactable
 			player.keys--;
 			GetTree().CallGroup("manager", "clownFreed");
 			base.Interact();
-		} else {
-			GD.Print("need more keys");
 		}
-		
 	}
 }

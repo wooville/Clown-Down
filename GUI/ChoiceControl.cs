@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class ChoiceControl : Control
 {
@@ -8,7 +9,7 @@ public partial class ChoiceControl : Control
 	public bool selected {get;set;} = false;
 	private Label titleLabel;
 	private Label contentLabel;
-	private TextureRect texture;
+	private UpgradeIcon icon;
 	private ColorRect selectedIndicator;
 
 	// Called when the node enters the scene tree for the first time.
@@ -16,18 +17,22 @@ public partial class ChoiceControl : Control
 	{
 		titleLabel = GetNode<Label>("Panel/TitleLabel");
 		contentLabel = GetNode<Label>("Panel/ContentLabel");
-		texture = GetNode<TextureRect>("TextureRect");
+		icon = GetNode<UpgradeIcon>("UpgradeIcon");
 		selectedIndicator = GetNode<ColorRect>("ColorRect");
+		
 	}
 
 	public void updateControl(){
+		icon.upgrade = upgrade;
+		icon.updateIcon();
+
 		switch (upgrade){
 			case Player.UPGRADES.WHOOPIE_CUSHION:
 				titleLabel.Text = "Whoopie Cushion";
 				contentLabel.Text = "Dash farther and faster";
 				break;
 			case Player.UPGRADES.PIE:
-				titleLabel.Text = "Cream Pie";
+				titleLabel.Text = "Throwing Pie";
 				contentLabel.Text = "Throw pies during Silly Time";
 				break;
 			case Player.UPGRADES.GUN:

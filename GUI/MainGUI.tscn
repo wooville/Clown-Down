@@ -1,12 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=12 format=3 uid="uid://c2gqyf401t7nr"]
 
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_kg4xl"]
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
-[ext_resource type="Script" path="res://GUI/AbilityPanel.cs" id="2_nc4rm"]
 [ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="4_5a42g"]
+[ext_resource type="Texture2D" uid="uid://b02a1dfkvmelu" path="res://Assets/merged_atlas.png" id="5_kmyfy"]
+[ext_resource type="Texture2D" uid="uid://ysrlk8jvh76o" path="res://Assets/Charge_Bar_Under.png" id="5_yl0il"]
+[ext_resource type="Texture2D" uid="uid://dh1owjy5fkavf" path="res://Assets/Charge_Bar_Over.png" id="6_bpdhy"]
+[ext_resource type="Texture2D" uid="uid://ju142pneqyco" path="res://Assets/Charge_Bar_Progress.png" id="7_640ul"]
 
 [sub_resource type="Theme" id="Theme_bbbls"]
 default_font = ExtResource("1_kg4xl")
+
+[sub_resource type="Theme" id="Theme_tpbdm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mm3ja"]
+atlas = ExtResource("5_kmyfy")
+region = Rect2(128, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31ova"]
+atlas = ExtResource("5_kmyfy")
+region = Rect2(128, 64, 16, 16)
 
 [node name="MainGUI" type="Control"]
 layout_mode = 3
@@ -42,49 +55,131 @@ custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="MainAbilityPanel" type="Panel" parent="AbilityMarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-script = ExtResource("2_nc4rm")
-
-[node name="Label" type="Label" parent="AbilityMarginContainer/HBoxContainer/MainAbilityPanel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-clip_text = true
-
 [node name="HealthMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
-offset_left = 80.0
+offset_left = 88.0
 offset_top = 12.0
-offset_right = 230.0
+offset_right = 238.0
 offset_bottom = 32.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HealthMarginContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="KeyMarginContainer" type="MarginContainer" parent="."]
+[node name="StatsMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 6.0
-offset_right = 48.0
-offset_bottom = 38.0
+offset_top = 58.0
+offset_right = 56.0
+offset_bottom = 162.0
+theme = SubResource("Theme_tpbdm")
 
-[node name="KeyTexture" type="TextureRect" parent="KeyMarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsMarginContainer"]
+layout_mode = 2
+
+[node name="KeyControl" type="Control" parent="StatsMarginContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(56, 32)
+layout_mode = 2
+
+[node name="KeyTexture" type="TextureRect" parent="StatsMarginContainer/VBoxContainer/KeyControl"]
 texture_filter = 1
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 32.0
+offset_bottom = 30.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 texture = ExtResource("4_5a42g")
 stretch_mode = 4
 flip_h = true
 
-[node name="KeyNumberLabel" type="Label" parent="KeyMarginContainer"]
-layout_mode = 2
+[node name="KeyNumberLabel" type="Label" parent="StatsMarginContainer/VBoxContainer/KeyControl"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -9.5
+offset_bottom = 9.5
+grow_horizontal = 0
+grow_vertical = 2
 text = "1"
+horizontal_alignment = 2
+vertical_alignment = 2
+clip_text = true
+uppercase = true
+
+[node name="ClownsControl" type="Control" parent="StatsMarginContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(56, 32)
+layout_mode = 2
+
+[node name="ClownTexture" type="TextureRect" parent="StatsMarginContainer/VBoxContainer/ClownsControl"]
+texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+offset_top = 2.0
+offset_right = 28.0
+offset_bottom = 30.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_mm3ja")
+stretch_mode = 4
+flip_h = true
+
+[node name="ClownNumberLabel" type="Label" parent="StatsMarginContainer/VBoxContainer/ClownsControl"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -9.5
+offset_bottom = 9.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "3"
+horizontal_alignment = 2
+vertical_alignment = 2
+clip_text = true
+uppercase = true
+
+[node name="GuardsControl" type="Control" parent="StatsMarginContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(56, 32)
+layout_mode = 2
+
+[node name="GuardTexture" type="TextureRect" parent="StatsMarginContainer/VBoxContainer/GuardsControl"]
+texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 0
+offset_top = 2.0
+offset_right = 28.0
+offset_bottom = 30.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_31ova")
+stretch_mode = 4
+flip_h = true
+
+[node name="GuardNumberLabel" type="Label" parent="StatsMarginContainer/VBoxContainer/GuardsControl"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -9.5
+offset_bottom = 9.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "30"
 horizontal_alignment = 2
 vertical_alignment = 2
 clip_text = true
@@ -105,14 +200,27 @@ horizontal_alignment = 2
 clip_text = true
 
 [node name="SillyMarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = 192.0
-offset_right = 48.0
-offset_bottom = 352.0
+offset_top = -192.0
+offset_right = 56.0
+offset_bottom = -8.0
+grow_vertical = 0
 
-[node name="SillyProgressBar" type="ProgressBar" parent="SillyMarginContainer"]
+[node name="SillyLabel" type="Label" parent="SillyMarginContainer"]
 layout_mode = 2
-size_flags_vertical = 1
-value = 75.0
+size_flags_vertical = 0
+text = "SILLY!"
+
+[node name="SillyProgressBar" type="TextureProgressBar" parent="SillyMarginContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
 fill_mode = 3
+texture_under = ExtResource("5_yl0il")
+texture_over = ExtResource("6_bpdhy")
+texture_progress = ExtResource("7_640ul")
+texture_progress_offset = Vector2(0, 5)

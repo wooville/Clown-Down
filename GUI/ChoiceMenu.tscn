@@ -1,13 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://yb554ra3llqb"]
+[gd_scene load_steps=9 format=3 uid="uid://yb554ra3llqb"]
 
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_eak0m"]
 [ext_resource type="Script" path="res://GUI/ChoiceMenu.cs" id="1_yx8g8"]
 [ext_resource type="Script" path="res://GUI/ChoiceControl.cs" id="2_8i435"]
+[ext_resource type="PackedScene" uid="uid://cxgtlej5uyrwr" path="res://GUI/UpgradeIcon.tscn" id="4_05ibt"]
+[ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="5_wrbjh"]
 
 [sub_resource type="Theme" id="Theme_0tjjj"]
 default_font = ExtResource("1_eak0m")
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_4aeph"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mr5e"]
+resource_local_to_scene = true
+atlas = ExtResource("5_wrbjh")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8t7b"]
+resource_local_to_scene = true
+atlas = ExtResource("5_wrbjh")
+region = Rect2(48, 16, 16, 16)
 
 [node name="ChoiceMenu" type="Control"]
 process_mode = 4
@@ -26,7 +36,7 @@ anchors_preset = 0
 offset_left = 100.0
 offset_top = 80.0
 offset_right = 280.0
-offset_bottom = 280.0
+offset_bottom = 260.0
 script = ExtResource("2_8i435")
 
 [node name="Panel" type="Panel" parent="ChoiceControl1"]
@@ -62,19 +72,6 @@ horizontal_alignment = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="TextureRect" type="TextureRect" parent="ChoiceControl1"]
-layout_mode = 2
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -80.0
-offset_right = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("CanvasTexture_4aeph")
-
 [node name="ColorRect" type="ColorRect" parent="ChoiceControl1"]
 visible = false
 z_index = -1
@@ -84,12 +81,22 @@ offset_right = 180.0
 offset_bottom = 200.0
 color = Color(1, 0, 0, 1)
 
+[node name="UpgradeIcon" parent="ChoiceControl1" instance=ExtResource("4_05ibt")]
+layout_mode = 1
+anchors_preset = 5
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_bottom = 80.0
+grow_vertical = 1
+texture = SubResource("AtlasTexture_7mr5e")
+
 [node name="ChoiceControl2" type="Control" parent="."]
 anchors_preset = 0
 offset_left = 360.0
 offset_top = 80.0
 offset_right = 540.0
-offset_bottom = 280.0
+offset_bottom = 260.0
 script = ExtResource("2_8i435")
 
 [node name="Panel" type="Panel" parent="ChoiceControl2"]
@@ -125,19 +132,6 @@ horizontal_alignment = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="TextureRect" type="TextureRect" parent="ChoiceControl2"]
-layout_mode = 2
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -80.0
-offset_right = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("CanvasTexture_4aeph")
-
 [node name="ColorRect" type="ColorRect" parent="ChoiceControl2"]
 visible = false
 z_index = -1
@@ -146,3 +140,13 @@ layout_mode = 0
 offset_right = 180.0
 offset_bottom = 200.0
 color = Color(1, 0, 0, 1)
+
+[node name="UpgradeIcon" parent="ChoiceControl2" instance=ExtResource("4_05ibt")]
+layout_mode = 1
+anchors_preset = 5
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_bottom = 80.0
+grow_vertical = 1
+texture = SubResource("AtlasTexture_w8t7b")

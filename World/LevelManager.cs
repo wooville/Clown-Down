@@ -55,8 +55,9 @@ public partial class LevelManager : Node2D
 	Dictionary<int,int> clownsPerLevel = new Dictionary<int,int>();
 	Dictionary<int,int> requiredClownsFreed = new Dictionary<int,int>();
 	Dictionary<int,int> guardsPerLevel = new Dictionary<int,int>();
-	private int currentClownsFreed;
-	int currentGuardsGoofed;
+	public int currentChestsFound;
+	public int currentClownsFreed;
+	public int currentGuardsGoofed;
 
 
 
@@ -291,7 +292,7 @@ public partial class LevelManager : Node2D
 
 	public void setupLevel(int iteration) {
 		GD.Print("Setting up");
-		resetCurrentLevelStats();
+		// resetCurrentLevelStats(); try persisting bw levels
 		// clear last node with map in it if it exists
 		Node2D levelNode = GetNodeOrNull<Node2D>("LevelNode");
 
@@ -638,8 +639,13 @@ public partial class LevelManager : Node2D
 	}
 
 	private void resetCurrentLevelStats(){
+		currentChestsFound = 0;
 		currentClownsFreed = 0;
 		currentGuardsGoofed = 0;
+	}
+
+	private void chestFound(){
+		currentChestsFound++;
 	}
 
 	// to be called by guard when killed

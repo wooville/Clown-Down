@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxgtlej5uyrwr"]
+
+[ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="1_lanca"]
+[ext_resource type="Script" path="res://GUI/UpgradeIcon.cs" id="2_wxc6l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n61ua"]
+resource_local_to_scene = true
+atlas = ExtResource("1_lanca")
+region = Rect2(48, 16, 16, 16)
+
+[node name="UpgradeIcon" type="TextureRect"]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 40)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_n61ua")
+script = ExtResource("2_wxc6l")

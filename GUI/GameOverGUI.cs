@@ -3,11 +3,19 @@ using System;
 
 public partial class GameOverGUI : Control
 {
+	private Label chestsFoundLabel;
+	private Label clownsFreedLabel;
+	private Label guardsGoofedLabel;
 	private GameOverChoiceControl quitControl;
 	private GameOverChoiceControl retryControl;
+	private LevelManager levelManager;
 
 	public override void _Ready()
 	{
+		chestsFoundLabel = GetNode<Label>("StatsPanel/VBoxContainer/ChestsFoundLabel");
+		clownsFreedLabel = GetNode<Label>("StatsPanel/VBoxContainer/ClownsFreedLabel");
+		guardsGoofedLabel = GetNode<Label>("StatsPanel/VBoxContainer/GuardsGoofedLabel");
+		levelManager = (LevelManager) GetTree().GetFirstNodeInGroup("manager");
 		quitControl = GetNode<GameOverChoiceControl>("QuitControl");
 		retryControl = GetNode<GameOverChoiceControl>("RetryControl");
 	}
@@ -36,7 +44,7 @@ public partial class GameOverGUI : Control
 			} else if (retryControl.selected){
 				CallDeferred(MethodName.SetVisible, false);
 				CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.Disabled);
-				GetTree().ChangeSceneToFile("res://World/LevelGenerator.tscn");
+				GetTree().ChangeSceneToFile("res://World/LevelManager.tscn");
 				GetTree().Paused = false;
 			}
 		}
@@ -44,6 +52,9 @@ public partial class GameOverGUI : Control
 
 	private void _on_player_died(){
 		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
+		chestsFoundLabel.Text = levelManager.currentChestsFound.ToString() + " CHESTS";
+		clownsFreedLabel.Text = levelManager.currentClownsFreed.ToString() + " FELLOW CLOWNS";
+		guardsGoofedLabel.Text = levelManager.currentGuardsGoofed.ToString() + " GUARDS";
 		quitControl.updateControl();
 		retryControl.updateControl();
 		CallDeferred(MethodName.SetVisible, true);
