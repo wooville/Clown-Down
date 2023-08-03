@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bowkcr87c2lj8"
-path="res://.godot/imported/Charge_Bar.png-4abe1e9f1fc6410194ec7c56943b6191.ctex"
+uid="uid://cr5ipentgy48a"
+path="res://.godot/imported/Clown_Jail.png-50b9af56a0205645e68fd7ee87b18b9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Charge_Bar.png"
-dest_files=["res://.godot/imported/Charge_Bar.png-4abe1e9f1fc6410194ec7c56943b6191.ctex"]
+source_file="res://Assets/Clown_Jail.png"
+dest_files=["res://.godot/imported/Clown_Jail.png-50b9af56a0205645e68fd7ee87b18b9f.ctex"]
 
 [params]
 
