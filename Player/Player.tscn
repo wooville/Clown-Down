@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=12 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
-[ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_1064m"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
+[ext_resource type="Texture2D" uid="uid://cmh7j0mky45kd" path="res://Assets/spotlight_sprite.png" id="3_mtg4f"]
+[ext_resource type="Texture2D" uid="uid://eh5w0ufigs3r" path="res://Assets/Deflects.png" id="4_7slns"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
 size = Vector2(6, 12)
@@ -13,10 +14,29 @@ size = Vector2(10, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8y8m"]
 size = Vector2(6, 12)
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_lmnk7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fc7m"]
+atlas = ExtResource("4_7slns")
+region = Rect2(0, 0, 8, 16)
+margin = Rect2(-3, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vo21w"]
+atlas = ExtResource("4_7slns")
+region = Rect2(0, 16, 16, 8)
+margin = Rect2(-3, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbxnj"]
+atlas = ExtResource("4_7slns")
+region = Rect2(24, 0, 8, 16)
+margin = Rect2(-3, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yxm1"]
+atlas = ExtResource("4_7slns")
+region = Rect2(16, 24, 16, 8)
+margin = Rect2(-3, -6, 0, 0)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
+texture_filter = 1
 collision_layer = 9
 script = ExtResource("1_u3edf")
 
@@ -34,7 +54,7 @@ position = Vector2(1, 1)
 scale = Vector2(0.75, 0.75)
 energy = 1.5
 shadow_enabled = true
-texture = ExtResource("2_1064m")
+texture = ExtResource("3_mtg4f")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
@@ -71,11 +91,12 @@ shape = SubResource("RectangleShape2D_k8y8m")
 
 [node name="ParryTextureLeft" type="TextureRect" parent="."]
 visible = false
+texture_filter = 1
 offset_left = -5.0
 offset_top = -8.0
-offset_right = -3.0
+offset_right = 3.0
 offset_bottom = 8.0
-texture = SubResource("CanvasTexture_lmnk7")
+texture = SubResource("AtlasTexture_1fc7m")
 
 [node name="ParryTextureUp" type="TextureRect" parent="."]
 visible = false
@@ -83,7 +104,7 @@ offset_left = -5.0
 offset_top = -8.0
 offset_right = 5.0
 offset_bottom = -6.0
-texture = SubResource("CanvasTexture_lmnk7")
+texture = SubResource("AtlasTexture_vo21w")
 
 [node name="ParryTextureRight" type="TextureRect" parent="."]
 visible = false
@@ -91,7 +112,7 @@ offset_left = 3.0
 offset_top = -8.0
 offset_right = 5.0
 offset_bottom = 8.0
-texture = SubResource("CanvasTexture_lmnk7")
+texture = SubResource("AtlasTexture_sbxnj")
 
 [node name="ParryTextureDown" type="TextureRect" parent="."]
 visible = false
@@ -99,7 +120,7 @@ offset_left = -5.0
 offset_top = 6.0
 offset_right = 5.0
 offset_bottom = 8.0
-texture = SubResource("CanvasTexture_lmnk7")
+texture = SubResource("AtlasTexture_5yxm1")
 
 [connection signal="timeout" from="ActionCooldownTimer" to="." method="_on_action_cooldown_timer_timeout"]
 [connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]

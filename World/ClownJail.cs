@@ -18,6 +18,7 @@ public partial class ClownJail : Interactable
 		if (player.keys > 0){
 			player.keys--;
 			GetTree().CallGroup("manager", "clownFreed");
+			GetTree().CallGroup("exit", "clownFreed");
 			base.Interact();
 		}
 	}

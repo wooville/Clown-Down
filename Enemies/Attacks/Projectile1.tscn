@@ -1,15 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://bvfolreabbcgk"]
+[gd_scene load_steps=5 format=3 uid="uid://bvfolreabbcgk"]
 
 [ext_resource type="Script" path="res://Enemies/Attacks/Projectile1.cs" id="1_cucsq"]
 [ext_resource type="Texture2D" uid="uid://cwmiel5gmwgje" path="res://Assets/projectile_1.png" id="2_tts10"]
+[ext_resource type="Texture2D" uid="uid://cmh7j0mky45kd" path="res://Assets/spotlight_sprite.png" id="3_jxwos"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16thu"]
 radius = 4.0
 
-[node name="Projectile1" type="Area2D" groups=["parryable"]]
+[node name="Projectile1" type="Area2D" groups=["parryable", "projectile"]]
 collision_layer = 9
 collision_mask = 9
 script = ExtResource("1_cucsq")
+speed = 80.0
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_16thu")
@@ -23,6 +25,11 @@ offset = Vector2(4, 4)
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(2.38419e-07, 2.38419e-07)
 scale = Vector2(0.4, 0.4)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-1.78814e-07, -4.76837e-07)
+scale = Vector2(0.09375, 0.09375)
+texture = ExtResource("3_jxwos")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

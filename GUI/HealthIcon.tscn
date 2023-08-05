@@ -1,9 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://4136e2rhmahr"]
+[gd_scene load_steps=3 format=3 uid="uid://4136e2rhmahr"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_0rpma"]
+[ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="1_jrvag"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir273"]
+atlas = ExtResource("1_jrvag")
+region = Rect2(0, 0, 16, 16)
 
 [node name="HealthIcon" type="TextureRect"]
+texture_filter = 1
 custom_minimum_size = Vector2(20, 20)
 offset_right = 40.0
 offset_bottom = 40.0
-texture = SubResource("CanvasTexture_0rpma")
+texture = SubResource("AtlasTexture_ir273")

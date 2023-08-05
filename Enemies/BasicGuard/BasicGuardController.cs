@@ -19,7 +19,7 @@ public partial class BasicGuardController : CharacterBody2D
 	[Export] private TileMap tileMap;
 	[Export] private PackedScene projectile  = (PackedScene) ResourceLoader.Load("res://Enemies/Attacks/Projectile1.tscn");
 
-	[Export] private Vector2[] patrolPoints;
+	[Export] public Vector2[] patrolPoints {get;set;}
 
 	private RayCast2D lineOfSight;
 	private Area2D visionCone;
@@ -113,6 +113,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private NavigationAgent2D nav;
 	public PointLight2D light {get;set;}
 	public Timer searchTimer {get;set;}
+	public Timer patrolTimer {get;set;}
 	private Node2D world;
 	
 	/*********** Godot Functions ************/
@@ -148,9 +149,13 @@ public partial class BasicGuardController : CharacterBody2D
 		nextPatrolTarget = GlobalPosition.Round() + patrolPoints[0];
 
 		searchTimer = GetNode<Timer>("SearchTimer");
+		patrolTimer = GetNode<Timer>("PatrolTimer");
+
 		world = GetParent<Node2D>();
 
 		randomizeFacing();
+		randomizePatrol();
+		randomizeAttackPattern();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -302,6 +307,8 @@ public partial class BasicGuardController : CharacterBody2D
 				currentPatrolIndex %= patrolPoints.Length;
 				startingPosition = GlobalPosition.Round();
 				nextPatrolTarget = startingPosition + patrolPoints[currentPatrolIndex];
+				patrolTimer.Stop();
+				patrolTimer.Start();
 				// GD.Print(nextPatrolTarget);
 			}
 
@@ -446,9 +453,46 @@ public partial class BasicGuardController : CharacterBody2D
 		float angle = visionCone.GetAngleTo(Position + nearbyPoint);
 		visionCone.Rotate(angle);
 	}
+
+	public void randomizePatrol(){
+		var random = new Random();
+
+		patrolPoints = new Vector2[4];
+		// for (int i = 0; i < patrolPoints.Length; i++){
+		// 	patrolPoints[i] = new Vector2(random.Next(-80, 80), random.Next(-80, 80));
+		// }
+		
+		int patrolDistance = 80;
+
+		// same pattern of walking x distance in a loop
+		patrolPoints[0] = new Vector2(patrolDistance, 0);
+		patrolPoints[1] = new Vector2(0, patrolDistance);
+		patrolPoints[2] = new Vector2(-patrolDistance, 0);
+		patrolPoints[3] = new Vector2(0, -patrolDistance);
+
+		// shuffle patrol points array to vary pattern between guards
+		int n = patrolPoints.Length;
+		while (n > 1){
+			int k = random.Next(n--);
+            (patrolPoints[k], patrolPoints[n]) = (patrolPoints[n], patrolPoints[k]);
+        }
+    }
+
+	private void randomizeAttackPattern(){
+		var random = new Random();
+		attackPattern = random.Next(1, 5);
+	}
+
 	private void _on_alert_timer_timeout()
 	{
 		isAlert = false;
+	}
+
+	private void _on_patrol_timer_timeout(){
+		// if guard gets stuck try next patrol pt
+		currentPatrolIndex++;
+		currentPatrolIndex %= patrolPoints.Length;
+		GD.Print(GlobalPosition.Round() + patrolPoints[currentPatrolIndex] + " test");
 	}
 }
 

@@ -4,12 +4,24 @@ using System;
 public partial class Exit : Interactable
 {
 	public int currentLevel;
-	private Player player;
+	public int totalClowns;
+	private int clownsRemaining;
 	
 	public override void _Ready()
 	{
         base._Ready();
-		player = (Player) GetTree().GetFirstNodeInGroup("player");
+		
+		clownsRemaining = totalClowns;
+		buttonPromptLabel.Text = clownsRemaining.ToString();
+	}
+
+	private void clownFreed(){
+		clownsRemaining--;
+		if (clownsRemaining > 0){
+			buttonPromptLabel.Text = clownsRemaining.ToString();
+		} else {
+			buttonPromptLabel.Text = "␣";
+		}
 	}
 
 	public override void Interact(){

@@ -3,21 +3,26 @@ using System;
 
 public partial class GameOverGUI : Control
 {
+	private Label titleLabel;
 	private Label chestsFoundLabel;
 	private Label clownsFreedLabel;
 	private Label guardsGoofedLabel;
-	private GameOverChoiceControl quitControl;
-	private GameOverChoiceControl retryControl;
+	private Label timeLabel;
+	private GeneralChoiceControl quitControl;
+	private GeneralChoiceControl retryControl;
 	private LevelManager levelManager;
+	private string timeString;
 
 	public override void _Ready()
 	{
+		titleLabel = GetNode<Label>("StatsPanel/VBoxContainer/TitleLabel");
 		chestsFoundLabel = GetNode<Label>("StatsPanel/VBoxContainer/ChestsFoundLabel");
 		clownsFreedLabel = GetNode<Label>("StatsPanel/VBoxContainer/ClownsFreedLabel");
 		guardsGoofedLabel = GetNode<Label>("StatsPanel/VBoxContainer/GuardsGoofedLabel");
+		timeLabel = GetNode<Label>("StatsPanel/VBoxContainer/TimeLabel");
 		levelManager = (LevelManager) GetTree().GetFirstNodeInGroup("manager");
-		quitControl = GetNode<GameOverChoiceControl>("QuitControl");
-		retryControl = GetNode<GameOverChoiceControl>("RetryControl");
+		quitControl = GetNode<GeneralChoiceControl>("QuitControl");
+		retryControl = GetNode<GeneralChoiceControl>("RetryControl");
 	}
 
 	public override async void _Process(double delta){
@@ -50,13 +55,29 @@ public partial class GameOverGUI : Control
 		}
 	}
 
-	private void _on_player_died(){
+	private void gameOver(){
 		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
-		chestsFoundLabel.Text = levelManager.currentChestsFound.ToString() + " CHESTS";
-		clownsFreedLabel.Text = levelManager.currentClownsFreed.ToString() + " FELLOW CLOWNS";
-		guardsGoofedLabel.Text = levelManager.currentGuardsGoofed.ToString() + " GUARDS";
+		chestsFoundLabel.Text = "FOUND " + levelManager.totalChestsFound.ToString() + " CHESTS";
+		clownsFreedLabel.Text = "UNBOUND " + levelManager.totalClownsFreed.ToString() + " FELLOW CLOWNS";
+		guardsGoofedLabel.Text = "AND POUNDED " + levelManager.totalGuardsGoofed.ToString() + " GUARDS";
 		quitControl.updateControl();
 		retryControl.updateControl();
 		CallDeferred(MethodName.SetVisible, true);
+	}
+
+	private void gameWon(){
+		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
+		titleLabel.Text = "ALL CLOWNS FREED!";
+		chestsFoundLabel.Text = "FOUND " + levelManager.totalChestsFound.ToString() + " CHESTS";
+		clownsFreedLabel.Text = "UNBOUND " + levelManager.totalClownsFreed.ToString() + " FELLOW CLOWNS";
+		guardsGoofedLabel.Text = "AND POUNDED " + levelManager.totalGuardsGoofed.ToString() + " GUARDS";
+		quitControl.updateControl();
+		retryControl.updateControl();
+		CallDeferred(MethodName.SetVisible, true);
+	}
+
+	private void setTimeString(string timeString){
+		this.timeString = timeString;
+		timeLabel.Text = "IN " + timeString + " TOTAL";
 	}
 }

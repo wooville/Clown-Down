@@ -52,14 +52,15 @@ public partial class LevelManager : Node2D
 	HashSet<int> horSpots = new HashSet<int>();
 
 	int maxLevel = 3;
-	Dictionary<int,int> clownsPerLevel = new Dictionary<int,int>();
-	Dictionary<int,int> requiredClownsFreed = new Dictionary<int,int>();
-	Dictionary<int,int> guardsPerLevel = new Dictionary<int,int>();
+	public Dictionary<int,int> clownsPerLevel = new Dictionary<int,int>(){{1,1}, {2,2}, {3,3}};
+	public Dictionary<int,int> requiredClownsFreed = new Dictionary<int,int>();
+	public Dictionary<int,int> guardsPerLevel = new Dictionary<int,int>();
 	public int currentChestsFound;
 	public int currentClownsFreed;
 	public int currentGuardsGoofed;
-
-
+	public int totalChestsFound;
+	public int totalClownsFreed;
+	public int totalGuardsGoofed;
 
 	public void buildWalls(int xWalls, int[] xL, int[] X, HashSet<int> checkSet, int dim) {
 		int last = 0;
@@ -95,7 +96,7 @@ public partial class LevelManager : Node2D
 			map.SetCell(0, new Vector2I(x,y),val, reference);
 		}
 		occupied[x,y]=val;
-		// got an index out of bounds here
+		// got an index out of bounds here from drawLine
 		// in drawLine from call that looks like this
 		// for (int i = x-d; i <= x+u; i++) {
 		// 	setCells(x,i,1,true);
@@ -309,6 +310,7 @@ public partial class LevelManager : Node2D
 		// make new node for level and add map to it
 		levelNode = new Node2D();
 		levelNode.Name = "LevelNode";
+		levelNode.ProcessMode = ProcessModeEnum.Pausable;
 		levelNode.AddToGroup("level");
 		map = mapScene.Instantiate<TileMap>();
 		levelNode.AddChild(map);
@@ -591,6 +593,7 @@ public partial class LevelManager : Node2D
 
 			var newExit = (Exit) exit.Instantiate();
 			newExit.currentLevel = iteration;
+			newExit.totalClowns = numKeyClowns;
 			newExit.Position = new Vector2(16*x, 16*y);
 			levelNode.AddChild(newExit);
 		}
@@ -600,6 +603,9 @@ public partial class LevelManager : Node2D
 		int numEnemies = guardsPerLevel[iteration];
 		GD.Print(numEnemies);
 
+		// int numPatrolPoints = 3;
+		// int xPatrolDistanceMax = 5;
+		// int yPatrolDistanceMax = 5;
 		for (int i = 0; i < numEnemies; i++) {
 			int x = random.Next(0, width);
 			int y = random.Next(0, height);
@@ -612,9 +618,31 @@ public partial class LevelManager : Node2D
 			var nme = (BasicGuardController) enemy.Instantiate();
 			nme.Position = new Vector2(16*x, 16*y);
 
+			// Vector2[] patrolPoints = new Vector2[numPatrolPoints];
+			// for (int p = 0; p < numPatrolPoints; p++){
+			// 	int xPatrol = random.Next(-xPatrolDistanceMax, xPatrolDistanceMax);
+			// 	int yPatrol = random.Next(-yPatrolDistanceMax, yPatrolDistanceMax);
+
+			// 	while (!suitableZoneSize(x+xPatrol,y+yPatrol) /*occupied[x+xPatrol,y+yPatrol] == 3*/) {
+			// 		xPatrol = random.Next(-xPatrolDistanceMax, xPatrolDistanceMax);
+			// 		yPatrol = random.Next(-yPatrolDistanceMax, yPatrolDistanceMax);
+			// 	}
+
+			// 	patrolPoints[p] = new Vector2(16*xPatrol, 16*yPatrol);
+			// 	GD.Print("P "+patrolPoints[p]);
+			// }
+
+			// nme.patrolPoints = patrolPoints;
+			// nme.randomizePatrol();
+			
+
 			// nme.moveSpeed = 3000;
 			levelNode.AddChild(nme);
 		}
+
+		// GD.Print("ITERATIONM " + iteration);
+		GetTree().CallGroup("main_gui", "setLevel", iteration);
+		GetTree().CallGroup("main_gui", "updateGUI");
 	}
 
 	private void tryEndLevel(int currentLevel){
@@ -625,20 +653,25 @@ public partial class LevelManager : Node2D
 			// when player moves on from gui, generate new level in the same way with a child node and begin again
 
 			// show player stats and present option to move on to next level, which will call setupLevel
-			GetTree().CallGroup("end_level_gui", "endLevel", currentLevel);
-			GD.Print(currentClownsFreed + ", " + currentGuardsGoofed);
+			GetTree().CallGroup("main_gui", "stopTimer");
+			GetTree().Paused = true;
+			GetTree().CallGroup("level_end_gui", "endLevel", currentLevel, currentChestsFound, currentClownsFreed, currentGuardsGoofed);
+		}
+	}
+
+	private void proceedLevel(int currentLevel){
+			resetCurrentLevelStats();
 
 			// this should be in the end level gui
 			
-			if (currentLevel <= maxLevel){
+			if (currentLevel < maxLevel){
 				// make new level
 				setupLevel(currentLevel+1);
+				GetTree().CallGroup("main_gui", "resetTimer");
 			} else {
 				// end game
-				GetTree().ChangeSceneToFile("res://GUI/MainMenu.tscn");
+				GetTree().CallGroup("game_over_gui", "gameWon");
 			}
-		}
-		
 	}
 
 	private void resetCurrentLevelStats(){
@@ -649,26 +682,25 @@ public partial class LevelManager : Node2D
 
 	private void chestFound(){
 		currentChestsFound++;
+		totalChestsFound++;
 	}
 
 	// to be called by guard when killed
 	private void guardGoofed(){
 		currentGuardsGoofed++;
+		totalGuardsGoofed++;
 	}
 
 	// to be called by clown jail cell when freed
 	private void clownFreed(){
 		currentClownsFreed++;
+		totalClownsFreed++;
 	}
 	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		clownsPerLevel.Add(1, 1);
-		clownsPerLevel.Add(2, 3);
-		clownsPerLevel.Add(3, 5);
-
 		requiredClownsFreed.Add(1, 1);
 		requiredClownsFreed.Add(2, 2);
 		requiredClownsFreed.Add(3, 3);

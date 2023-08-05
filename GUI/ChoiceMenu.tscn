@@ -1,20 +1,39 @@
-[gd_scene load_steps=9 format=3 uid="uid://yb554ra3llqb"]
+[gd_scene load_steps=15 format=3 uid="uid://yb554ra3llqb"]
 
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_eak0m"]
 [ext_resource type="Script" path="res://GUI/ChoiceMenu.cs" id="1_yx8g8"]
 [ext_resource type="Script" path="res://GUI/ChoiceControl.cs" id="2_8i435"]
 [ext_resource type="PackedScene" uid="uid://cxgtlej5uyrwr" path="res://GUI/UpgradeIcon.tscn" id="4_05ibt"]
+[ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="4_bveux"]
 [ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="5_wrbjh"]
+[ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="6_6u0rf"]
 
 [sub_resource type="Theme" id="Theme_0tjjj"]
 default_font = ExtResource("1_eak0m")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7vgmr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_edvtm"]
 resource_local_to_scene = true
 atlas = ExtResource("5_wrbjh")
 region = Rect2(48, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o4bvt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs4c5"]
+atlas = ExtResource("6_6u0rf")
+region = Rect2(24, 8, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kycw0"]
+resource_local_to_scene = true
+atlas = ExtResource("6_6u0rf")
+region = Rect2(24, 24, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2utd1"]
+atlas = ExtResource("6_6u0rf")
+region = Rect2(40, 8, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2yqb"]
+atlas = ExtResource("6_6u0rf")
+region = Rect2(40, 24, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob62v"]
 resource_local_to_scene = true
 atlas = ExtResource("5_wrbjh")
 region = Rect2(48, 16, 16, 16)
@@ -22,6 +41,7 @@ region = Rect2(48, 16, 16, 16)
 [node name="ChoiceMenu" type="Control"]
 process_mode = 4
 visible = false
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,6 +70,7 @@ offset_top = -80.0
 offset_right = 90.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = ExtResource("4_bveux")
 
 [node name="TitleLabel" type="Label" parent="ChoiceControl1/Panel"]
 layout_mode = 0
@@ -72,15 +93,6 @@ horizontal_alignment = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="ColorRect" type="ColorRect" parent="ChoiceControl1"]
-visible = false
-z_index = -1
-custom_minimum_size = Vector2(180, 200)
-layout_mode = 0
-offset_right = 180.0
-offset_bottom = 200.0
-color = Color(1, 0, 0, 1)
-
 [node name="UpgradeIcon" parent="ChoiceControl1" instance=ExtResource("4_05ibt")]
 layout_mode = 1
 anchors_preset = 5
@@ -89,19 +101,12 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 80.0
 grow_vertical = 1
-texture = SubResource("AtlasTexture_7vgmr")
+texture = SubResource("AtlasTexture_edvtm")
 
-[node name="ChoiceControl2" type="Control" parent="."]
-anchors_preset = 0
-offset_left = 360.0
-offset_top = 80.0
-offset_right = 540.0
-offset_bottom = 260.0
-scale = Vector2(0.990225, 0.950876)
-script = ExtResource("2_8i435")
-
-[node name="Panel" type="Panel" parent="ChoiceControl2"]
-layout_mode = 2
+[node name="SelectedIndicator" type="Control" parent="ChoiceControl1"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -111,6 +116,60 @@ offset_top = -80.0
 offset_right = 90.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="TopLeftTexture" type="TextureRect" parent="ChoiceControl1/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_hs4c5")
+
+[node name="BottomLeftTexture" type="TextureRect" parent="ChoiceControl1/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 60.0
+offset_right = 20.0
+offset_bottom = 100.0
+texture = SubResource("AtlasTexture_kycw0")
+
+[node name="TopRightTexture" type="TextureRect" parent="ChoiceControl1/SelectedIndicator"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = -20.0
+offset_right = 200.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_2utd1")
+
+[node name="BottomRightTexture" type="TextureRect" parent="ChoiceControl1/SelectedIndicator"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 60.0
+offset_right = 200.0
+offset_bottom = 100.0
+texture = SubResource("AtlasTexture_v2yqb")
+
+[node name="ChoiceControl2" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 360.0
+offset_top = 80.0
+offset_right = 540.0
+offset_bottom = 260.0
+script = ExtResource("2_8i435")
+
+[node name="Panel" type="Panel" parent="ChoiceControl2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -80.0
+offset_right = 90.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("4_bveux")
 
 [node name="TitleLabel" type="Label" parent="ChoiceControl2/Panel"]
 layout_mode = 0
@@ -133,15 +192,6 @@ horizontal_alignment = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="ColorRect" type="ColorRect" parent="ChoiceControl2"]
-visible = false
-z_index = -1
-custom_minimum_size = Vector2(180, 200)
-layout_mode = 0
-offset_right = 180.0
-offset_bottom = 200.0
-color = Color(1, 0, 0, 1)
-
 [node name="UpgradeIcon" parent="ChoiceControl2" instance=ExtResource("4_05ibt")]
 layout_mode = 1
 anchors_preset = 5
@@ -150,4 +200,50 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 80.0
 grow_vertical = 1
-texture = SubResource("AtlasTexture_o4bvt")
+texture = SubResource("AtlasTexture_ob62v")
+
+[node name="SelectedIndicator" type="Control" parent="ChoiceControl2"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -80.0
+offset_right = 90.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TopLeftTexture" type="TextureRect" parent="ChoiceControl2/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_hs4c5")
+
+[node name="BottomLeftTexture" type="TextureRect" parent="ChoiceControl2/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 60.0
+offset_right = 20.0
+offset_bottom = 100.0
+texture = SubResource("AtlasTexture_kycw0")
+
+[node name="TopRightTexture" type="TextureRect" parent="ChoiceControl2/SelectedIndicator"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = -20.0
+offset_right = 200.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_2utd1")
+
+[node name="BottomRightTexture" type="TextureRect" parent="ChoiceControl2/SelectedIndicator"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 60.0
+offset_right = 200.0
+offset_bottom = 100.0
+texture = SubResource("AtlasTexture_v2yqb")

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8j4jm5jlecfl"]
+[gd_scene load_steps=9 format=3 uid="uid://b8j4jm5jlecfl"]
 
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="1_cc1hu"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/BasicGuardController.cs" id="2_k3pwv"]
 [ext_resource type="Script" path="res://Enemies/BasicGuard/Vision.cs" id="2_rupft"]
-[ext_resource type="Texture2D" uid="uid://dno7yughr4ocp" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="4_bsy0y"]
+[ext_resource type="Texture2D" uid="uid://dyc3nyth34u3c" path="res://Assets/Vision_Cone_Red.png" id="3_ymhjc"]
+[ext_resource type="Texture2D" uid="uid://cmh7j0mky45kd" path="res://Assets/spotlight_sprite.png" id="5_1lb70"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0k48t"]
 size = Vector2(7, 10)
@@ -27,6 +28,12 @@ script = ExtResource("2_rupft")
 [node name="VisionShape" type="CollisionPolygon2D" parent="Vision"]
 modulate = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, 0, -32, 32, -20, 44, 0, 48, 20, 44, 32, 32)
+
+[node name="VisionLight" type="PointLight2D" parent="Vision"]
+scale = Vector2(0.5, 0.5)
+shadow_enabled = true
+texture = ExtResource("3_ymhjc")
+offset = Vector2(0, 64)
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 2)
@@ -52,8 +59,8 @@ path_postprocessing = 1
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("4_bsy0y")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_1lb70")
 
 [node name="AttackZone" type="Area2D" parent="."]
 
@@ -71,6 +78,10 @@ one_shot = true
 [node name="AlertTimer" type="Timer" parent="."]
 wait_time = 8.0
 
+[node name="PatrolTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
 [connection signal="body_shape_entered" from="Vision" to="." method="_on_vision_body_shape_entered"]
 [connection signal="body_shape_exited" from="Vision" to="." method="_on_vision_body_shape_exited"]
 [connection signal="body_entered" from="AttackZone" to="." method="_on_attack_zone_body_entered"]
@@ -78,3 +89,4 @@ wait_time = 8.0
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="SearchTimer" to="." method="_on_search_timer_timeout"]
 [connection signal="timeout" from="AlertTimer" to="." method="_on_alert_timer_timeout"]
+[connection signal="timeout" from="PatrolTimer" to="." method="_on_patrol_timer_timeout"]

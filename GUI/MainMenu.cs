@@ -1,22 +1,49 @@
 using Godot;
 using System;
-
+using System.Collections.Generic;
 
 public partial class MainMenu : Control
 {
-	private void _on_start_button_pressed()
+	[Export]
+	public GeneralChoiceControl[] controlList;
+	private int currentSelect = 0;
+
+	public override void _Ready()
 	{
-		GetTree().ChangeSceneToFile("res://World/LevelManager.tscn");
+		controlList[currentSelect].selected = true;
+		controlList[currentSelect].updateControl();
 	}
 
-	private void _on_options_button_pressed()
-	{
-		// Replace with function body.
-	}
+	public override async void _Process(double delta){
+		if (Input.IsActionJustPressed("up") || Input.IsActionJustPressed("action_up")){
+			controlList[currentSelect].selected = false;
+			controlList[currentSelect].updateControl();
+			
+			currentSelect--;
+			if (currentSelect < 0) currentSelect = controlList.Length-1;
 
-	private void _on_quit_button_pressed()
-	{
-		GetTree().Quit();
+			controlList[currentSelect].selected = true;
+			controlList[currentSelect].updateControl();
+		}
+
+		if (Input.IsActionJustPressed("down") || Input.IsActionJustPressed("action_down")){
+			controlList[currentSelect].selected = false;
+			controlList[currentSelect].updateControl();
+			
+			currentSelect++;
+			currentSelect %= controlList.Length;
+
+			controlList[currentSelect].selected = true;
+			controlList[currentSelect].updateControl();
+		}
+
+		if (Input.IsActionJustPressed("dash_interact")){
+			if (controlList[currentSelect].Name == "StartControl"){
+				GetTree().ChangeSceneToFile("res://World/LevelManager.tscn");
+			} else if (controlList[currentSelect].Name == "QuitControl"){
+				GetTree().Quit();
+			}
+		}
 	}
 }
 

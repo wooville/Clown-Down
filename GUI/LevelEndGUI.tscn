@@ -1,32 +1,32 @@
-[gd_scene load_steps=11 format=3 uid="uid://c4pil31gilho8"]
+[gd_scene load_steps=11 format=3 uid="uid://dilpkxsbaln0f"]
 
-[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_mlxmo"]
-[ext_resource type="Script" path="res://GUI/GameOverGUI.cs" id="2_gcag6"]
-[ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="3_bnby5"]
-[ext_resource type="Script" path="res://GUI/GeneralChoiceControl.cs" id="4_mtidi"]
-[ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="5_ufjm6"]
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_r6vf1"]
+[ext_resource type="Script" path="res://GUI/LevelEndGUI.cs" id="2_ffmkx"]
+[ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="3_3l2jq"]
+[ext_resource type="Script" path="res://GUI/GeneralChoiceControl.cs" id="4_geerc"]
+[ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="5_cj8bs"]
 
 [sub_resource type="Theme" id="Theme_m4q3h"]
-default_font = ExtResource("1_mlxmo")
+default_font = ExtResource("1_r6vf1")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hxxm4"]
-atlas = ExtResource("5_ufjm6")
+atlas = ExtResource("5_cj8bs")
 region = Rect2(24, 8, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ge2px"]
 resource_local_to_scene = true
-atlas = ExtResource("5_ufjm6")
+atlas = ExtResource("5_cj8bs")
 region = Rect2(24, 24, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md3y7"]
-atlas = ExtResource("5_ufjm6")
+atlas = ExtResource("5_cj8bs")
 region = Rect2(40, 8, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oowo7"]
-atlas = ExtResource("5_ufjm6")
+atlas = ExtResource("5_cj8bs")
 region = Rect2(40, 24, 16, 16)
 
-[node name="GameOverGUI" type="Control" groups=["game_over_gui", "needs_timer_gui"]]
+[node name="LevelEndGUI" type="Control" groups=["level_end_gui", "needs_timer_gui"]]
 process_mode = 4
 visible = false
 texture_filter = 1
@@ -37,7 +37,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_m4q3h")
-script = ExtResource("2_gcag6")
+script = ExtResource("2_ffmkx")
 
 [node name="StatsPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -52,7 +52,7 @@ offset_right = 120.0
 offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("3_bnby5")
+theme_override_styles/panel = ExtResource("3_3l2jq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="StatsPanel"]
 layout_mode = 1
@@ -71,7 +71,7 @@ alignment = 1
 
 [node name="TitleLabel" type="Label" parent="StatsPanel/VBoxContainer"]
 layout_mode = 2
-text = "CLOWN DOWNED UNDERGROUND"
+text = "CLOWN in UNDERGROUND 1"
 horizontal_alignment = 1
 uppercase = true
 
@@ -120,22 +120,22 @@ text = "In 00:00:00"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="QuitControl" type="Control" parent="."]
+[node name="ContinueControl" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -120.0
+offset_left = -40.0
 offset_top = -84.0
-offset_right = -40.0
+offset_right = 40.0
 offset_bottom = -44.0
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("4_mtidi")
+script = ExtResource("4_geerc")
 
-[node name="Panel" type="Panel" parent="QuitControl"]
+[node name="Panel" type="Panel" parent="ContinueControl"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -144,19 +144,19 @@ offset_left = -40.0
 offset_right = 40.0
 offset_bottom = 40.0
 grow_horizontal = 2
-theme_override_styles/panel = ExtResource("3_bnby5")
+theme_override_styles/panel = ExtResource("3_3l2jq")
 
-[node name="Label" type="Label" parent="QuitControl/Panel"]
+[node name="Label" type="Label" parent="ContinueControl/Panel"]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 40.0
-text = "QUIT"
+text = "CONTINUE"
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 uppercase = true
 
-[node name="SelectedIndicator" type="Control" parent="QuitControl"]
+[node name="SelectedIndicator" type="Control" parent="ContinueControl"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -165,7 +165,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopLeftTexture" type="TextureRect" parent="QuitControl/SelectedIndicator"]
+[node name="TopLeftTexture" type="TextureRect" parent="ContinueControl/SelectedIndicator"]
 layout_mode = 0
 offset_left = -20.0
 offset_top = -20.0
@@ -173,7 +173,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 texture = SubResource("AtlasTexture_hxxm4")
 
-[node name="BottomLeftTexture" type="TextureRect" parent="QuitControl/SelectedIndicator"]
+[node name="BottomLeftTexture" type="TextureRect" parent="ContinueControl/SelectedIndicator"]
 layout_mode = 0
 offset_left = -20.0
 offset_top = 20.0
@@ -181,7 +181,7 @@ offset_right = 20.0
 offset_bottom = 60.0
 texture = SubResource("AtlasTexture_ge2px")
 
-[node name="TopRightTexture" type="TextureRect" parent="QuitControl/SelectedIndicator"]
+[node name="TopRightTexture" type="TextureRect" parent="ContinueControl/SelectedIndicator"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -193,88 +193,7 @@ offset_bottom = 20.0
 grow_horizontal = 0
 texture = SubResource("AtlasTexture_md3y7")
 
-[node name="BottomRightTexture" type="TextureRect" parent="QuitControl/SelectedIndicator"]
-layout_mode = 0
-offset_left = 60.0
-offset_top = 20.0
-offset_right = 100.0
-offset_bottom = 60.0
-texture = SubResource("AtlasTexture_oowo7")
-
-[node name="RetryControl" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -84.0
-offset_right = 120.0
-offset_bottom = -44.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("4_mtidi")
-
-[node name="Panel" type="Panel" parent="RetryControl"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -40.0
-offset_right = 40.0
-offset_bottom = 40.0
-grow_horizontal = 2
-theme_override_styles/panel = ExtResource("3_bnby5")
-
-[node name="Label" type="Label" parent="RetryControl/Panel"]
-layout_mode = 0
-offset_right = 80.0
-offset_bottom = 40.0
-text = "RETRY"
-horizontal_alignment = 1
-vertical_alignment = 1
-clip_text = true
-uppercase = true
-
-[node name="SelectedIndicator" type="Control" parent="RetryControl"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TopLeftTexture" type="TextureRect" parent="RetryControl/SelectedIndicator"]
-layout_mode = 0
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-texture = SubResource("AtlasTexture_hxxm4")
-
-[node name="BottomLeftTexture" type="TextureRect" parent="RetryControl/SelectedIndicator"]
-layout_mode = 0
-offset_left = -20.0
-offset_top = 20.0
-offset_right = 20.0
-offset_bottom = 60.0
-texture = SubResource("AtlasTexture_ge2px")
-
-[node name="TopRightTexture" type="TextureRect" parent="RetryControl/SelectedIndicator"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 0
-texture = SubResource("AtlasTexture_md3y7")
-
-[node name="BottomRightTexture" type="TextureRect" parent="RetryControl/SelectedIndicator"]
+[node name="BottomRightTexture" type="TextureRect" parent="ContinueControl/SelectedIndicator"]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 20.0

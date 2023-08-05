@@ -1,8 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=17 format=3 uid="uid://c2gqyf401t7nr"]
 
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_kg4xl"]
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
+[ext_resource type="PackedScene" uid="uid://3bbgnv8rgsff" path="res://GUI/CooldownTexture.tscn" id="3_6vjcd"]
 [ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="4_5a42g"]
+[ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="4_e2mn0"]
+[ext_resource type="Texture2D" uid="uid://cr5ipentgy48a" path="res://Assets/Clown_Jail.png" id="4_kekrw"]
 [ext_resource type="Texture2D" uid="uid://b02a1dfkvmelu" path="res://Assets/merged_atlas.png" id="5_kmyfy"]
 [ext_resource type="Texture2D" uid="uid://ysrlk8jvh76o" path="res://Assets/Charge_Bar_Under.png" id="5_yl0il"]
 [ext_resource type="Texture2D" uid="uid://dh1owjy5fkavf" path="res://Assets/Charge_Bar_Over.png" id="6_bpdhy"]
@@ -11,17 +14,26 @@
 [sub_resource type="Theme" id="Theme_bbbls"]
 default_font = ExtResource("1_kg4xl")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6f7rg"]
+resource_local_to_scene = true
+atlas = ExtResource("4_e2mn0")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y28i"]
+atlas = ExtResource("4_e2mn0")
+region = Rect2(0, 0, 16, 16)
+
 [sub_resource type="Theme" id="Theme_tpbdm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mm3ja"]
-atlas = ExtResource("5_kmyfy")
-region = Rect2(128, 48, 16, 16)
+atlas = ExtResource("4_kekrw")
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_31ova"]
 atlas = ExtResource("5_kmyfy")
 region = Rect2(128, 64, 16, 16)
 
-[node name="MainGUI" type="Control"]
+[node name="MainGUI" type="Control" groups=["main_gui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,6 +43,69 @@ grow_vertical = 2
 theme = SubResource("Theme_bbbls")
 script = ExtResource("1_mpsxc")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -148.0
+offset_top = -60.0
+offset_right = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="ActionCooldownControl" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 60)
+layout_mode = 2
+
+[node name="ActionCooldownTexture" parent="HBoxContainer/ActionCooldownControl" instance=ExtResource("3_6vjcd")]
+layout_mode = 2
+texture = SubResource("AtlasTexture_6f7rg")
+
+[node name="Label" type="Label" parent="HBoxContainer/ActionCooldownControl"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "←↑↓→"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="DashCooldownControl" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 60)
+layout_mode = 2
+
+[node name="DashCooldownTexture" parent="HBoxContainer/DashCooldownControl" instance=ExtResource("3_6vjcd")]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0y28i")
+
+[node name="Label" type="Label" parent="HBoxContainer/DashCooldownControl"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -26.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "␣"
+horizontal_alignment = 1
+
 [node name="AbilityMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -39,20 +114,15 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -104.0
-offset_top = -136.0
+offset_top = -148.0
 offset_right = -8.0
-offset_bottom = -8.0
+offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AbilityMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="AbilityMarginContainer"]
-custom_minimum_size = Vector2(10, 0)
-layout_mode = 2
 size_flags_vertical = 8
 
 [node name="HealthMarginContainer" type="MarginContainer" parent="."]
@@ -85,10 +155,9 @@ layout_mode = 2
 texture_filter = 1
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 32.0
-offset_bottom = 30.0
+offset_left = 2.0
+offset_right = 30.0
+offset_bottom = 28.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 texture = ExtResource("4_5a42g")
@@ -121,10 +190,12 @@ layout_mode = 2
 [node name="ClownTexture" type="TextureRect" parent="StatsMarginContainer/VBoxContainer/ClownsControl"]
 texture_filter = 1
 custom_minimum_size = Vector2(28, 28)
-layout_mode = 2
-offset_top = 2.0
-offset_right = 28.0
-offset_bottom = 30.0
+layout_mode = 1
+offset_left = 4.0
+offset_top = 8.0
+offset_right = 32.0
+offset_bottom = 36.0
+scale = Vector2(0.75, 0.75)
 size_flags_horizontal = 0
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_mm3ja")

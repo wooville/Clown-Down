@@ -79,8 +79,8 @@ public partial class Player : CharacterBody2D
 		parryTextures[(int) SIDES.DOWN] = GetNode<TextureRect>("ParryTextureDown");
 
 		world = (Node2D) GetTree().GetFirstNodeInGroup("level");
-		upgrades.Add(UPGRADES.PIE);
-		sillyProgress = 90;
+		// upgrades.Add(UPGRADES.WHOOPIE_CUSHION);
+		// sillyProgress = 90;
 		// EmitSignal(SignalName.UpdateGUI);
 	}
 
@@ -91,6 +91,7 @@ public partial class Player : CharacterBody2D
 				sillyProgress -= (int) sillyDiminish;
 				sillyDiminish = 0;
 				if(sillyProgress < 0){
+					GetTree().CallGroup("main_gui", "sillyTimeOver");
 					silly = false;
 					sillyProgress = 0;
 				}
@@ -130,6 +131,7 @@ public partial class Player : CharacterBody2D
 				// velocity = GlobalPosition.Lerp(dashDirection, 0.5f);
 				canDash = false;
 				dashing = true;
+				GetTree().CallGroup("main_gui", "usedCooldown", "dash");
 			}
 			EmitSignal(SignalName.UpdateGUI);
 		} else if (!dashing) {
@@ -144,6 +146,7 @@ public partial class Player : CharacterBody2D
 				} else {
 					tryParryOnSide(SIDES.LEFT);
 				}
+				GetTree().CallGroup("main_gui", "usedCooldown", "action");
 			}
 		}
 
@@ -154,6 +157,7 @@ public partial class Player : CharacterBody2D
 				} else {
 					tryParryOnSide(SIDES.UP);
 				}
+				GetTree().CallGroup("main_gui", "usedCooldown", "action");
 			}
 		}
 
@@ -164,6 +168,7 @@ public partial class Player : CharacterBody2D
 				} else {
 					tryParryOnSide(SIDES.RIGHT);
 				}
+				GetTree().CallGroup("main_gui", "usedCooldown", "action");
 			}
 		}
 
@@ -174,6 +179,7 @@ public partial class Player : CharacterBody2D
 				} else {
 					tryParryOnSide(SIDES.DOWN);
 				}
+				GetTree().CallGroup("main_gui", "usedCooldown", "action");
 			}
 		}
 
@@ -281,8 +287,8 @@ public partial class Player : CharacterBody2D
 		if (hp <= 0){
 			if (!parryPauseTimer.IsStopped()) parryPauseTimer.Stop();
 			GetTree().Paused = true;
-			EmitSignal(SignalName.Died);
-			GetTree().CallGroup("stats_tracker", "gameEnd");
+			GetTree().CallGroup("main_gui", "stopTimerAndGetTotalTime");
+			GetTree().CallGroup("game_over_gui", "gameOver");
 		}
 	}
 
@@ -320,10 +326,12 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (sillyProgress >= 100){
+			GetTree().CallGroup("main_gui", "sillyTime", upgrades.Contains(UPGRADES.PIE));
 			sillyProgress = 100;
 			silly = true;
 		}
 
+		GetTree().CallGroup("main_gui", "finishCooldown", "action");
 		EmitSignal(SignalName.UpdateGUI);
 		
 		// start brief pause for juice
@@ -402,7 +410,7 @@ public partial class Player : CharacterBody2D
 
 	private void throwPie(SIDES side){
 		Pie newPie = pie.Instantiate<Pie>();
-		// newHonk.Position = GlobalPosition;
+		newPie.Position = GlobalPosition;
 		switch (side){
 			case SIDES.LEFT:
 				newPie.RotationDegrees = -90;

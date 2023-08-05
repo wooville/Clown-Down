@@ -6,7 +6,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oy4o8"]
 
-[node name="Exit" instance=ExtResource("1_ci53v")]
+[node name="Exit" groups=["exit"] instance=ExtResource("1_ci53v")]
 script = ExtResource("2_qepqo")
 
 [node name="CollisionShape2D" parent="." index="0"]

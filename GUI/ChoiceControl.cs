@@ -10,7 +10,7 @@ public partial class ChoiceControl : Control
 	private Label titleLabel;
 	private Label contentLabel;
 	private UpgradeIcon icon;
-	private ColorRect selectedIndicator;
+	private Control selectedIndicator;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -18,7 +18,7 @@ public partial class ChoiceControl : Control
 		titleLabel = GetNode<Label>("Panel/TitleLabel");
 		contentLabel = GetNode<Label>("Panel/ContentLabel");
 		icon = GetNode<UpgradeIcon>("UpgradeIcon");
-		selectedIndicator = GetNode<ColorRect>("ColorRect");
+		selectedIndicator = GetNode<Control>("SelectedIndicator");
 		
 	}
 
