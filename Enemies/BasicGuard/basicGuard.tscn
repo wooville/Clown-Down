@@ -76,7 +76,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="AlertTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 15.0
 
 [node name="PatrolTimer" type="Timer" parent="."]
 wait_time = 5.0

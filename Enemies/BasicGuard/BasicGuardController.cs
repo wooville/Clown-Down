@@ -26,6 +26,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private Area2D attackZone;
 	private Timer attackCoolDown;
 	private Timer alertTimer; 
+	private Vector2 alertLookAt = new Vector2(0,0);
 	private bool isControllable = true;
 	private State currentState;
 	private bool isDead = false;
@@ -365,8 +366,23 @@ public partial class BasicGuardController : CharacterBody2D
 	}
 
 	public void BeAlert(){
-		float angle =  0.125f;
-		visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+		//float angle =  0.125f;
+		//visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
+
+		float angle = visionCone.GetAngleTo(alertLookAt) - 1.5f;
+		if (angle > 0.04)
+			visionCone.Rotate(angle*((float)(MyDelta))*(turnSpeed/2));
+		else{
+			System.Random random = new System.Random();
+			float x = (float)(random.NextDouble()*(40) - 20);
+			float y = (float)(random.NextDouble()*(40) - 20);
+			GD.Print(x , y);
+			Vector2 temp = new Vector2(x, y);
+			alertLookAt = this.GlobalPosition + temp;
+
+			angle = visionCone.GetAngleTo(alertLookAt) - 1.5f;	
+			visionCone.Rotate(angle*((float)(MyDelta))*(turnSpeed/2));		
+		}
 	}
 	public void FireProjectile(Vector2 direction, float offsetAngle){
 		GD.Print("Fired");
