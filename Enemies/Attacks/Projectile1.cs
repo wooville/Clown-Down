@@ -35,17 +35,9 @@ public partial class Projectile1 : Area2D
 
 	private void _on_area_entered(Area2D area)
 	{
-		foreach(String str in area.GetGroups()){
-			//GD.Print(str);
-			/*
-			if(str == "wall" && numBounces > 0){
-				GD.Print("Hit wall and bounced");
-			}
-			else if (str == "Wall"){
-				GD.Print("Hit wall and broke");
-				QueueFree();
-			}
-			*/
+		if (area.IsInGroup("enemy") && parryRedirected){
+			area.GetParent<BasicGuardController>().TakeDamage(damage);
+			QueueFree();
 		}
 		//GD.Print(area);
 		// Replace with function body.

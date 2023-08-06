@@ -7,7 +7,7 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public float speed = 60.0f;
 	[Export]
-	public float sillySpeed = 100.0f;
+	public float sillySpeedIncrease = 40f;
 	[Export]
 	public float dashSpeed = 3.0f;
 	
@@ -79,7 +79,7 @@ public partial class Player : CharacterBody2D
 		parryTextures[(int) SIDES.DOWN] = GetNode<TextureRect>("ParryTextureDown");
 
 		world = (Node2D) GetTree().GetFirstNodeInGroup("level");
-		// upgrades.Add(UPGRADES.WHOOPIE_CUSHION);
+		// upgrades.Add(UPGRADES.FLOWER);
 		// sillyProgress = 90;
 		// EmitSignal(SignalName.UpdateGUI);
 	}
@@ -109,6 +109,7 @@ public partial class Player : CharacterBody2D
 
 		// Get the input direction and handle the movement/deceleration
 		Vector2 direction = Input.GetVector("left", "right", "up", "down");
+		var currentSpeed = (silly) ?  speed + sillySpeedIncrease : speed + (sillySpeedIncrease * (sillyProgress/100f));
 		
 
 		// interact if possible, else dash
@@ -124,7 +125,7 @@ public partial class Player : CharacterBody2D
 			}
 			// dash will speed up movement for very short duration
 			else if (canDash){
-				velocity = (silly) ? direction.Normalized() * sillySpeed * dashSpeed : direction.Normalized() * speed * dashSpeed;
+				velocity = direction.Normalized() * currentSpeed * dashSpeed;
 				if (dashLengthTimer.IsStopped()) dashLengthTimer.Start();
 				if (dashCooldownTimer.IsStopped()) dashCooldownTimer.Start();			
 
@@ -136,7 +137,7 @@ public partial class Player : CharacterBody2D
 			EmitSignal(SignalName.UpdateGUI);
 		} else if (!dashing) {
 			// normal movement
-			velocity = (silly) ? direction.Normalized() * sillySpeed : direction.Normalized() * speed;
+			velocity = direction.Normalized() * currentSpeed;
 		}
 
 		if (Input.IsActionJustPressed("action_left")){

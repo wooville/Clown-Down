@@ -39,7 +39,7 @@ public partial class BasicGuardController : CharacterBody2D
 	private bool isAsleep = false;
 	private int currentHealth;
 	private double myDelta = 0;
-	private bool canAttack = true;
+	private bool canAttack = false;
 
 	private Vector2 lastSeen = new Vector2(0f,0f);
 	private Vector2 startingPosition;
@@ -155,7 +155,7 @@ public partial class BasicGuardController : CharacterBody2D
 		world = GetParent<Node2D>();
 
 		randomizeFacing();
-		randomizePatrol();
+		// randomizePatrol();
 		randomizeAttackPattern();
 	}
 
@@ -292,6 +292,8 @@ public partial class BasicGuardController : CharacterBody2D
 					FireProjectile(direction, 0);
 					break;
 			}
+		} else if (attackCoolDown.IsStopped()){
+			attackCoolDown.Start();	// cooldown needs to tick over before guard attacks the first time
 		}
 	}
 
@@ -299,9 +301,6 @@ public partial class BasicGuardController : CharacterBody2D
 		//does nothing when idle
 		// GD.Print("idle");
 		if (patrolPoints[currentPatrolIndex] != Vector2.Zero){
-			float angle = visionCone.GetAngleTo(nextPatrolTarget) - 1.5f;
-			visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
-
 			// move to next patrol point after reaching target
 			if ((GlobalPosition - nextPatrolTarget).Round().IsZeroApprox()){
 				currentPatrolIndex++;
@@ -316,7 +315,12 @@ public partial class BasicGuardController : CharacterBody2D
 			nav.TargetPosition = nextPatrolTarget;
 			
 			var direction = nav.GetNextPathPosition() - GlobalPosition;
+			float angle = visionCone.GetAngleTo(nextPatrolTarget) - 1.5f;
+			visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
 			direction = direction.Normalized();
+
+			
+			
 			Velocity = direction *( (float)MyDelta * moveSpeed);
 			MoveAndSlide();
 		}
@@ -376,7 +380,7 @@ public partial class BasicGuardController : CharacterBody2D
 			System.Random random = new System.Random();
 			float x = (float)(random.NextDouble()*(40) - 20);
 			float y = (float)(random.NextDouble()*(40) - 20);
-			GD.Print(x , y);
+			// GD.Print(x , y);
 			Vector2 temp = new Vector2(x, y);
 			alertLookAt = this.GlobalPosition + temp;
 
@@ -385,7 +389,7 @@ public partial class BasicGuardController : CharacterBody2D
 		}
 	}
 	public void FireProjectile(Vector2 direction, float offsetAngle){
-		GD.Print("Fired");
+		// GD.Print("Fired");
 		Projectile1 inst = (Projectile1)projectile.Instantiate();
 		inst.Direction = direction.Rotated(offsetAngle);
 		inst.GlobalPosition = this.GlobalPosition;
@@ -508,7 +512,10 @@ public partial class BasicGuardController : CharacterBody2D
 		// if guard gets stuck try next patrol pt
 		currentPatrolIndex++;
 		currentPatrolIndex %= patrolPoints.Length;
-		GD.Print(GlobalPosition.Round() + patrolPoints[currentPatrolIndex] + " test");
+		// startingPosition = GlobalPosition.Round();
+		nextPatrolTarget = startingPosition + patrolPoints[currentPatrolIndex];
+		patrolTimer.Start();
+		// GD.Print(GlobalPosition.Round() + patrolPoints[currentPatrolIndex] + " test");
 	}
 }
 

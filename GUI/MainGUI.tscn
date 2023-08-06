@@ -14,7 +14,7 @@
 [sub_resource type="Theme" id="Theme_bbbls"]
 default_font = ExtResource("1_kg4xl")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6f7rg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_il8yq"]
 resource_local_to_scene = true
 atlas = ExtResource("4_e2mn0")
 region = Rect2(0, 16, 16, 16)
@@ -64,7 +64,7 @@ layout_mode = 2
 
 [node name="ActionCooldownTexture" parent="HBoxContainer/ActionCooldownControl" instance=ExtResource("3_6vjcd")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_6f7rg")
+texture = SubResource("AtlasTexture_il8yq")
 
 [node name="Label" type="Label" parent="HBoxContainer/ActionCooldownControl"]
 layout_mode = 1

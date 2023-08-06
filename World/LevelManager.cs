@@ -62,6 +62,8 @@ public partial class LevelManager : Node2D
 	public int totalClownsFreed;
 	public int totalGuardsGoofed;
 
+	private Player player;
+
 	public void buildWalls(int xWalls, int[] xL, int[] X, HashSet<int> checkSet, int dim) {
 		int last = 0;
 
@@ -369,6 +371,12 @@ public partial class LevelManager : Node2D
 		buildWalls(rWalls, rL, R, horSpots, width);
 
 		//**********************************************************
+		// Setup wall boundaries
+		// for (int i=0;i<height*2;i++) {
+		// 	for (int j=0;j<width*2;j++) {
+		// 		setCells(j,i,1,true);
+		// 	}
+		// }
 		
 		// Setup floor
 		for (int i=0;i<height;i++) {
@@ -603,9 +611,6 @@ public partial class LevelManager : Node2D
 		int numEnemies = guardsPerLevel[iteration];
 		GD.Print(numEnemies);
 
-		// int numPatrolPoints = 3;
-		// int xPatrolDistanceMax = 5;
-		// int yPatrolDistanceMax = 5;
 		for (int i = 0; i < numEnemies; i++) {
 			int x = random.Next(0, width);
 			int y = random.Next(0, height);
@@ -618,21 +623,46 @@ public partial class LevelManager : Node2D
 			var nme = (BasicGuardController) enemy.Instantiate();
 			nme.Position = new Vector2(16*x, 16*y);
 
-			// Vector2[] patrolPoints = new Vector2[numPatrolPoints];
-			// for (int p = 0; p < numPatrolPoints; p++){
-			// 	int xPatrol = random.Next(-xPatrolDistanceMax, xPatrolDistanceMax);
-			// 	int yPatrol = random.Next(-yPatrolDistanceMax, yPatrolDistanceMax);
+			// Vector2[] patrolPoints;
+			// bool regenPatrol;
+			// do {
+			// 	patrolPoints = generatePatrol();
 
-			// 	while (!suitableZoneSize(x+xPatrol,y+yPatrol) /*occupied[x+xPatrol,y+yPatrol] == 3*/) {
-			// 		xPatrol = random.Next(-xPatrolDistanceMax, xPatrolDistanceMax);
-			// 		yPatrol = random.Next(-yPatrolDistanceMax, yPatrolDistanceMax);
+			// 	// check if all points in patrol are valid or if we should regen
+			// 	// if point is valid also convert from tiles to pixels
+			// 	regenPatrol = false;
+			// 	for (int p = 0; p < patrolPoints.Length; p++){
+			// 		if (checkWithinBounds(x+(int)patrolPoints[p].X,y+(int)patrolPoints[p].Y) && !suitableZoneSize(x+(int)patrolPoints[p].X,y+(int)patrolPoints[p].Y)) {
+			// 			regenPatrol = true;
+			// 			break;
+			// 		} else {
+			// 			// convert to pixels
+			// 			patrolPoints[p].X *= 16;
+			// 			patrolPoints[p].Y *= 16;
+			// 		}
 			// 	}
+			// } while(regenPatrol);
 
-			// 	patrolPoints[p] = new Vector2(16*xPatrol, 16*yPatrol);
-			// 	GD.Print("P "+patrolPoints[p]);
-			// }
+			
+			// find random points within the generated space and convert to local points for enemy to patrol to
+			int numPatrolPoints = 4;
+			Vector2[] patrolPoints = new Vector2[numPatrolPoints];
+			for (int p = 0; p < numPatrolPoints-1; p++) {
+				int xPatrol = random.Next(0, width);
+				int yPatrol = random.Next(0, height);
 
-			// nme.patrolPoints = patrolPoints;
+				while (!suitableZoneSize(xPatrol,yPatrol)) {
+					xPatrol = random.Next(0, width);
+					yPatrol = random.Next(0, height);
+				}
+
+				patrolPoints[p] = nme.ToLocal(new Vector2(16*xPatrol, 16*yPatrol));
+				// patrolPoints[p] = new Vector2(16*xPatrol, 16*yPatrol);
+			}
+
+			// return back to starting position at end of patrol
+			patrolPoints[numPatrolPoints-1] = nme.Position;
+			nme.patrolPoints = patrolPoints;
 			// nme.randomizePatrol();
 			
 
@@ -640,9 +670,46 @@ public partial class LevelManager : Node2D
 			levelNode.AddChild(nme);
 		}
 
+		player.Position = new Vector2(25, 25);
+
 		// GD.Print("ITERATIONM " + iteration);
 		GetTree().CallGroup("main_gui", "setLevel", iteration);
 		GetTree().CallGroup("main_gui", "updateGUI");
+	}
+
+	// private Vector2[] generatePatrol(){
+	// 	var random = new Random();
+
+	// 	Vector2[] patrolPoints = new Vector2[4];
+	// 	// for (int i = 0; i < patrolPoints.Length; i++){
+	// 	// 	patrolPoints[i] = new Vector2(random.Next(-80, 80), random.Next(-80, 80));
+	// 	// }
+	// 	int xPatrolDistanceMin = 0;
+	// 	int yPatrolDistanceMin = 0;
+	// 	int xPatrolDistanceMax = 5;
+	// 	int yPatrolDistanceMax = 5;
+		
+	// 	int xPatrol = random.Next(xPatrolDistanceMin, xPatrolDistanceMax);
+	// 	int yPatrol = random.Next(yPatrolDistanceMin, yPatrolDistanceMax);
+
+	// 	// same pattern of walking x distance in a loop
+	// 	patrolPoints[0] = new Vector2(xPatrol, 0);
+	// 	patrolPoints[1] = new Vector2(0, yPatrol);
+	// 	patrolPoints[2] = new Vector2(-xPatrol, 0);
+	// 	patrolPoints[3] = new Vector2(0, -yPatrol);
+
+	// 	// shuffle patrol points array to vary pattern between guards
+	// 	int n = patrolPoints.Length;
+	// 	while (n > 1){
+	// 		int k = random.Next(n--);
+	// 		(patrolPoints[k], patrolPoints[n]) = (patrolPoints[n], patrolPoints[k]);
+	// 	}
+
+	// 	return patrolPoints;
+	// }
+
+	private bool checkWithinBounds(int x, int y){
+		return x > 0 && y > 0 && x < width && y < height;
 	}
 
 	private void tryEndLevel(int currentLevel){
@@ -701,6 +768,8 @@ public partial class LevelManager : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		player = GetNode<Player>("Player");
+
 		requiredClownsFreed.Add(1, 1);
 		requiredClownsFreed.Add(2, 2);
 		requiredClownsFreed.Add(3, 3);
