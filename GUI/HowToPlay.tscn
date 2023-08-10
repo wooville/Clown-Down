@@ -1,0 +1,703 @@
+[gd_scene load_steps=29 format=3 uid="uid://co6ds16eb0if1"]
+
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_80xdn"]
+[ext_resource type="Script" path="res://GUI/HowToPlay.cs" id="2_easpm"]
+[ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="4_5r3mo"]
+[ext_resource type="Texture2D" uid="uid://bgffvlg3owvj6" path="res://Assets/Icons/Chevron-Arrow-Right.png" id="4_eysp5"]
+[ext_resource type="Texture2D" uid="uid://cr5ipentgy48a" path="res://Assets/Clown_Jail.png" id="5_0fybf"]
+[ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="5_1u3hj"]
+[ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="5_go34j"]
+[ext_resource type="Texture2D" uid="uid://dmpol8yf2srf5" path="res://Assets/Icons/Chevron-Arrow-Left.png" id="5_jcrj5"]
+[ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="6_7vnvo"]
+[ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="6_wqbkc"]
+[ext_resource type="Texture2D" uid="uid://duqhy17mmvc5t" path="res://Assets/Icons/gdb-keyboard-2.png" id="9_p72h4"]
+
+[sub_resource type="Theme" id="Theme_swygi"]
+default_font = ExtResource("1_80xdn")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3lfp"]
+atlas = ExtResource("5_go34j")
+region = Rect2(24, 8, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgy60"]
+resource_local_to_scene = true
+atlas = ExtResource("5_go34j")
+region = Rect2(24, 24, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wivp1"]
+atlas = ExtResource("5_go34j")
+region = Rect2(40, 8, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rn1e"]
+atlas = ExtResource("5_go34j")
+region = Rect2(40, 24, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3f00"]
+atlas = ExtResource("5_1u3hj")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jowxx"]
+atlas = ExtResource("5_0fybf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67x28"]
+atlas = ExtResource("5_1u3hj")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfxdd"]
+resource_local_to_scene = true
+atlas = ExtResource("5_1u3hj")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsurc"]
+resource_local_to_scene = true
+atlas = ExtResource("6_7vnvo")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q23c4"]
+resource_local_to_scene = true
+atlas = ExtResource("5_1u3hj")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ea4cy"]
+atlas = ExtResource("9_p72h4")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfixc"]
+atlas = ExtResource("9_p72h4")
+region = Rect2(64, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yjrv"]
+atlas = ExtResource("9_p72h4")
+region = Rect2(80, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn20x"]
+atlas = ExtResource("9_p72h4")
+region = Rect2(96, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fb30e"]
+atlas = ExtResource("9_p72h4")
+region = Rect2(304, 80, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djog6"]
+atlas = ExtResource("9_p72h4")
+region = Rect2(32, 576, 32, 16)
+
+[node name="HowToPlay" type="Control" node_paths=PackedStringArray("panelList")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_swygi")
+script = ExtResource("2_easpm")
+panelList = [NodePath("Panel1"), NodePath("Panel2"), NodePath("Panel3"), NodePath("Panel4"), NodePath("Panel5")]
+
+[node name="ContinuePanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("4_5r3mo")
+
+[node name="Label" type="Label" parent="ContinuePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GOT IT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectedIndicator" type="Control" parent="ContinuePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeftTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_w3lfp")
+
+[node name="BottomLeftTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 60.0
+texture = SubResource("AtlasTexture_rgy60")
+
+[node name="TopRightTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_wivp1")
+
+[node name="BottomRightTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 60.0
+texture = SubResource("AtlasTexture_6rn1e")
+
+[node name="Panel1" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_5r3mo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpacingLabel3" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TitleLabel" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SpacingLabel1" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="ClownTexture" type="TextureRect" parent="Panel1/VBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_y3f00")
+
+[node name="SpacingLabel4" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel1" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+text = "the clown is headed down into the dungeon to rescue their fellow clowns!"
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="SpacingLabel2" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel5" type="Label" parent="Panel1/VBoxContainer"]
+layout_mode = 2
+text = "Try to free all of the clowns as QUICKLY as possible while taking out as many guards as you can."
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="Panel2" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_5r3mo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpacingLabel2" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TitleLabel" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SpacingLabel1" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel2" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+text = "Jailed clowns can be freed with keys hidden around the level. each floor also has a safe containing a clown prop that will make you stronger!"
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="SpacingLabel3" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="KeyTexture" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_wqbkc")
+
+[node name="ClownTexture" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_jowxx")
+
+[node name="SafeTexture" type="TextureRect" parent="Panel2/VBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_67x28")
+
+[node name="Panel3" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_5r3mo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpacingLabel2" type="Label" parent="Panel3/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TitleLabel" type="Label" parent="Panel3/VBoxContainer"]
+layout_mode = 2
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SpacingLabel1" type="Label" parent="Panel3/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel3" type="Label" parent="Panel3/VBoxContainer"]
+layout_mode = 2
+text = "patrolling guards will pursue you; parry their attacks WITH SLAPSTICK STYLE to build your silly meter. When your meter is full, use your rubber chicken to take out the guards!"
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="SpacingLabel3" type="Label" parent="Panel3/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel3/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GuardTexture" type="TextureRect" parent="Panel3/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_qfxdd")
+
+[node name="ChickenTexture" type="TextureRect" parent="Panel3/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_gsurc")
+
+[node name="Panel4" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_5r3mo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpacingLabel2" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TitleLabel" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SpacingLabel1" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel3" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+text = "ONCE YOU'VE FREED ALL OF THE CLOWNS IN THE LEVEL, FIND THE EXIT TO HEAD DOWN TO THE NEXT FLOOR."
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="SpacingLabel3" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="ExitTexture" type="TextureRect" parent="Panel4/VBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_q23c4")
+
+[node name="SpacingLabel4" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel4" type="Label" parent="Panel4/VBoxContainer"]
+layout_mode = 2
+text = "ONCE YOU'VE FINISHED THE THIRD LEVEL, YOU'VE BEATEN THE GAME!"
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="Panel5" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_5r3mo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpacingLabel2" type="Label" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TitleLabel" type="Label" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+text = "controls"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SpacingLabel3" type="Label" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Control3" type="Control" parent="Panel5/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="TitleLabel2" type="Label" parent="Panel5/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Movement"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Control" type="Control" parent="Panel5/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="WASDControl" type="Control" parent="Panel5/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="W" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer/WASDControl"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -8.0
+offset_right = 8.0
+offset_bottom = 16.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_ea4cy")
+
+[node name="A" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer/WASDControl"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_mfixc")
+
+[node name="S" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer/WASDControl"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -16.0
+offset_right = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_3yjrv")
+
+[node name="D" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer/WASDControl"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_kn20x")
+
+[node name="Control2" type="Control" parent="Panel5/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="SpacingLabel4" type="Label" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Control3" type="Control" parent="Panel5/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="TitleLabel2" type="Label" parent="Panel5/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Parry
+"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="Control" type="Control" parent="Panel5/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="ArrowKeysTexture" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_fb30e")
+
+[node name="Control2" type="Control" parent="Panel5/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="SpacingLabel5" type="Label" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Panel5/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Control3" type="Control" parent="Panel5/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="TitleLabel2" type="Label" parent="Panel5/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Dash"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="Control" type="Control" parent="Panel5/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="ArrowKeysTexture" type="TextureRect" parent="Panel5/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_djog6")
+
+[node name="Label" type="Label" parent="Panel5/VBoxContainer/HBoxContainer3/ArrowKeysTexture"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -6.5
+offset_top = -12.0
+offset_right = 6.5
+offset_bottom = 14.0
+grow_horizontal = 2
+text = "␣"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="Panel5/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="ArrowLeft" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -20.0
+offset_right = 72.0
+offset_bottom = 12.0
+grow_vertical = 2
+texture = ExtResource("5_jcrj5")
+
+[node name="ArrowRight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -20.0
+offset_right = -48.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("4_eysp5")

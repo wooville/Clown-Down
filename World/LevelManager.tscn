@@ -13,6 +13,7 @@ default_font = ExtResource("6_4iw2l")
 
 [node name="LevelManager" type="Node2D" groups=["manager"]]
 process_mode = 3
+texture_filter = 1
 script = ExtResource("1_8cg6b")
 
 [node name="Player" parent="." instance=ExtResource("2_t0pwe")]

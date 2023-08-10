@@ -15,6 +15,7 @@ public partial class Player : CharacterBody2D
 	private bool dashing = false;
 	private bool canDash = true;
 	private bool canPerformAction = true;
+	private bool canBeHit = true;
 	public int sillyProgress {get;set;} = 0;
 	private double sillyDiminish = 0.0;	// accumulates with delta before being used to diminish silly meter during silly time
 	private double sillyMeterLostPerSecond = 10;
@@ -32,6 +33,7 @@ public partial class Player : CharacterBody2D
 	private Timer parryTimer;
 	private Timer actionCooldownTimer;
 	private Timer parryPauseTimer;
+	private Timer hitTimer;
 	private Area2D parryArea;
 	private CollisionShape2D collisionShape;
 
@@ -71,6 +73,7 @@ public partial class Player : CharacterBody2D
 		actionCooldownTimer = GetNode<Timer>("ActionCooldownTimer");
 		parryPauseTimer = GetNode<Timer>("ParryPauseTimer");
 		parryPauseTimer.ProcessMode = Node.ProcessModeEnum.Always;
+		hitTimer = GetNode<Timer>("HitTimer");
 
 		parryArea = GetNode<Area2D>("ParryArea");
 		parryTextures[(int) SIDES.LEFT] = GetNode<TextureRect>("ParryTextureLeft");
@@ -264,6 +267,10 @@ public partial class Player : CharacterBody2D
 		canDash = true;
 	}
 
+	private void _on_hit_timer_timeout(){
+		canBeHit = true;
+	}
+
 	private void _on_interact_area_entered(Area2D area){
 		if (area.IsInGroup("interactable")) {
 			var interactable = (Interactable) area;
@@ -281,34 +288,23 @@ public partial class Player : CharacterBody2D
 	}
 
 	public void TakeDamage(int damage){
-		hp -= damage;
-		// GD.Print(hp);
-		EmitSignal(SignalName.UpdateGUI);
+		if (canBeHit){
+			hp -= damage;
+			// GD.Print(hp);
+			EmitSignal(SignalName.UpdateGUI);
 
-		if (hp <= 0){
-			if (!parryPauseTimer.IsStopped()) parryPauseTimer.Stop();
-			GetTree().Paused = true;
-			GetTree().CallGroup("main_gui", "stopTimerAndGetTotalTime");
-			GetTree().CallGroup("game_over_gui", "gameOver");
+			if (hp <= 0){
+				if (!parryPauseTimer.IsStopped()) parryPauseTimer.Stop();
+				GetTree().Paused = true;
+				GetTree().CallGroup("main_gui", "stopTimerAndGetTotalTime");
+				GetTree().CallGroup("game_over_gui", "gameOver");
+			} else {
+				canBeHit = false;
+				if (hitTimer.IsStopped()) hitTimer.Start();
+			}
+			
 		}
 	}
-
-	// private void _on_pointer_area_entered(Area2D area){
-	// 	if (area.IsInGroup("enemy")) {
-	// 		GD.Print("yeah");
-	// 	}
-		// if (area.IsInGroup("parryable")){
-		// 	if (parrying) {
-		// 		GD.Print("parried");
-		// 		canPerformAction = true;
-		// 		sillyProgress += 10;
-		// 		actionCooldownTimer.Stop();
-		// 		parryPauseTimer.Start();
-		// 		EmitSignal(SignalName.UpdateGUI);
-		// 		GetTree().Paused = true;
-		// 	}
-		// }
-	// }
 
 	private void parrySuccess(){
 		// reset for next parry

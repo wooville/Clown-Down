@@ -40,6 +40,8 @@ public partial class MainMenu : Control
 		if (Input.IsActionJustPressed("dash_interact")){
 			if (controlList[currentSelect].Name == "StartControl"){
 				GetTree().ChangeSceneToFile("res://World/LevelManager.tscn");
+			} else if (controlList[currentSelect].Name == "HowToPlayControl"){
+				GetTree().ChangeSceneToFile("res://GUI/HowToPlay.tscn");
 			} else if (controlList[currentSelect].Name == "QuitControl"){
 				GetTree().Quit();
 			}

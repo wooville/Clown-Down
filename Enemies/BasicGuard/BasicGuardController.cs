@@ -315,7 +315,7 @@ public partial class BasicGuardController : CharacterBody2D
 			nav.TargetPosition = nextPatrolTarget;
 			
 			var direction = nav.GetNextPathPosition() - GlobalPosition;
-			float angle = visionCone.GetAngleTo(nextPatrolTarget) - 1.5f;
+			float angle = visionCone.GetAngleTo(nav.GetNextPathPosition()) - 1.5f;
 			visionCone.Rotate(angle*((float)(MyDelta))*turnSpeed);
 			direction = direction.Normalized();
 

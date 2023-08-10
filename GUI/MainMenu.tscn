@@ -36,7 +36,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_swygi")
 script = ExtResource("1_0aqfw")
-controlList = [NodePath("MarginContainer/VBoxContainer/StartControl"), NodePath("MarginContainer/VBoxContainer/QuitControl")]
+controlList = [NodePath("MarginContainer/VBoxContainer/StartControl"), NodePath("MarginContainer/VBoxContainer/HowToPlayControl"), NodePath("MarginContainer/VBoxContainer/QuitControl")]
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 1
@@ -152,6 +152,89 @@ grow_horizontal = 0
 texture = SubResource("AtlasTexture_rxop2")
 
 [node name="BottomRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/StartControl/SelectedIndicator"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 4.0
+offset_right = 220.0
+offset_bottom = 44.0
+texture = SubResource("AtlasTexture_vf7q8")
+
+[node name="HowToPlayControl" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+script = ExtResource("3_4n0hd")
+
+[node name="HowToPlayPanel" type="Panel" parent="MarginContainer/VBoxContainer/HowToPlayControl"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -12.0
+offset_right = 100.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_q74ls")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HowToPlayControl/HowToPlayPanel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -9.5
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="SelectedIndicator" type="Control" parent="MarginContainer/VBoxContainer/HowToPlayControl"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_p6nk6")
+
+[node name="BottomLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 4.0
+offset_right = 20.0
+offset_bottom = 44.0
+texture = SubResource("AtlasTexture_a2iwt")
+
+[node name="TopRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+texture = SubResource("AtlasTexture_rxop2")
+
+[node name="BottomRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
 layout_mode = 0
 offset_left = 180.0
 offset_top = 4.0

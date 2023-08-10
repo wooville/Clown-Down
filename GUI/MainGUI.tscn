@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="4_e2mn0"]
 [ext_resource type="Texture2D" uid="uid://cr5ipentgy48a" path="res://Assets/Clown_Jail.png" id="4_kekrw"]
 [ext_resource type="Texture2D" uid="uid://b02a1dfkvmelu" path="res://Assets/merged_atlas.png" id="5_kmyfy"]
+[ext_resource type="Texture2D" uid="uid://c4bmmqnocyemh" path="res://Assets/Icons/Double-Chevron-Arrow-Right.png" id="5_o2dxw"]
 [ext_resource type="Texture2D" uid="uid://ysrlk8jvh76o" path="res://Assets/Charge_Bar_Under.png" id="5_yl0il"]
 [ext_resource type="Texture2D" uid="uid://dh1owjy5fkavf" path="res://Assets/Charge_Bar_Over.png" id="6_bpdhy"]
 [ext_resource type="Texture2D" uid="uid://ju142pneqyco" path="res://Assets/Charge_Bar_Progress.png" id="7_640ul"]
@@ -14,14 +15,10 @@
 [sub_resource type="Theme" id="Theme_bbbls"]
 default_font = ExtResource("1_kg4xl")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_il8yq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pfqwt"]
 resource_local_to_scene = true
 atlas = ExtResource("4_e2mn0")
 region = Rect2(0, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0y28i"]
-atlas = ExtResource("4_e2mn0")
-region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="Theme" id="Theme_tpbdm"]
 
@@ -64,7 +61,7 @@ layout_mode = 2
 
 [node name="ActionCooldownTexture" parent="HBoxContainer/ActionCooldownControl" instance=ExtResource("3_6vjcd")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_il8yq")
+texture = SubResource("AtlasTexture_pfqwt")
 
 [node name="Label" type="Label" parent="HBoxContainer/ActionCooldownControl"]
 layout_mode = 1
@@ -88,8 +85,16 @@ custom_minimum_size = Vector2(40, 60)
 layout_mode = 2
 
 [node name="DashCooldownTexture" parent="HBoxContainer/DashCooldownControl" instance=ExtResource("3_6vjcd")]
-layout_mode = 2
-texture = SubResource("AtlasTexture_0y28i")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_right = 16.0
+offset_bottom = 32.0
+grow_horizontal = 2
+texture = ExtResource("5_o2dxw")
 
 [node name="Label" type="Label" parent="HBoxContainer/DashCooldownControl"]
 layout_mode = 1
