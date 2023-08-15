@@ -35,6 +35,19 @@ theme = SubResource("Theme_vcdn7")
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0, 0, 0, 1)
 
+[node name="BackgroundColor" type="ColorRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -154806.0
+offset_top = -103979.0
+offset_right = 845193.0
+offset_bottom = 896020.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
 [connection signal="Died" from="Player" to="CanvasLayer/GameOverGUI" method="_on_player_died"]
 [connection signal="UpdateGUI" from="Player" to="CanvasLayer/MainGUI" method="_on_player_update_gui"]
 [connection signal="UpgradeAcquired" from="CanvasLayer/ChoiceMenu" to="Player" method="_on_choice_menu_upgrade_acquired"]

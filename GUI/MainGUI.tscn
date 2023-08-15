@@ -1,11 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://c2gqyf401t7nr"]
+[gd_scene load_steps=16 format=3 uid="uid://c2gqyf401t7nr"]
 
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_kg4xl"]
 [ext_resource type="Script" path="res://GUI/MainGUI.cs" id="1_mpsxc"]
 [ext_resource type="PackedScene" uid="uid://3bbgnv8rgsff" path="res://GUI/CooldownTexture.tscn" id="3_6vjcd"]
 [ext_resource type="Texture2D" uid="uid://e0jpt3vrgjtn" path="res://Assets/key.png" id="4_5a42g"]
-[ext_resource type="Texture2D" uid="uid://b0d6sfglm28oy" path="res://Assets/Item_Sheet.png" id="4_e2mn0"]
 [ext_resource type="Texture2D" uid="uid://cr5ipentgy48a" path="res://Assets/Clown_Jail.png" id="4_kekrw"]
+[ext_resource type="Texture2D" uid="uid://cu4qy0xspv3nv" path="res://Assets/Icons/Cursor-5.png" id="5_8tnwe"]
 [ext_resource type="Texture2D" uid="uid://b02a1dfkvmelu" path="res://Assets/merged_atlas.png" id="5_kmyfy"]
 [ext_resource type="Texture2D" uid="uid://c4bmmqnocyemh" path="res://Assets/Icons/Double-Chevron-Arrow-Right.png" id="5_o2dxw"]
 [ext_resource type="Texture2D" uid="uid://ysrlk8jvh76o" path="res://Assets/Charge_Bar_Under.png" id="5_yl0il"]
@@ -14,11 +14,6 @@
 
 [sub_resource type="Theme" id="Theme_bbbls"]
 default_font = ExtResource("1_kg4xl")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pfqwt"]
-resource_local_to_scene = true
-atlas = ExtResource("4_e2mn0")
-region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="Theme" id="Theme_tpbdm"]
 
@@ -60,8 +55,16 @@ custom_minimum_size = Vector2(40, 60)
 layout_mode = 2
 
 [node name="ActionCooldownTexture" parent="HBoxContainer/ActionCooldownControl" instance=ExtResource("3_6vjcd")]
-layout_mode = 2
-texture = SubResource("AtlasTexture_pfqwt")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_right = 16.0
+offset_bottom = 32.0
+grow_horizontal = 2
+texture = ExtResource("5_8tnwe")
 
 [node name="Label" type="Label" parent="HBoxContainer/ActionCooldownControl"]
 layout_mode = 1

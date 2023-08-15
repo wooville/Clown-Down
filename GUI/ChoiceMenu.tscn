@@ -11,7 +11,7 @@
 [sub_resource type="Theme" id="Theme_0tjjj"]
 default_font = ExtResource("1_eak0m")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aachk"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hhws"]
 resource_local_to_scene = true
 atlas = ExtResource("5_wrbjh")
 region = Rect2(48, 16, 16, 16)
@@ -33,7 +33,7 @@ region = Rect2(40, 8, 16, 16)
 atlas = ExtResource("6_6u0rf")
 region = Rect2(40, 24, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uc1bf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wbhb"]
 resource_local_to_scene = true
 atlas = ExtResource("5_wrbjh")
 region = Rect2(48, 16, 16, 16)
@@ -101,7 +101,7 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 80.0
 grow_vertical = 1
-texture = SubResource("AtlasTexture_aachk")
+texture = SubResource("AtlasTexture_0hhws")
 
 [node name="SelectedIndicator" type="Control" parent="ChoiceControl1"]
 visible = false
@@ -200,7 +200,7 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 80.0
 grow_vertical = 1
-texture = SubResource("AtlasTexture_uc1bf")
+texture = SubResource("AtlasTexture_5wbhb")
 
 [node name="SelectedIndicator" type="Control" parent="ChoiceControl2"]
 visible = false

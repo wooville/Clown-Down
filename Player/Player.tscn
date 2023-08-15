@@ -1,12 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://bydivnjpmq1bh"]
+[gd_scene load_steps=15 format=3 uid="uid://bydivnjpmq1bh"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_u3edf"]
 [ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="2_ofol4"]
 [ext_resource type="Texture2D" uid="uid://cmh7j0mky45kd" path="res://Assets/spotlight_sprite.png" id="3_mtg4f"]
 [ext_resource type="Texture2D" uid="uid://eh5w0ufigs3r" path="res://Assets/Deflects.png" id="4_7slns"]
+[ext_resource type="Script" path="res://Player/ShaderController.cs" id="4_j6isb"]
+[ext_resource type="Shader" path="res://Player/SillyShader.gdshader" id="4_r6any"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20bqk"]
 size = Vector2(6, 12)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rftx5"]
+shader = ExtResource("4_r6any")
+shader_parameter/offset = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uty7k"]
 size = Vector2(10, 16)
@@ -39,6 +45,7 @@ z_index = 1
 texture_filter = 1
 collision_layer = 9
 script = ExtResource("1_u3edf")
+speed = 100.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -56,8 +63,19 @@ energy = 1.5
 shadow_enabled = true
 texture = ExtResource("3_mtg4f")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["shader"]]
 zoom = Vector2(2, 2)
+script = ExtResource("4_j6isb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="ScreenRect" type="ColorRect" parent="Camera2D/CanvasLayer"]
+material = SubResource("ShaderMaterial_rftx5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ActionCooldownTimer" type="Timer" parent="."]
 one_shot = true

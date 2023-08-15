@@ -1,0 +1,498 @@
+[gd_scene load_steps=22 format=3 uid="uid://ddctwy6w72u4h"]
+
+[ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_53ckv"]
+[ext_resource type="Script" path="res://GUI/Credits.cs" id="2_ik6a4"]
+[ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="3_gmm0l"]
+[ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="4_agnkv"]
+[ext_resource type="PackedScene" uid="uid://3bbgnv8rgsff" path="res://GUI/CooldownTexture.tscn" id="6_j5sv1"]
+[ext_resource type="Texture2D" uid="uid://c4bmmqnocyemh" path="res://Assets/Icons/Double-Chevron-Arrow-Right.png" id="7_d0s0a"]
+[ext_resource type="Texture2D" uid="uid://cu4qy0xspv3nv" path="res://Assets/Icons/Cursor-5.png" id="8_vqtvr"]
+[ext_resource type="Texture2D" uid="uid://duqhy17mmvc5t" path="res://Assets/Icons/gdb-keyboard-2.png" id="9_6jjlo"]
+[ext_resource type="Texture2D" uid="uid://dmpol8yf2srf5" path="res://Assets/Icons/Chevron-Arrow-Left.png" id="10_4wiiu"]
+[ext_resource type="Texture2D" uid="uid://bgffvlg3owvj6" path="res://Assets/Icons/Chevron-Arrow-Right.png" id="11_ebfts"]
+
+[sub_resource type="Theme" id="Theme_swygi"]
+default_font = ExtResource("1_53ckv")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3lfp"]
+atlas = ExtResource("4_agnkv")
+region = Rect2(24, 8, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgy60"]
+resource_local_to_scene = true
+atlas = ExtResource("4_agnkv")
+region = Rect2(24, 24, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wivp1"]
+atlas = ExtResource("4_agnkv")
+region = Rect2(40, 8, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rn1e"]
+atlas = ExtResource("4_agnkv")
+region = Rect2(40, 24, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cgvm"]
+atlas = ExtResource("9_6jjlo")
+region = Rect2(32, 576, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ippgj"]
+atlas = ExtResource("9_6jjlo")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u11of"]
+atlas = ExtResource("9_6jjlo")
+region = Rect2(64, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbnhj"]
+atlas = ExtResource("9_6jjlo")
+region = Rect2(80, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xdw0"]
+atlas = ExtResource("9_6jjlo")
+region = Rect2(96, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gr0p5"]
+atlas = ExtResource("9_6jjlo")
+region = Rect2(304, 80, 48, 32)
+
+[node name="Credits" type="Control" node_paths=PackedStringArray("panelList")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_swygi")
+script = ExtResource("2_ik6a4")
+panelList = [NodePath("Panel1"), NodePath("Panel2")]
+
+[node name="ContinuePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -70.0
+offset_right = 40.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("3_gmm0l")
+
+[node name="Label" type="Label" parent="ContinuePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "BACK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectedIndicator" type="Control" parent="ContinuePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeftTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_w3lfp")
+
+[node name="BottomLeftTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 60.0
+texture = SubResource("AtlasTexture_rgy60")
+
+[node name="TopRightTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_wivp1")
+
+[node name="BottomRightTexture" type="TextureRect" parent="ContinuePanel/SelectedIndicator"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 60.0
+texture = SubResource("AtlasTexture_6rn1e")
+
+[node name="Panel1" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_gmm0l")
+
+[node name="TitleLabel" type="Label" parent="Panel1"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 20.0
+offset_right = 394.0
+offset_bottom = 40.0
+text = "credits"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="JasonControl" type="Control" parent="Panel1"]
+custom_minimum_size = Vector2(382, 44)
+layout_mode = 2
+anchors_preset = 0
+offset_left = 9.0
+offset_top = 56.0
+offset_right = 391.0
+offset_bottom = 100.0
+grow_horizontal = 2
+
+[node name="TitleLabel" type="Label" parent="Panel1/JasonControl"]
+layout_mode = 1
+offset_right = 80.0
+offset_bottom = 20.0
+text = "Jason Bere"
+vertical_alignment = 1
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel1/JasonControl"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_bottom = 44.0
+grow_horizontal = 0
+
+[node name="CreditLabel1" type="Label" parent="Panel1/JasonControl/VBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Graphics Design Lead"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="CreditLabel2" type="Label" parent="Panel1/JasonControl/VBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "AI Programmer"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="AlexControl" type="Control" parent="Panel1"]
+custom_minimum_size = Vector2(382, 20)
+layout_mode = 2
+anchors_preset = 0
+offset_left = 9.0
+offset_top = 116.0
+offset_right = 391.0
+offset_bottom = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="Panel1/AlexControl"]
+layout_mode = 1
+offset_right = 80.0
+offset_bottom = 20.0
+text = "Alex Fediw"
+vertical_alignment = 1
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel1/AlexControl"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_bottom = 44.0
+grow_horizontal = 0
+
+[node name="CreditLabel1" type="Label" parent="Panel1/AlexControl/VBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Level Design Lead"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="JulianControl" type="Control" parent="Panel1"]
+custom_minimum_size = Vector2(382, 0)
+layout_mode = 2
+anchors_preset = 0
+offset_left = 9.0
+offset_top = 152.0
+offset_right = 391.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TitleLabel" type="Label" parent="Panel1/JulianControl"]
+layout_mode = 1
+offset_right = 80.0
+offset_bottom = 20.0
+text = "julian woo"
+vertical_alignment = 1
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel1/JulianControl"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_bottom = 44.0
+grow_horizontal = 0
+
+[node name="CreditLabel1" type="Label" parent="Panel1/JulianControl/VBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "project manager"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="CreditLabel2" type="Label" parent="Panel1/JulianControl/VBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "UI Programmer"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="CreditLabel3" type="Label" parent="Panel1/JulianControl/VBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "gameplay Programmer"
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="Panel2" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_gmm0l")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpacingLabel3" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TitleLabel" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+text = "additional assets"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel1" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+text = "gamepad/controller prompts pack
+Greatdocbrown"
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ArrowKeysTexture" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_0cgvm")
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/HBoxContainer/ArrowKeysTexture"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -6.5
+offset_top = -12.0
+offset_right = 6.5
+offset_bottom = 14.0
+grow_horizontal = 2
+text = "␣"
+horizontal_alignment = 1
+
+[node name="WASDControl" type="Control" parent="Panel2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="W" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer/WASDControl"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -8.0
+offset_right = 8.0
+offset_bottom = 16.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_ippgj")
+
+[node name="A" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer/WASDControl"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_u11of")
+
+[node name="S" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer/WASDControl"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -16.0
+offset_right = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_tbnhj")
+
+[node name="D" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer/WASDControl"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_7xdw0")
+
+[node name="ArrowKeysTexture2" type="TextureRect" parent="Panel2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_gr0p5")
+
+[node name="SpacingLabel5" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+uppercase = true
+
+[node name="LineLabel2" type="Label" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+text = "lucid icons
+midhil M. (Leo Red)"
+horizontal_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ActionCooldownTexture" parent="Panel2/VBoxContainer/HBoxContainer2" instance=ExtResource("6_j5sv1")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_vqtvr")
+
+[node name="DashCooldownTexture" parent="Panel2/VBoxContainer/HBoxContainer2" instance=ExtResource("6_j5sv1")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("7_d0s0a")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[node name="ArrowLeft" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -20.0
+offset_right = 72.0
+offset_bottom = 12.0
+grow_vertical = 2
+texture = ExtResource("10_4wiiu")
+
+[node name="ArrowRight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -20.0
+offset_right = -48.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("11_ebfts")

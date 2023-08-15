@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://boneb2b00hdrd"]
+[gd_scene load_steps=12 format=3 uid="uid://boneb2b00hdrd"]
 
 [ext_resource type="Script" path="res://GUI/MainMenu.cs" id="1_0aqfw"]
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_uhtys"]
 [ext_resource type="Script" path="res://GUI/GeneralChoiceControl.cs" id="3_4n0hd"]
+[ext_resource type="Texture2D" uid="uid://cmh7j0mky45kd" path="res://Assets/spotlight_sprite.png" id="3_pfo17"]
 [ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="3_q74ls"]
 [ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="4_q82yh"]
 
@@ -36,7 +37,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_swygi")
 script = ExtResource("1_0aqfw")
-controlList = [NodePath("MarginContainer/VBoxContainer/StartControl"), NodePath("MarginContainer/VBoxContainer/HowToPlayControl"), NodePath("MarginContainer/VBoxContainer/QuitControl")]
+controlList = [NodePath("MarginContainer/VBoxContainer/StartControl"), NodePath("MarginContainer/VBoxContainer/HowToPlayControl"), NodePath("MarginContainer/VBoxContainer/CreditsControl"), NodePath("MarginContainer/VBoxContainer/QuitControl")]
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 1
@@ -45,15 +46,23 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = -50.0
-offset_right = 128.0
-offset_bottom = 50.0
+offset_left = -22.0
+offset_top = -100.0
+offset_right = 22.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Clown Down"
+theme_override_colors/font_color = Color(0.996094, 0.996094, 0.996094, 1)
+theme_override_colors/font_shadow_color = Color(0.324219, 0, 0.140625, 1)
+text = "Clown
+Down"
 horizontal_alignment = 1
 uppercase = true
+
+[node name="PointLight2D" type="PointLight2D" parent="TitleLabel"]
+position = Vector2(22, 16)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_pfo17")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -89,9 +98,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
+offset_left = -60.0
 offset_top = -12.0
-offset_right = 100.0
+offset_right = 60.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -125,17 +134,17 @@ grow_vertical = 2
 
 [node name="TopLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/StartControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = -20.0
+offset_left = 20.0
 offset_top = -20.0
-offset_right = 20.0
+offset_right = 60.0
 offset_bottom = 20.0
 texture = SubResource("AtlasTexture_p6nk6")
 
 [node name="BottomLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/StartControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = -20.0
+offset_left = 20.0
 offset_top = 4.0
-offset_right = 20.0
+offset_right = 60.0
 offset_bottom = 44.0
 texture = SubResource("AtlasTexture_a2iwt")
 
@@ -144,18 +153,18 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -20.0
+offset_left = -60.0
 offset_top = -20.0
-offset_right = 20.0
+offset_right = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 texture = SubResource("AtlasTexture_rxop2")
 
 [node name="BottomRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/StartControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = 180.0
+offset_left = 140.0
 offset_top = 4.0
-offset_right = 220.0
+offset_right = 180.0
 offset_bottom = 44.0
 texture = SubResource("AtlasTexture_vf7q8")
 
@@ -172,9 +181,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
+offset_left = -60.0
 offset_top = -12.0
-offset_right = 100.0
+offset_right = 60.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -208,17 +217,17 @@ grow_vertical = 2
 
 [node name="TopLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = -20.0
+offset_left = 20.0
 offset_top = -20.0
-offset_right = 20.0
+offset_right = 60.0
 offset_bottom = 20.0
 texture = SubResource("AtlasTexture_p6nk6")
 
 [node name="BottomLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = -20.0
+offset_left = 20.0
 offset_top = 4.0
-offset_right = 20.0
+offset_right = 60.0
 offset_bottom = 44.0
 texture = SubResource("AtlasTexture_a2iwt")
 
@@ -227,18 +236,101 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -20.0
+offset_left = -60.0
 offset_top = -20.0
-offset_right = 20.0
+offset_right = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 texture = SubResource("AtlasTexture_rxop2")
 
 [node name="BottomRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/HowToPlayControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = 180.0
+offset_left = 140.0
 offset_top = 4.0
-offset_right = 220.0
+offset_right = 180.0
+offset_bottom = 44.0
+texture = SubResource("AtlasTexture_vf7q8")
+
+[node name="CreditsControl" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+script = ExtResource("3_4n0hd")
+
+[node name="CreditsPanel" type="Panel" parent="MarginContainer/VBoxContainer/CreditsControl"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -12.0
+offset_right = 60.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_q74ls")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CreditsControl/CreditsPanel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -9.5
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "CREDITS"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="SelectedIndicator" type="Control" parent="MarginContainer/VBoxContainer/CreditsControl"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/CreditsControl/SelectedIndicator"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = -20.0
+offset_right = 60.0
+offset_bottom = 20.0
+texture = SubResource("AtlasTexture_p6nk6")
+
+[node name="BottomLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/CreditsControl/SelectedIndicator"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 4.0
+offset_right = 60.0
+offset_bottom = 44.0
+texture = SubResource("AtlasTexture_a2iwt")
+
+[node name="TopRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/CreditsControl/SelectedIndicator"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_top = -20.0
+offset_right = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+texture = SubResource("AtlasTexture_rxop2")
+
+[node name="BottomRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/CreditsControl/SelectedIndicator"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 4.0
+offset_right = 180.0
 offset_bottom = 44.0
 texture = SubResource("AtlasTexture_vf7q8")
 
@@ -255,9 +347,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
+offset_left = -60.0
 offset_top = -12.0
-offset_right = 100.0
+offset_right = 60.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -291,17 +383,17 @@ grow_vertical = 2
 
 [node name="TopLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/QuitControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = -20.0
+offset_left = 20.0
 offset_top = -20.0
-offset_right = 20.0
+offset_right = 60.0
 offset_bottom = 20.0
 texture = SubResource("AtlasTexture_p6nk6")
 
 [node name="BottomLeftTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/QuitControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = -20.0
+offset_left = 20.0
 offset_top = 4.0
-offset_right = 20.0
+offset_right = 60.0
 offset_bottom = 44.0
 texture = SubResource("AtlasTexture_a2iwt")
 
@@ -310,17 +402,43 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -20.0
+offset_left = -60.0
 offset_top = -20.0
-offset_right = 20.0
+offset_right = -20.0
 offset_bottom = 20.0
 grow_horizontal = 0
 texture = SubResource("AtlasTexture_rxop2")
 
 [node name="BottomRightTexture" type="TextureRect" parent="MarginContainer/VBoxContainer/QuitControl/SelectedIndicator"]
 layout_mode = 0
-offset_left = 180.0
+offset_left = 140.0
 offset_top = 4.0
-offset_right = 220.0
+offset_right = 180.0
 offset_bottom = 44.0
 texture = SubResource("AtlasTexture_vf7q8")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.513726, 0.513726, 0.513726, 1)
+
+[node name="SelectorPointLight" type="PointLight2D" parent="."]
+position = Vector2(320, 172)
+scale = Vector2(1, 0.5)
+texture = ExtResource("3_pfo17")

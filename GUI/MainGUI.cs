@@ -174,19 +174,19 @@ public partial class MainGUI : Control
 		}
 	}
 
-	private void sillyTime(bool hasPie){
-		var atlas = (AtlasTexture) actionCooldownTexture.Texture;
-		if (hasPie){
-			atlas.Region = new Rect2(16,0,16,16);
-		} else {
-			atlas.Region = new Rect2(32,0,16,16);
-		}
-	}
+	// private void sillyTime(bool hasPie){
+	// 	var atlas = (AtlasTexture) actionCooldownTexture.Texture;
+	// 	if (hasPie){
+	// 		atlas.Region = new Rect2(16,0,16,16);
+	// 	} else {
+	// 		atlas.Region = new Rect2(32,0,16,16);
+	// 	}
+	// }
 
-	private void sillyTimeOver(){
-		var atlas = (AtlasTexture) actionCooldownTexture.Texture;
-		atlas.Region = new Rect2(0,16,16,16);
-	}
+	// private void sillyTimeOver(){
+	// 	var atlas = (AtlasTexture) actionCooldownTexture.Texture;
+	// 	atlas.Region = new Rect2(0,16,16,16);
+	// }
 
 	private void updateGUI(){
 		updateHealth();

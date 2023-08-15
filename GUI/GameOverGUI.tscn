@@ -1,13 +1,28 @@
-[gd_scene load_steps=11 format=3 uid="uid://c4pil31gilho8"]
+[gd_scene load_steps=16 format=3 uid="uid://c4pil31gilho8"]
 
 [ext_resource type="FontFile" uid="uid://c7sqasrj6q32u" path="res://Assets/Fonts/Px437_IBM_VGA_8x16.ttf" id="1_mlxmo"]
 [ext_resource type="Script" path="res://GUI/GameOverGUI.cs" id="2_gcag6"]
 [ext_resource type="StyleBox" uid="uid://c52hvjepscdwf" path="res://GUI/PanelStyleBoxTexture.tres" id="3_bnby5"]
+[ext_resource type="Texture2D" uid="uid://dfn65oeyn88bw" path="res://Assets/Sprite_Sheet_1.png" id="4_dilsx"]
 [ext_resource type="Script" path="res://GUI/GeneralChoiceControl.cs" id="4_mtidi"]
 [ext_resource type="Texture2D" uid="uid://dea2qvare1cx4" path="res://Assets/GUI_Sheet.png" id="5_ufjm6"]
+[ext_resource type="Texture2D" uid="uid://cr5ipentgy48a" path="res://Assets/Clown_Jail.png" id="5_wkrae"]
 
 [sub_resource type="Theme" id="Theme_m4q3h"]
 default_font = ExtResource("1_mlxmo")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dj2ok"]
+atlas = ExtResource("4_dilsx")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s01d4"]
+atlas = ExtResource("5_wkrae")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_um6ru"]
+resource_local_to_scene = true
+atlas = ExtResource("4_dilsx")
+region = Rect2(0, 64, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hxxm4"]
 atlas = ExtResource("5_ufjm6")
@@ -46,78 +61,214 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -160.0
-offset_right = 120.0
-offset_bottom = 80.0
+offset_left = -116.0
+offset_top = -120.0
+offset_right = 116.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_bnby5")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsPanel"]
+[node name="TitleLabel" type="Label" parent="StatsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 28.0
+grow_horizontal = 2
+text = "CLOWN downed"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="StatsControl" type="Control" parent="StatsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 36.0
+offset_right = 100.0
+offset_bottom = 148.0
+grow_horizontal = 2
+
+[node name="ChestsControl" type="Control" parent="StatsPanel/StatsControl"]
+layout_mode = 2
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="StatsPanel/StatsControl/ChestsControl"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+grow_vertical = 2
+text = "FOUND
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ChestsFoundLabel" type="Label" parent="StatsPanel/StatsControl/ChestsControl"]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -110.0
-offset_right = 100.0
-offset_bottom = 110.0
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
-
-[node name="TitleLabel" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
-text = "CLOWN DOWNED UNDERGROUND"
+size_flags_horizontal = 10
+text = "0"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
-[node name="SpacingLabel4" type="Label" parent="StatsPanel/VBoxContainer"]
+[node name="SafeTexture" type="TextureRect" parent="StatsPanel/StatsControl/ChestsControl"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+offset_left = 168.0
+offset_right = 200.0
+offset_bottom = 32.0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_dj2ok")
+
+[node name="ClownsControl" type="Control" parent="StatsPanel/StatsControl"]
+layout_mode = 2
+anchors_preset = 0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="StatsPanel/StatsControl/ClownsControl"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -10.0
+offset_right = 56.0
+offset_bottom = 10.0
+grow_vertical = 2
+text = "UNBOUND"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
-[node name="ChestsFoundLabel" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
-text = "FOUND 0 chests
-"
+[node name="ClownsFreedLabel" type="Label" parent="StatsPanel/StatsControl/ClownsControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+text = "0"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
-[node name="SpacingLabel2" type="Label" parent="StatsPanel/VBoxContainer"]
+[node name="ClownTexture" type="TextureRect" parent="StatsPanel/StatsControl/ClownsControl"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_left = 168.0
+offset_right = 200.0
+offset_bottom = 32.0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_s01d4")
+
+[node name="GuardsControl" type="Control" parent="StatsPanel/StatsControl"]
 layout_mode = 2
+anchors_preset = 0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="StatsPanel/StatsControl/GuardsControl"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -10.0
+offset_right = 56.0
+offset_bottom = 10.0
+grow_vertical = 2
+text = "POUNDED"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
-[node name="ClownsFreedLabel" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
-text = "unbound 0 fellow clowns"
+[node name="GuardsGoofedLabel" type="Label" parent="StatsPanel/StatsControl/GuardsControl"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+text = "0"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
-[node name="SpacingLabel3" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
-horizontal_alignment = 1
-uppercase = true
+[node name="GuardTexture" type="TextureRect" parent="StatsPanel/StatsControl/GuardsControl"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_left = 168.0
+offset_right = 200.0
+offset_bottom = 32.0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_um6ru")
 
-[node name="GuardsGoofedLabel" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
-text = "and pounded 0 Guards"
-horizontal_alignment = 1
-uppercase = true
-
-[node name="SpacingLabel5" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
-horizontal_alignment = 1
-uppercase = true
-
-[node name="TimeLabel" type="Label" parent="StatsPanel/VBoxContainer"]
-layout_mode = 2
+[node name="TimeLabel" type="Label" parent="StatsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -24.0
+offset_right = 100.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "In 00:00:00"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
 [node name="QuitControl" type="Control" parent="."]
@@ -127,10 +278,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -120.0
-offset_top = -84.0
-offset_right = -40.0
-offset_bottom = -44.0
+offset_left = -116.0
+offset_top = -88.0
+offset_right = -36.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("4_mtidi")
@@ -208,10 +359,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -84.0
-offset_right = 120.0
-offset_bottom = -44.0
+offset_left = 36.0
+offset_top = -88.0
+offset_right = 116.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("4_mtidi")

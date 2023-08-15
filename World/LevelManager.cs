@@ -722,7 +722,13 @@ public partial class LevelManager : Node2D
 			// show player stats and present option to move on to next level, which will call setupLevel
 			GetTree().CallGroup("main_gui", "stopTimer");
 			GetTree().Paused = true;
-			GetTree().CallGroup("level_end_gui", "endLevel", currentLevel, currentChestsFound, currentClownsFreed, currentGuardsGoofed);
+
+			if (currentLevel < maxLevel){
+				GetTree().CallGroup("level_end_gui", "endLevel", currentLevel, currentChestsFound, currentClownsFreed, currentGuardsGoofed);
+			} else {
+				// end game
+				GetTree().CallGroup("game_over_gui", "gameWon");
+			}
 		}
 	}
 
@@ -730,15 +736,8 @@ public partial class LevelManager : Node2D
 			resetCurrentLevelStats();
 
 			// this should be in the end level gui
-			
-			if (currentLevel < maxLevel){
-				// make new level
-				setupLevel(currentLevel+1);
-				GetTree().CallGroup("main_gui", "resetTimer");
-			} else {
-				// end game
-				GetTree().CallGroup("game_over_gui", "gameWon");
-			}
+			setupLevel(currentLevel+1);
+			GetTree().CallGroup("main_gui", "resetTimer");
 	}
 
 	private void resetCurrentLevelStats(){

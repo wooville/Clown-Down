@@ -97,6 +97,7 @@ public partial class Player : CharacterBody2D
 					GetTree().CallGroup("main_gui", "sillyTimeOver");
 					silly = false;
 					sillyProgress = 0;
+					GetTree().CallGroup("shader", "updateOffset", 0f);
 				}
 				// GD.Print(sillyProgress);
 				EmitSignal(SignalName.UpdateGUI);
@@ -296,6 +297,7 @@ public partial class Player : CharacterBody2D
 			if (hp <= 0){
 				if (!parryPauseTimer.IsStopped()) parryPauseTimer.Stop();
 				GetTree().Paused = true;
+				GetTree().CallGroup("shader", "updateOffset", 0f);
 				GetTree().CallGroup("main_gui", "stopTimerAndGetTotalTime");
 				GetTree().CallGroup("game_over_gui", "gameOver");
 			} else {
@@ -329,6 +331,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		GetTree().CallGroup("main_gui", "finishCooldown", "action");
+		GetTree().CallGroup("shader", "updateOffset", sillyProgress/100f);
 		EmitSignal(SignalName.UpdateGUI);
 		
 		// start brief pause for juice

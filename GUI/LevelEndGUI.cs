@@ -15,11 +15,11 @@ public partial class LevelEndGUI : Control
 
 	public override void _Ready()
 	{
-		titleLabel = GetNode<Label>("StatsPanel/VBoxContainer/TitleLabel");
-		chestsFoundLabel = GetNode<Label>("StatsPanel/VBoxContainer/ChestsFoundLabel");
-		clownsFreedLabel = GetNode<Label>("StatsPanel/VBoxContainer/ClownsFreedLabel");
-		guardsGoofedLabel = GetNode<Label>("StatsPanel/VBoxContainer/GuardsGoofedLabel");
-		timeLabel = GetNode<Label>("StatsPanel/VBoxContainer/TimeLabel");
+		titleLabel = GetNode<Label>("StatsPanel/TitleLabel");
+		chestsFoundLabel = GetNode<Label>("StatsPanel/StatsControl/ChestsControl/ChestsFoundLabel");
+		clownsFreedLabel = GetNode<Label>("StatsPanel/StatsControl/ClownsControl/ClownsFreedLabel");
+		guardsGoofedLabel = GetNode<Label>("StatsPanel/StatsControl/GuardsControl/GuardsGoofedLabel");
+		timeLabel = GetNode<Label>("StatsPanel/TimeLabel");
 		// levelManager = (LevelManager) GetTree().GetFirstNodeInGroup("manager");
 		continueControl = GetNode<GeneralChoiceControl>("ContinueControl");
 	}
@@ -39,9 +39,9 @@ public partial class LevelEndGUI : Control
 		this.currentLevel = currentLevel;
 		CallDeferred(MethodName.SetProcessMode, (int) ProcessModeEnum.WhenPaused);
 		titleLabel.Text = "CLOWN IN UNDERGROUND " + currentLevel;
-		chestsFoundLabel.Text = "FOUND " + chests.ToString() + " CHESTS";
-		clownsFreedLabel.Text = "UNBOUND " + clowns.ToString() + " FELLOW CLOWNS";
-		guardsGoofedLabel.Text = "AND POUNDED " + guards.ToString() + " GUARDS";
+		chestsFoundLabel.Text = chests.ToString();
+		clownsFreedLabel.Text = clowns.ToString();
+		guardsGoofedLabel.Text = guards.ToString();
 		continueControl.selected = true;
 		continueControl.updateControl();
 		CallDeferred(MethodName.SetVisible, true);
